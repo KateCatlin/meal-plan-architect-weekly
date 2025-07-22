@@ -10,6 +10,7 @@ import { X, Plus } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import { saveDietaryRestrictions, loadDietaryRestrictions, DietaryRestrictions } from "@/services/dietaryService";
+import { supabase } from "@/integrations/supabase/client";
 
 const commonAllergies = [
   "Gluten", "Dairy", "Nuts", "Shellfish", "Eggs", "Soy", "Fish", "Sesame"
@@ -115,16 +116,45 @@ export function DietaryRestrictionsForm({ onSubmit }: { onSubmit: (data: Dietary
 
       await saveDietaryRestrictions(user.id, data);
       
+      // Generate AI meal plan
+      const { data: restrictionsData } = await supabase
+        .from('dietary_restrictions')
+        .select('*')
+        .eq('user_id', user.id);
+
+      const { data: goalsData } = await supabase
+        .from('nutritional_goals')
+        .select('*')
+        .eq('user_id', user.id)
+        .maybeSingle();
+
+      console.log('Generating meal plan with OpenAI...');
+      
+      const { data: mealPlanResult, error: mealPlanError } = await supabase.functions.invoke('generate-meal-plan', {
+        body: {
+          userId: user.id,
+          restrictions: restrictionsData || [],
+          goals: goalsData
+        }
+      });
+
+      if (mealPlanError) {
+        console.error('Error generating meal plan:', mealPlanError);
+        throw new Error('Failed to generate meal plan');
+      }
+
+      console.log('Meal plan generated successfully:', mealPlanResult);
+      
       onSubmit(data);
       toast({
-        title: "Preferences Saved!",
-        description: "Your dietary restrictions and goals have been saved successfully.",
+        title: "Meal Plan Generated!",
+        description: `Your personalized meal plan with ${mealPlanResult.mealsCount} meals has been created successfully.`,
       });
     } catch (error) {
-      console.error('Error saving preferences:', error);
+      console.error('Error generating meal plan:', error);
       toast({
-        title: "Error Saving Preferences",
-        description: "There was a problem saving your preferences. Please try again.",
+        title: "Error Generating Meal Plan",
+        description: "There was a problem generating your meal plan. Please try again.",
         variant: "destructive"
       });
     } finally {
@@ -311,7 +341,7 @@ export function DietaryRestrictionsForm({ onSubmit }: { onSubmit: (data: Dietary
           className="px-12"
           disabled={loading}
         >
-          {loading ? "Saving..." : "Generate My Meal Plan"}
+          {loading ? "Generating Meal Plan..." : "Generate My Meal Plan"}
         </Button>
       </div>
     </div>
