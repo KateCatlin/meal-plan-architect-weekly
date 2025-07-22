@@ -7,6 +7,22 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
+// Helper function to get current week's Monday and Sunday
+const getCurrentWeekDates = () => {
+  const now = new Date();
+  const monday = new Date(now);
+  const dayOfWeek = now.getDay() === 0 ? 7 : now.getDay(); // Sunday = 7, Monday = 1
+  monday.setDate(now.getDate() - dayOfWeek + 1);
+  
+  const sunday = new Date(monday);
+  sunday.setDate(monday.getDate() + 6);
+  
+  return {
+    start: monday.toISOString().split('T')[0],
+    end: sunday.toISOString().split('T')[0]
+  };
+};
+
 serve(async (req) => {
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
@@ -18,7 +34,7 @@ serve(async (req) => {
       userId, 
       restrictions, 
       goals, 
-      planName = "My Weekly Meal Plan",
+      planName = "Weekly Meal Plan",
       planType = "weekly" 
     } = await req.json();
 
@@ -34,6 +50,32 @@ serve(async (req) => {
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseKey);
+
+    // Get current week dates
+    const weekDates = getCurrentWeekDates();
+    
+    // Deactivate any existing active meal plans for this user
+    await supabase
+      .from('meal_plans')
+      .update({ is_active: false })
+      .eq('user_id', userId)
+      .eq('is_active', true);
+
+    // Clean up old meal plans (keep only last 10 weeks)
+    const { data: oldPlans } = await supabase
+      .from('meal_plans')
+      .select('id')
+      .eq('user_id', userId)
+      .order('start_date', { ascending: false })
+      .range(10, 1000); // Skip first 10, delete the rest
+
+    if (oldPlans && oldPlans.length > 0) {
+      const oldPlanIds = oldPlans.map(plan => plan.id);
+      await supabase
+        .from('meal_plans')
+        .delete()
+        .in('id', oldPlanIds);
+    }
 
     // Generate AI meal plan using OpenAI
     const openAIApiKey = Deno.env.get('OPENAI_API_KEY');
@@ -145,20 +187,15 @@ Generate all 21 meals (3 meals × 7 days). Day 1 = Monday, Day 7 = Sunday.
 
     console.log('Generated', mealPlanData.meals.length, 'meals');
 
-    // Calculate date range for the meal plan
-    const startDate = new Date();
-    const endDate = new Date();
-    endDate.setDate(startDate.getDate() + 6); // 7-day plan
-
-    // Save meal plan to database
+    // Create the meal plan with specific week dates
     const { data: mealPlan, error: mealPlanError } = await supabase
       .from('meal_plans')
       .insert({
         user_id: userId,
-        plan_name: planName,
+        plan_name: `${planName} - Week of ${weekDates.start}`,
         plan_type: planType,
-        start_date: startDate.toISOString().split('T')[0],
-        end_date: endDate.toISOString().split('T')[0],
+        start_date: weekDates.start,
+        end_date: weekDates.end,
         is_active: true
       })
       .select()
@@ -170,13 +207,6 @@ Generate all 21 meals (3 meals × 7 days). Day 1 = Monday, Day 7 = Sunday.
     }
 
     console.log('Created meal plan:', mealPlan.id);
-
-    // Deactivate other meal plans for this user
-    await supabase
-      .from('meal_plans')
-      .update({ is_active: false })
-      .eq('user_id', userId)
-      .neq('id', mealPlan.id);
 
     // Save individual meals
     const mealsToInsert = mealPlanData.meals.map((meal: any) => ({

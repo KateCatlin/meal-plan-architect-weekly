@@ -1,11 +1,11 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Clock, Users, Flame, Activity, Wheat } from "lucide-react";
+import { Clock, Users, Flame, Activity, Wheat, Calendar, History } from "lucide-react";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 interface MealPlanProps {
   restrictions: {
@@ -42,30 +42,58 @@ const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
 export function MealPlan({ restrictions }: MealPlanProps) {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [meals, setMeals] = useState<GroupedMeals>({});
   const [loading, setLoading] = useState(true);
   const [showFullPlan, setShowFullPlan] = useState(false);
+  const [currentMealPlan, setCurrentMealPlan] = useState<any>(null);
 
   useEffect(() => {
     const fetchMeals = async () => {
       if (!user) return;
 
       try {
-        // Get the most recent active meal plan
-        const { data: mealPlan, error: planError } = await supabase
-          .from('meal_plans')
-          .select('id')
-          .eq('user_id', user.id)
-          .eq('is_active', true)
-          .order('created_at', { ascending: false })
-          .limit(1)
-          .single();
+        // Check if we're viewing a specific meal plan
+        const planId = searchParams.get('planId');
+        const week = searchParams.get('week');
+        
+        let mealPlan;
+        
+        if (planId) {
+          // Load specific meal plan by ID
+          const { data: specificPlan, error: planError } = await supabase
+            .from('meal_plans')
+            .select('*')
+            .eq('id', planId)
+            .eq('user_id', user.id)
+            .single();
+            
+          if (planError || !specificPlan) {
+            console.error('Error fetching specific meal plan:', planError);
+            navigate('/?view=plan');
+            return;
+          }
+          mealPlan = specificPlan;
+        } else {
+          // Get the most recent active meal plan
+          const { data: activePlan, error: planError } = await supabase
+            .from('meal_plans')
+            .select('*')
+            .eq('user_id', user.id)
+            .eq('is_active', true)
+            .order('created_at', { ascending: false })
+            .limit(1)
+            .single();
 
-        if (planError || !mealPlan) {
-          console.error('Error fetching meal plan:', planError);
-          setLoading(false);
-          return;
+          if (planError || !activePlan) {
+            console.error('Error fetching meal plan:', planError);
+            setLoading(false);
+            return;
+          }
+          mealPlan = activePlan;
         }
+
+        setCurrentMealPlan(mealPlan);
 
         // Get all meals for this meal plan
         const { data: mealsData, error: mealsError } = await supabase
@@ -98,7 +126,7 @@ export function MealPlan({ restrictions }: MealPlanProps) {
     };
 
     fetchMeals();
-  }, [user]);
+  }, [user, searchParams]);
 
   if (loading) {
     return (
@@ -204,7 +232,30 @@ export function MealPlan({ restrictions }: MealPlanProps) {
   return (
     <div className="max-w-6xl mx-auto space-y-8">
       <div className="text-center space-y-4">
-        <h2 className="text-3xl font-bold text-foreground">Your Weekly Meal Plan</h2>
+        <div className="flex items-center justify-between">
+          <h2 className="text-3xl font-bold text-foreground">
+            {currentMealPlan ? currentMealPlan.plan_name : 'Your Weekly Meal Plan'}
+          </h2>
+          <Button 
+            onClick={() => navigate('/history')} 
+            variant="outline" 
+            size="sm"
+            className="hover-scale"
+          >
+            <History className="h-4 w-4 mr-2" />
+            View History
+          </Button>
+        </div>
+        
+        {currentMealPlan && (
+          <div className="flex items-center justify-center gap-2 text-muted-foreground">
+            <Calendar className="h-4 w-4" />
+            <span>
+              Week of {new Date(currentMealPlan.start_date).toLocaleDateString()} - {new Date(currentMealPlan.end_date).toLocaleDateString()}
+            </span>
+          </div>
+        )}
+        
         <p className="text-muted-foreground">Customized based on your dietary preferences and nutritional goals</p>
         
         <div className="flex flex-wrap gap-2 justify-center">

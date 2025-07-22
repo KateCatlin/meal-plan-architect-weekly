@@ -34,6 +34,9 @@ const Index = () => {
   useEffect(() => {
     // Check if we should show the meal plan view based on URL params
     const view = searchParams.get('view');
+    const week = searchParams.get('week');
+    const planId = searchParams.get('planId');
+    
     if (view === 'plan' && user?.id) {
       // Load existing preferences when going directly to plan view
       const loadPreferences = async () => {
