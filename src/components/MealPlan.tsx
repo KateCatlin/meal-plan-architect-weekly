@@ -42,6 +42,7 @@ export function MealPlan({ restrictions }: MealPlanProps) {
   const { user } = useAuth();
   const [meals, setMeals] = useState<GroupedMeals>({});
   const [loading, setLoading] = useState(true);
+  const [showFullPlan, setShowFullPlan] = useState(false);
 
   useEffect(() => {
     const fetchMeals = async () => {
@@ -230,7 +231,7 @@ export function MealPlan({ restrictions }: MealPlanProps) {
       <div className="space-y-8">
         {Object.entries(meals)
           .sort(([a], [b]) => parseInt(a) - parseInt(b))
-          .slice(0, 2)
+          .slice(0, showFullPlan ? 7 : 2)
           .map(([dayOfWeek, dayMeals]) => {
             const dayName = days[parseInt(dayOfWeek) - 1];
             const totals = calculateDayTotals(dayMeals);
@@ -270,8 +271,13 @@ export function MealPlan({ restrictions }: MealPlanProps) {
       </div>
 
       <div className="text-center">
-        <Button variant="outline" size="lg">
-          View Complete 7-Day Plan
+        <Button 
+          variant="outline" 
+          size="lg"
+          onClick={() => setShowFullPlan(!showFullPlan)}
+          className="hover-scale"
+        >
+          {showFullPlan ? 'Show Less' : 'View Complete 7-Day Plan'}
         </Button>
       </div>
     </div>
