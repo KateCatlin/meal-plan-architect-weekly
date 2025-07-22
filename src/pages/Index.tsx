@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { DietaryRestrictionsForm } from "@/components/DietaryRestrictionsForm";
@@ -21,6 +21,7 @@ const Index = () => {
   const [userPreferences, setUserPreferences] = useState<DietaryRestrictions | null>(null);
   const { user, loading, signOut } = useAuth();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
     // Redirect to auth if not logged in
@@ -29,9 +30,19 @@ const Index = () => {
     }
   }, [user, loading, navigate]);
 
+  useEffect(() => {
+    // Check if we should show the meal plan view based on URL params
+    const view = searchParams.get('view');
+    if (view === 'plan') {
+      setCurrentStep('plan');
+    }
+  }, [searchParams]);
+
   const handlePreferencesSubmit = (data: DietaryRestrictions) => {
     setUserPreferences(data);
     setCurrentStep('plan');
+    // Update URL to reflect the plan view
+    navigate('/?view=plan', { replace: true });
   };
 
   if (loading) {

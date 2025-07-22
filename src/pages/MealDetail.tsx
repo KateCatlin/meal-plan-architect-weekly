@@ -81,7 +81,7 @@ export default function MealDetail() {
       <div className="min-h-screen bg-gradient-to-br from-background via-secondary/20 to-background p-4">
         <div className="max-w-4xl mx-auto text-center space-y-4">
           <h1 className="text-2xl font-bold text-foreground">Meal not found</h1>
-          <Button onClick={() => navigate('/')} variant="outline">
+          <Button onClick={() => navigate('/?view=plan')} variant="outline">
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Meal Plan
           </Button>
@@ -107,7 +107,7 @@ export default function MealDetail() {
         {/* Header */}
         <div className="flex items-center gap-4">
           <Button 
-            onClick={() => navigate('/')} 
+            onClick={() => navigate('/?view=plan')} 
             variant="ghost" 
             size="sm"
             className="hover-scale"
