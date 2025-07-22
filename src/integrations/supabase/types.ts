@@ -14,7 +14,179 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      dietary_restrictions: {
+        Row: {
+          created_at: string
+          id: string
+          restriction_name: string
+          restriction_type: string
+          severity: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          restriction_name: string
+          restriction_type: string
+          severity?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          restriction_name?: string
+          restriction_type?: string
+          severity?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      meal_plans: {
+        Row: {
+          created_at: string
+          end_date: string
+          id: string
+          is_active: boolean | null
+          plan_name: string
+          plan_type: string
+          start_date: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          end_date: string
+          id?: string
+          is_active?: boolean | null
+          plan_name: string
+          plan_type?: string
+          start_date: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          end_date?: string
+          id?: string
+          is_active?: boolean | null
+          plan_name?: string
+          plan_type?: string
+          start_date?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      meals: {
+        Row: {
+          calories: number | null
+          created_at: string
+          day_of_week: number
+          description: string | null
+          fiber: number | null
+          id: string
+          ingredients: string[] | null
+          instructions: string | null
+          meal_name: string
+          meal_plan_id: string
+          meal_type: string
+          protein: number | null
+        }
+        Insert: {
+          calories?: number | null
+          created_at?: string
+          day_of_week: number
+          description?: string | null
+          fiber?: number | null
+          id?: string
+          ingredients?: string[] | null
+          instructions?: string | null
+          meal_name: string
+          meal_plan_id: string
+          meal_type: string
+          protein?: number | null
+        }
+        Update: {
+          calories?: number | null
+          created_at?: string
+          day_of_week?: number
+          description?: string | null
+          fiber?: number | null
+          id?: string
+          ingredients?: string[] | null
+          instructions?: string | null
+          meal_name?: string
+          meal_plan_id?: string
+          meal_type?: string
+          protein?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "meals_meal_plan_id_fkey"
+            columns: ["meal_plan_id"]
+            isOneToOne: false
+            referencedRelation: "meal_plans"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      nutritional_goals: {
+        Row: {
+          calorie_max: number | null
+          calorie_min: number | null
+          created_at: string
+          fiber_goal: number | null
+          id: string
+          protein_goal: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          calorie_max?: number | null
+          calorie_min?: number | null
+          created_at?: string
+          fiber_goal?: number | null
+          id?: string
+          protein_goal?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          calorie_max?: number | null
+          calorie_min?: number | null
+          created_at?: string
+          fiber_goal?: number | null
+          id?: string
+          protein_goal?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          display_name: string | null
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

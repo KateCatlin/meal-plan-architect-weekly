@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { DietaryRestrictionsForm } from "@/components/DietaryRestrictionsForm";
 import { MealPlan } from "@/components/MealPlan";
-import { ChefHat, Heart, Target, Clock, Users, Star } from "lucide-react";
+import { ChefHat, Heart, Target, Clock, Users, Star, User, LogOut } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
 import heroImage from "@/assets/hero-nutrition.jpg";
 
 interface DietaryRestrictions {
@@ -17,11 +19,31 @@ interface DietaryRestrictions {
 const Index = () => {
   const [currentStep, setCurrentStep] = useState<'welcome' | 'form' | 'plan'>('welcome');
   const [userPreferences, setUserPreferences] = useState<DietaryRestrictions | null>(null);
+  const { user, loading, signOut } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Redirect to auth if not logged in
+    if (!loading && !user) {
+      navigate('/auth');
+    }
+  }, [user, loading, navigate]);
 
   const handlePreferencesSubmit = (data: DietaryRestrictions) => {
     setUserPreferences(data);
     setCurrentStep('plan');
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <ChefHat className="h-12 w-12 text-primary mx-auto mb-4 animate-spin" />
+          <p className="text-muted-foreground">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   const features = [
     {
@@ -73,6 +95,26 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="absolute top-0 left-0 right-0 z-20 p-4">
+        <div className="max-w-6xl mx-auto flex justify-between items-center">
+          <div className="flex items-center space-x-2">
+            <ChefHat className="h-8 w-8 text-primary" />
+            <span className="text-xl font-bold text-foreground">FeedMe</span>
+          </div>
+          <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+              <User className="h-4 w-4" />
+              <span>{user?.email}</span>
+            </div>
+            <Button variant="ghost" size="sm" onClick={signOut}>
+              <LogOut className="h-4 w-4 mr-2" />
+              Sign Out
+            </Button>
+          </div>
+        </div>
+      </header>
+
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         <div 
