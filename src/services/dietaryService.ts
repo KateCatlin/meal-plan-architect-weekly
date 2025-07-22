@@ -78,7 +78,7 @@ export const saveDietaryRestrictions = async (userId: string, data: DietaryRestr
 
   const { error: goalsError } = await supabase
     .from('nutritional_goals')
-    .upsert(goalData);
+    .upsert(goalData, { onConflict: 'user_id' });
 
   if (goalsError) {
     console.error('Error saving goals:', goalsError);
