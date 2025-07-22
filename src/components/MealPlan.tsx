@@ -1,11 +1,13 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Clock, Users, Flame, Activity, Wheat, Calendar, History } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Clock, Users, Flame, Activity, Wheat, Calendar, History, ShoppingCart } from "lucide-react";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { GroceryList } from "./GroceryList";
 
 interface MealPlanProps {
   restrictions: {
@@ -236,15 +238,35 @@ export function MealPlan({ restrictions }: MealPlanProps) {
           <h2 className="text-3xl font-bold text-foreground">
             {currentMealPlan ? currentMealPlan.plan_name : 'Your Weekly Meal Plan'}
           </h2>
-          <Button 
-            onClick={() => navigate('/history')} 
-            variant="outline" 
-            size="sm"
-            className="hover-scale"
-          >
-            <History className="h-4 w-4 mr-2" />
-            View History
-          </Button>
+          <div className="flex gap-2">
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="outline" size="sm" className="hover-scale">
+                  <ShoppingCart className="h-4 w-4 mr-2" />
+                  Grocery List
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+                <DialogHeader>
+                  <DialogTitle>Weekly Grocery List</DialogTitle>
+                </DialogHeader>
+                <GroceryList 
+                  mealPlanId={currentMealPlan?.id || null}
+                  mealPlanName={currentMealPlan?.plan_name}
+                />
+              </DialogContent>
+            </Dialog>
+            
+            <Button 
+              onClick={() => navigate('/history')} 
+              variant="outline" 
+              size="sm"
+              className="hover-scale"
+            >
+              <History className="h-4 w-4 mr-2" />
+              View History
+            </Button>
+          </div>
         </div>
         
         {currentMealPlan && (
