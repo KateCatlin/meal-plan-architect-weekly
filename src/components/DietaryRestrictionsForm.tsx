@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -8,14 +8,8 @@ import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
 import { X, Plus } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
-
-interface DietaryRestrictions {
-  allergies: string[];
-  dietaryThemes: string[];
-  calories: number[];
-  protein: number[];
-  fiber: number[];
-}
+import { useAuth } from "@/hooks/useAuth";
+import { saveDietaryRestrictions, loadDietaryRestrictions, DietaryRestrictions } from "@/services/dietaryService";
 
 const commonAllergies = [
   "Gluten", "Dairy", "Nuts", "Shellfish", "Eggs", "Soy", "Fish", "Sesame"
@@ -26,6 +20,9 @@ const dietaryThemes = [
 ];
 
 export function DietaryRestrictionsForm({ onSubmit }: { onSubmit: (data: DietaryRestrictions) => void }) {
+  const { user } = useAuth();
+  const [loading, setLoading] = useState(false);
+  const [initialLoading, setInitialLoading] = useState(true);
   const [allergies, setAllergies] = useState<string[]>([]);
   const [themes, setThemes] = useState<string[]>([]);
   const [customAllergy, setCustomAllergy] = useState("");
@@ -33,6 +30,29 @@ export function DietaryRestrictionsForm({ onSubmit }: { onSubmit: (data: Dietary
   const [calories, setCalories] = useState([2000]);
   const [protein, setProtein] = useState([150]);
   const [fiber, setFiber] = useState([25]);
+
+  // Load existing preferences on component mount
+  useEffect(() => {
+    const loadExistingData = async () => {
+      if (!user?.id) return;
+      
+      try {
+        const existingData = await loadDietaryRestrictions(user.id);
+        setAllergies(existingData.allergies);
+        setThemes(existingData.dietaryThemes);
+        setCalories(existingData.calories);
+        setProtein(existingData.protein);
+        setFiber(existingData.fiber);
+      } catch (error) {
+        console.log('No existing data found or error loading:', error);
+        // Don't show error toast for first-time users
+      } finally {
+        setInitialLoading(false);
+      }
+    };
+
+    loadExistingData();
+  }, [user?.id]);
 
   const addCustomAllergy = () => {
     if (customAllergy.trim() && !allergies.includes(customAllergy.trim())) {
@@ -72,21 +92,56 @@ export function DietaryRestrictionsForm({ onSubmit }: { onSubmit: (data: Dietary
     }
   };
 
-  const handleSubmit = () => {
-    const data: DietaryRestrictions = {
-      allergies,
-      dietaryThemes: themes,
-      calories,
-      protein,
-      fiber
-    };
+  const handleSubmit = async () => {
+    if (!user?.id) {
+      toast({
+        title: "Authentication Required",
+        description: "Please log in to save your preferences.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setLoading(true);
     
-    onSubmit(data);
-    toast({
-      title: "Preferences Saved!",
-      description: "Your dietary restrictions and goals have been saved successfully.",
-    });
+    try {
+      const data: DietaryRestrictions = {
+        allergies,
+        dietaryThemes: themes,
+        calories,
+        protein,
+        fiber
+      };
+
+      await saveDietaryRestrictions(user.id, data);
+      
+      onSubmit(data);
+      toast({
+        title: "Preferences Saved!",
+        description: "Your dietary restrictions and goals have been saved successfully.",
+      });
+    } catch (error) {
+      console.error('Error saving preferences:', error);
+      toast({
+        title: "Error Saving Preferences",
+        description: "There was a problem saving your preferences. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
+    }
   };
+
+  if (initialLoading) {
+    return (
+      <div className="max-w-4xl mx-auto flex items-center justify-center py-12">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading your preferences...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-4xl mx-auto space-y-8">
@@ -249,8 +304,14 @@ export function DietaryRestrictionsForm({ onSubmit }: { onSubmit: (data: Dietary
       </Card>
 
       <div className="text-center">
-        <Button onClick={handleSubmit} variant="hero" size="xl" className="px-12">
-          Generate My Meal Plan
+        <Button 
+          onClick={handleSubmit} 
+          variant="hero" 
+          size="xl" 
+          className="px-12"
+          disabled={loading}
+        >
+          {loading ? "Saving..." : "Generate My Meal Plan"}
         </Button>
       </div>
     </div>
