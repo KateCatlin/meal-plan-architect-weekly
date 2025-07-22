@@ -24,6 +24,7 @@ export function DietaryRestrictionsForm({ onSubmit }: { onSubmit: (data: Dietary
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
+  const [hasExistingMealPlan, setHasExistingMealPlan] = useState(false);
   const [allergies, setAllergies] = useState<string[]>([]);
   const [themes, setThemes] = useState<string[]>([]);
   const [customAllergy, setCustomAllergy] = useState("");
@@ -38,6 +39,21 @@ export function DietaryRestrictionsForm({ onSubmit }: { onSubmit: (data: Dietary
       if (!user?.id) return;
       
       try {
+        // Check for existing meal plan
+        const { data: existingMealPlan, error: mealPlanError } = await supabase
+          .from('meal_plans')
+          .select('id')
+          .eq('user_id', user.id)
+          .eq('is_active', true)
+          .order('created_at', { ascending: false })
+          .limit(1)
+          .single();
+
+        if (!mealPlanError && existingMealPlan) {
+          setHasExistingMealPlan(true);
+        }
+
+        // Load existing dietary preferences
         const existingData = await loadDietaryRestrictions(user.id);
         setAllergies(existingData.allergies);
         setThemes(existingData.dietaryThemes);
@@ -160,6 +176,18 @@ export function DietaryRestrictionsForm({ onSubmit }: { onSubmit: (data: Dietary
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleReturnToMealPlan = () => {
+    // Load existing preferences and go to meal plan
+    const existingData = {
+      allergies,
+      dietaryThemes: themes,
+      calories,
+      protein,
+      fiber
+    };
+    onSubmit(existingData);
   };
 
   if (initialLoading) {
@@ -333,7 +361,17 @@ export function DietaryRestrictionsForm({ onSubmit }: { onSubmit: (data: Dietary
         </CardContent>
       </Card>
 
-      <div className="text-center">
+      <div className="text-center space-y-4">
+        {hasExistingMealPlan && (
+          <Button 
+            onClick={handleReturnToMealPlan} 
+            variant="outline" 
+            size="lg" 
+            className="px-8 mr-4"
+          >
+            Return to Meal Plan
+          </Button>
+        )}
         <Button 
           onClick={handleSubmit} 
           variant="hero" 
@@ -341,7 +379,7 @@ export function DietaryRestrictionsForm({ onSubmit }: { onSubmit: (data: Dietary
           className="px-12"
           disabled={loading}
         >
-          {loading ? "Generating Meal Plan..." : "Generate My Meal Plan"}
+          {loading ? "Generating Meal Plan..." : hasExistingMealPlan ? "Generate New Meal Plan" : "Generate My Meal Plan"}
         </Button>
       </div>
     </div>

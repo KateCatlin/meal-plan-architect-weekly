@@ -6,6 +6,7 @@ import { DietaryRestrictionsForm } from "@/components/DietaryRestrictionsForm";
 import { MealPlan } from "@/components/MealPlan";
 import { ChefHat, Heart, Target, Clock, Users, Star, User, LogOut } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
+import { loadDietaryRestrictions } from "@/services/dietaryService";
 import heroImage from "@/assets/hero-nutrition.jpg";
 
 interface DietaryRestrictions {
@@ -33,10 +34,21 @@ const Index = () => {
   useEffect(() => {
     // Check if we should show the meal plan view based on URL params
     const view = searchParams.get('view');
-    if (view === 'plan') {
-      setCurrentStep('plan');
+    if (view === 'plan' && user?.id) {
+      // Load existing preferences when going directly to plan view
+      const loadPreferences = async () => {
+        try {
+          const existingData = await loadDietaryRestrictions(user.id);
+          setUserPreferences(existingData);
+          setCurrentStep('plan');
+        } catch (error) {
+          console.log('No existing preferences found:', error);
+          // If no preferences exist, stay on form
+        }
+      };
+      loadPreferences();
     }
-  }, [searchParams]);
+  }, [searchParams, user]);
 
   const handlePreferencesSubmit = (data: DietaryRestrictions) => {
     setUserPreferences(data);
