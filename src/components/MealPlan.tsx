@@ -5,6 +5,7 @@ import { Clock, Users, Flame, Activity, Wheat } from "lucide-react";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 interface MealPlanProps {
   restrictions: {
@@ -40,6 +41,7 @@ const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
 
 export function MealPlan({ restrictions }: MealPlanProps) {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [meals, setMeals] = useState<GroupedMeals>({});
   const [loading, setLoading] = useState(true);
   const [showFullPlan, setShowFullPlan] = useState(false);
@@ -124,7 +126,10 @@ export function MealPlan({ restrictions }: MealPlanProps) {
     );
   }
   const renderMeal = (meal: Meal) => (
-    <Card className="shadow-soft border-border/50 hover:shadow-medium transition-all duration-300">
+    <Card 
+      className="shadow-soft border-border/50 hover:shadow-medium transition-all duration-300 cursor-pointer hover-scale"
+      onClick={() => navigate(`/meal/${meal.id}`)}
+    >
       <CardHeader className="pb-3">
         <CardTitle className="text-lg font-semibold text-foreground flex items-center justify-between">
           {meal.meal_name}
@@ -155,7 +160,10 @@ export function MealPlan({ restrictions }: MealPlanProps) {
   );
 
   const renderSnacks = (snack: Meal) => (
-    <Card className="shadow-soft border-border/50">
+    <Card 
+      className="shadow-soft border-border/50 cursor-pointer hover-scale transition-all duration-300"
+      onClick={() => navigate(`/meal/${snack.id}`)}
+    >
       <CardHeader className="pb-3">
         <CardTitle className="text-lg font-semibold text-foreground flex items-center justify-between">
           {snack.meal_name}
