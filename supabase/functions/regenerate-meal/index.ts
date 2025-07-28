@@ -123,7 +123,15 @@ Provide a JSON response with:
     let newMealData
 
     try {
-      newMealData = JSON.parse(content)
+      // Remove markdown code block formatting if present
+      let jsonContent = content.trim()
+      if (jsonContent.startsWith('```json')) {
+        jsonContent = jsonContent.replace(/^```json\s*/, '').replace(/\s*```$/, '')
+      } else if (jsonContent.startsWith('```')) {
+        jsonContent = jsonContent.replace(/^```\s*/, '').replace(/\s*```$/, '')
+      }
+      
+      newMealData = JSON.parse(jsonContent)
     } catch (parseError) {
       console.error('Failed to parse OpenAI response:', content)
       throw new Error('Invalid response format from AI')
