@@ -59,8 +59,11 @@ serve(async (req) => {
       .map(r => r.restriction_name)
     
     const dietaryThemes = restrictions
-      .filter(r => r.restriction_type === 'dietary_theme')
+      .filter(r => r.restriction_type === 'diet')
       .map(r => r.restriction_name)
+    
+    const customRequirements = restrictions
+      .find(r => r.restriction_type === 'custom_requirement')?.restriction_name || ''
 
     // Add hardcoded low-FODMAP restrictions if applicable
     const lowFodmapIngredients = [
@@ -119,6 +122,7 @@ Requirements:
 - Minimum fiber: ${goals?.fiber_goal || 8}g
 - Avoid allergies: ${allergies.join(', ') || 'None'}
 - Follow dietary themes: ${dietaryThemes.join(', ') || 'None'}${fodmapRestriction}${histamineRestriction}
+${customRequirements ? `- Custom requirements: ${customRequirements}` : ''}
 - Make it completely different from the previous meal
 ${feedback ? `- User feedback: ${feedback}` : ''}
 

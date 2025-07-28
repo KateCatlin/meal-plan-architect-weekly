@@ -88,6 +88,7 @@ serve(async (req) => {
       .map((r: any) => r.restriction_name);
     const dietaryThemes = restrictions.filter((r: any) => r.restriction_type === 'diet')
       .map((r: any) => r.restriction_name);
+    const customRequirements = restrictions.find((r: any) => r.restriction_type === 'custom_requirement')?.restriction_name || '';
 
     // Add hardcoded low-FODMAP restrictions if applicable
     const lowFodmapIngredients = [
@@ -140,6 +141,7 @@ Generate a complete 7-day meal plan with the following requirements:
 DIETARY RESTRICTIONS:
 - Allergies to avoid: ${allergies.length > 0 ? allergies.join(', ') : 'None'}
 - Dietary themes to follow: ${dietaryThemes.length > 0 ? dietaryThemes.join(', ') : 'None'}${fodmapRestriction}${histamineRestriction}
+${customRequirements ? `\nCUSTOM MEAL REQUIREMENTS:\n- ${customRequirements}` : ''}
 
 NUTRITIONAL GOALS:
 - Daily calories: ${goals?.calorie_min || 1800}-${goals?.calorie_max || 2200}

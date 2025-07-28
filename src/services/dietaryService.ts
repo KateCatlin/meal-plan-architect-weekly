@@ -7,6 +7,7 @@ export interface DietaryRestrictions {
   calories: number[];
   protein: number[];
   fiber: number[];
+  customMealRequirements?: string;
 }
 
 export interface SavedDietaryData {
@@ -54,7 +55,14 @@ export const saveDietaryRestrictions = async (userId: string, data: DietaryRestr
     restriction_name: theme
   }));
 
-  const allRestrictions = [...allergyInserts, ...themeInserts];
+  // Save custom meal requirements as a special restriction type
+  const customRequirementsInserts = data.customMealRequirements ? [{
+    user_id: userId,
+    restriction_type: 'custom_requirement',
+    restriction_name: data.customMealRequirements
+  }] : [];
+
+  const allRestrictions = [...allergyInserts, ...themeInserts, ...customRequirementsInserts];
 
   if (allRestrictions.length > 0) {
     const { error: restrictionsError } = await supabase
@@ -123,12 +131,17 @@ export const loadDietaryRestrictions = async (userId: string): Promise<DietaryRe
     ?.filter(r => r.restriction_type === 'diet')
     .map(r => r.restriction_name) || [];
 
+  const customMealRequirements = restrictions
+    ?.find(r => r.restriction_type === 'custom_requirement')
+    ?.restriction_name || '';
+
   const result: DietaryRestrictions = {
     allergies,
     dietaryThemes,
     calories: goals?.calorie_max ? [Math.round((goals.calorie_min! + goals.calorie_max) / 2)] : [2000],
     protein: goals?.protein_goal ? [goals.protein_goal] : [150],
-    fiber: goals?.fiber_goal ? [goals.fiber_goal] : [25]
+    fiber: goals?.fiber_goal ? [goals.fiber_goal] : [25],
+    customMealRequirements
   };
 
   console.log('Loaded dietary restrictions:', result);

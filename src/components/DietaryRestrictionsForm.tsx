@@ -32,6 +32,7 @@ export function DietaryRestrictionsForm({ onSubmit }: { onSubmit: (data: Dietary
   const [calories, setCalories] = useState([2000]);
   const [protein, setProtein] = useState([150]);
   const [fiber, setFiber] = useState([25]);
+  const [customMealRequirements, setCustomMealRequirements] = useState("");
 
   // Load existing preferences on component mount
   useEffect(() => {
@@ -60,6 +61,7 @@ export function DietaryRestrictionsForm({ onSubmit }: { onSubmit: (data: Dietary
         setCalories(existingData.calories);
         setProtein(existingData.protein);
         setFiber(existingData.fiber);
+        setCustomMealRequirements(existingData.customMealRequirements || "");
       } catch (error) {
         console.log('No existing data found or error loading:', error);
         // Don't show error toast for first-time users
@@ -127,7 +129,8 @@ export function DietaryRestrictionsForm({ onSubmit }: { onSubmit: (data: Dietary
         dietaryThemes: themes,
         calories,
         protein,
-        fiber
+        fiber,
+        customMealRequirements
       };
 
       await saveDietaryRestrictions(user.id, data);
@@ -185,7 +188,8 @@ export function DietaryRestrictionsForm({ onSubmit }: { onSubmit: (data: Dietary
       dietaryThemes: themes,
       calories,
       protein,
-      fiber
+      fiber,
+      customMealRequirements
     };
     onSubmit(existingData);
   };
@@ -357,6 +361,28 @@ export function DietaryRestrictionsForm({ onSubmit }: { onSubmit: (data: Dietary
                 <span className="text-sm text-muted-foreground ml-1">grams</span>
               </div>
             </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Custom Meal Requirements Section */}
+      <Card className="shadow-soft border-border/50">
+        <CardHeader>
+          <CardTitle className="text-foreground">Custom Meal Requirements</CardTitle>
+          <CardDescription>Specify any custom meal preferences or requirements</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-3">
+            <Label htmlFor="customRequirements" className="text-sm font-medium">
+              Custom Requirements (e.g., "Include 3 pan-fried eggs in every breakfast")
+            </Label>
+            <textarea
+              id="customRequirements"
+              className="w-full min-h-[100px] p-3 border border-border rounded-md resize-vertical focus:outline-none focus:ring-2 focus:ring-primary/20 bg-background text-foreground"
+              placeholder="Enter any specific meal requirements, like daily breakfast preferences, cooking methods, or ingredient inclusions..."
+              value={customMealRequirements}
+              onChange={(e) => setCustomMealRequirements(e.target.value)}
+            />
           </div>
         </CardContent>
       </Card>
