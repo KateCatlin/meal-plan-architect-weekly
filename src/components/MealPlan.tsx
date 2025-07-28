@@ -2,6 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
 import { Clock, Users, Flame, Activity, Wheat, Calendar, History, ShoppingCart, Target, RefreshCw } from "lucide-react";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -53,6 +54,9 @@ export function MealPlan({ restrictions }: MealPlanProps) {
   
   const [currentMealPlan, setCurrentMealPlan] = useState<any>(null);
   const [regeneratingMeals, setRegeneratingMeals] = useState<Set<string>>(new Set());
+  const [feedbackDialogOpen, setFeedbackDialogOpen] = useState(false);
+  const [selectedMealId, setSelectedMealId] = useState<string>('');
+  const [feedback, setFeedback] = useState('');
 
   useEffect(() => {
     const fetchMeals = async () => {
@@ -191,7 +195,13 @@ export function MealPlan({ restrictions }: MealPlanProps) {
     return { dailyTotals, daysNotMeetingGoals };
   };
 
-  const regenerateMeal = async (mealId: string) => {
+  const openFeedbackDialog = (mealId: string) => {
+    setSelectedMealId(mealId);
+    setFeedback('');
+    setFeedbackDialogOpen(true);
+  };
+
+  const regenerateMeal = async (mealId: string, userFeedback?: string) => {
     if (!user) return;
 
     setRegeneratingMeals(prev => new Set(prev).add(mealId));
@@ -200,7 +210,8 @@ export function MealPlan({ restrictions }: MealPlanProps) {
       const { data, error } = await supabase.functions.invoke('regenerate-meal', {
         body: {
           mealId,
-          userId: user.id
+          userId: user.id,
+          feedback: userFeedback || ''
         }
       });
 
@@ -227,7 +238,12 @@ export function MealPlan({ restrictions }: MealPlanProps) {
         newSet.delete(mealId);
         return newSet;
       });
+      setFeedbackDialogOpen(false);
     }
+  };
+
+  const handleRegenerateWithFeedback = () => {
+    regenerateMeal(selectedMealId, feedback);
   };
 
   if (loading) {
@@ -291,7 +307,7 @@ export function MealPlan({ restrictions }: MealPlanProps) {
         className="absolute bottom-2 right-2 h-8 w-8 p-0 bg-background/90 hover:bg-background border shadow-md z-10"
         onClick={(e) => {
           e.stopPropagation();
-          regenerateMeal(meal.id);
+          openFeedbackDialog(meal.id);
         }}
         disabled={regeneratingMeals.has(meal.id)}
       >
@@ -336,7 +352,7 @@ export function MealPlan({ restrictions }: MealPlanProps) {
         className="absolute bottom-2 right-2 h-8 w-8 p-0 bg-background/90 hover:bg-background border shadow-md z-10"
         onClick={(e) => {
           e.stopPropagation();
-          regenerateMeal(snack.id);
+          openFeedbackDialog(snack.id);
         }}
         disabled={regeneratingMeals.has(snack.id)}
       >
@@ -487,6 +503,46 @@ export function MealPlan({ restrictions }: MealPlanProps) {
             );
           })}
       </div>
+
+      {/* Feedback Dialog */}
+      <Dialog open={feedbackDialogOpen} onOpenChange={setFeedbackDialogOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Regenerate Meal</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <p className="text-sm text-muted-foreground">
+              Optional: Tell us what you'd like to change about this meal
+            </p>
+            <Textarea
+              placeholder="e.g., more protein, less carbs, avoid chicken, make it vegetarian, or make this meal three eggs..."
+              value={feedback}
+              onChange={(e) => setFeedback(e.target.value)}
+              rows={3}
+            />
+            <div className="flex gap-2 justify-end">
+              <Button
+                variant="outline"
+                onClick={() => setFeedbackDialogOpen(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={() => regenerateMeal(selectedMealId)}
+                variant="outline"
+              >
+                Regenerate Without Changes
+              </Button>
+              <Button
+                onClick={handleRegenerateWithFeedback}
+                disabled={regeneratingMeals.has(selectedMealId)}
+              >
+                {regeneratingMeals.has(selectedMealId) ? 'Regenerating...' : 'Regenerate'}
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
 
     </div>
   );

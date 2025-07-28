@@ -18,9 +18,9 @@ serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     )
 
-    const { mealId, userId } = await req.json()
+    const { mealId, userId, feedback } = await req.json()
 
-    console.log('Regenerating meal:', { mealId, userId })
+    console.log('Regenerating meal:', { mealId, userId, feedback })
 
     // Get the current meal details
     const { data: currentMeal, error: mealError } = await supabase
@@ -75,6 +75,7 @@ Requirements:
 - Avoid allergies: ${allergies.join(', ') || 'None'}
 - Follow dietary themes: ${dietaryThemes.join(', ') || 'None'}
 - Make it completely different from the previous meal
+${feedback ? `- User feedback: ${feedback}` : ''}
 
 Provide a JSON response with:
 {
