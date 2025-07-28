@@ -105,10 +105,14 @@ serve(async (req) => {
     ];
     
     const isLowFodmap = dietaryThemes.some(theme => theme.toLowerCase().replace(/\s/g, '').includes('lowfodmap'));
+    const isNoFodmap = dietaryThemes.some(theme => theme.toLowerCase().replace(/\s/g, '').includes('nofodmap'));
     const isLowHistamine = dietaryThemes.some(theme => theme.toLowerCase().replace(/\s/g, '').includes('lowhistamine'));
+    const isNoHistamine = dietaryThemes.some(theme => theme.toLowerCase().replace(/\s/g, '').includes('nohistamine'));
     
-    const fodmapRestriction = isLowFodmap ? `\n- STRICTLY AVOID these low-FODMAP ingredients: ${lowFodmapIngredients.join(', ')}` : '';
-    const histamineRestriction = isLowHistamine ? `\n- STRICTLY AVOID these low histamine ingredients: ${lowHistamineIngredients.join(', ')}` : '';
+    const fodmapRestriction = isNoFodmap ? `\n- STRICTLY AVOID these FODMAP ingredients: ${lowFodmapIngredients.join(', ')}` 
+      : isLowFodmap ? `\n- Use only SMALL AMOUNTS of these FODMAP ingredients (max 1-2 tablespoons per meal): ${lowFodmapIngredients.join(', ')}` : '';
+    const histamineRestriction = isNoHistamine ? `\n- STRICTLY AVOID these histamine ingredients: ${lowHistamineIngredients.join(', ')}` 
+      : isLowHistamine ? `\n- Use only SMALL AMOUNTS of these histamine ingredients (max 1-2 tablespoons per meal): ${lowHistamineIngredients.join(', ')}` : '';
 
     // Create the AI prompt for regenerating the meal
     const prompt = `Generate a new ${currentMeal.meal_type} meal that is different from the previous one. 
