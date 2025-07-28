@@ -91,6 +91,7 @@ export function GroceryList({ mealPlanId, mealPlanName }: GroceryListProps) {
           ingredient.includes('onion') || ingredient.includes('pepper') ||
           ingredient.includes('carrot') || ingredient.includes('cucumber') ||
           ingredient.includes('spinach') || ingredient.includes('broccoli') ||
+          ingredient.includes('mixed greens') ||
           ingredient.includes('avocado') || ingredient.includes('fruit') ||
           ingredient.includes('berry') || ingredient.includes('berries') ||
           ingredient.includes('mixed berries') || ingredient.includes('apple') ||
