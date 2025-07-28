@@ -288,7 +288,7 @@ export function MealPlan({ restrictions }: MealPlanProps) {
       <Button
         size="sm"
         variant="secondary"
-        className="absolute top-2 right-2 h-8 w-8 p-0 bg-background/90 hover:bg-background border shadow-md z-10"
+        className="absolute bottom-2 right-2 h-8 w-8 p-0 bg-background/90 hover:bg-background border shadow-md z-10"
         onClick={(e) => {
           e.stopPropagation();
           regenerateMeal(meal.id);
@@ -333,7 +333,7 @@ export function MealPlan({ restrictions }: MealPlanProps) {
       <Button
         size="sm"
         variant="secondary"
-        className="absolute top-2 right-2 h-8 w-8 p-0 bg-background/90 hover:bg-background border shadow-md z-10"
+        className="absolute bottom-2 right-2 h-8 w-8 p-0 bg-background/90 hover:bg-background border shadow-md z-10"
         onClick={(e) => {
           e.stopPropagation();
           regenerateMeal(snack.id);
