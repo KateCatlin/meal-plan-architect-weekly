@@ -79,13 +79,24 @@ export const useGroceryList = (mealPlanId: string | null) => {
 // Helper function to extract base ingredient name
 const extractBaseIngredient = (ingredient: string): string => {
   // Remove common measurements and quantities
-  const cleanedIngredient = ingredient
+  let cleanedIngredient = ingredient.toLowerCase()
     .replace(/^\d+(\.\d+)?\s*(cups?|tbsp|tablespoons?|tsp|teaspoons?|oz|ounces?|lbs?|pounds?|g|grams?|kg|kilograms?|ml|l|liters?)\s+/i, '')
+    .replace(/^\d+(\.\d+)?\s*(small|medium|large|extra\s+large)\s+/i, '') // Remove size descriptors
     .replace(/^\d+(\.\d+)?\s+/i, '') // Remove standalone numbers
     .replace(/^(a|an|the)\s+/i, '') // Remove articles
     .replace(/,.*$/, '') // Remove everything after comma
     .replace(/\(.*?\)/g, '') // Remove parenthetical content
+    .replace(/\s+(diced|chopped|sliced|shredded|minced|grated|fresh|frozen|dried|cooked|raw)(\s|$)/gi, ' ') // Remove preparation methods
+    .replace(/\s+/g, ' ') // Normalize whitespace
     .trim();
 
-  return cleanedIngredient || ingredient; // Fallback to original if cleaning removed everything
+  // Normalize common ingredient variations
+  if (cleanedIngredient.includes('zucchini')) cleanedIngredient = 'zucchini';
+  if (cleanedIngredient.includes('sweet potato')) cleanedIngredient = 'sweet potato';
+  if (cleanedIngredient.includes('bell pepper') || cleanedIngredient.includes('pepper')) cleanedIngredient = 'bell pepper';
+  if (cleanedIngredient.includes('onion')) cleanedIngredient = 'onion';
+  if (cleanedIngredient.includes('garlic')) cleanedIngredient = 'garlic';
+  if (cleanedIngredient.includes('tomato')) cleanedIngredient = 'tomato';
+
+  return cleanedIngredient || ingredient.toLowerCase(); // Fallback to original if cleaning removed everything
 };

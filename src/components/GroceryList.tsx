@@ -93,7 +93,21 @@ export function GroceryList({ mealPlanId, mealPlanName }: GroceryListProps) {
           ingredient.includes('spinach') || ingredient.includes('broccoli') ||
           ingredient.includes('avocado') || ingredient.includes('fruit') ||
           ingredient.includes('berry') || ingredient.includes('apple') ||
-          ingredient.includes('banana') || ingredient.includes('lemon')) {
+          ingredient.includes('banana') || ingredient.includes('lemon') ||
+          ingredient.includes('asparagus') || ingredient.includes('zucchini') ||
+          ingredient.includes('sweet potato') || ingredient.includes('potato') ||
+          ingredient.includes('mushroom') || ingredient.includes('celery') ||
+          ingredient.includes('kale') || ingredient.includes('cabbage') ||
+          ingredient.includes('corn') || ingredient.includes('peas') ||
+          ingredient.includes('bean') || ingredient.includes('squash') ||
+          ingredient.includes('eggplant') || ingredient.includes('radish') ||
+          ingredient.includes('beet') || ingredient.includes('turnip') ||
+          ingredient.includes('parsnip') || ingredient.includes('leek') ||
+          ingredient.includes('scallion') || ingredient.includes('shallot') ||
+          ingredient.includes('lime') || ingredient.includes('orange') ||
+          ingredient.includes('grape') || ingredient.includes('peach') ||
+          ingredient.includes('pear') || ingredient.includes('strawberry') ||
+          ingredient.includes('blueberry') || ingredient.includes('raspberry')) {
         categories.produce.push(item);
       } else if (ingredient.includes('chicken') || ingredient.includes('beef') ||
                 ingredient.includes('fish') || ingredient.includes('salmon') ||
