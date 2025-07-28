@@ -2,7 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Clock, Users, Flame, Activity, Wheat, Calendar, History, ShoppingCart, Target } from "lucide-react";
+import { Clock, Users, Flame, Activity, Wheat, Calendar, History, ShoppingCart, Target, RefreshCw } from "lucide-react";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
@@ -52,6 +52,7 @@ export function MealPlan({ restrictions }: MealPlanProps) {
   const [optimizing, setOptimizing] = useState(false);
   const [showFullPlan, setShowFullPlan] = useState(false);
   const [currentMealPlan, setCurrentMealPlan] = useState<any>(null);
+  const [regeneratingMeals, setRegeneratingMeals] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     const fetchMeals = async () => {
@@ -190,6 +191,45 @@ export function MealPlan({ restrictions }: MealPlanProps) {
     return { dailyTotals, daysNotMeetingGoals };
   };
 
+  const regenerateMeal = async (mealId: string) => {
+    if (!user) return;
+
+    setRegeneratingMeals(prev => new Set(prev).add(mealId));
+    
+    try {
+      const { data, error } = await supabase.functions.invoke('regenerate-meal', {
+        body: {
+          mealId,
+          userId: user.id
+        }
+      });
+
+      if (error) throw error;
+
+      if (data.success) {
+        toast({
+          title: "Meal regenerated!",
+          description: data.message,
+        });
+        // Refresh the meals to show the new version
+        window.location.reload();
+      }
+    } catch (error: any) {
+      console.error('Error regenerating meal:', error);
+      toast({
+        title: "Regeneration failed",
+        description: error.message || "Failed to regenerate meal",
+        variant: "destructive",
+      });
+    } finally {
+      setRegeneratingMeals(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(mealId);
+        return newSet;
+      });
+    }
+  };
+
   if (loading) {
     return (
       <div className="max-w-6xl mx-auto space-y-8 text-center">
@@ -216,70 +256,92 @@ export function MealPlan({ restrictions }: MealPlanProps) {
     );
   }
   const renderMeal = (meal: Meal) => (
-    <Card 
-      className="shadow-soft border-border/50 hover:shadow-medium transition-all duration-300 cursor-pointer hover-scale"
-      onClick={() => navigate(`/meal/${meal.id}`)}
-    >
-      <CardHeader className="pb-3">
-        <CardTitle className="text-lg font-semibold text-foreground flex items-center justify-between">
-          {meal.meal_name}
-          <Badge variant="outline" className="capitalize">{meal.meal_type}</Badge>
-        </CardTitle>
-        <CardDescription className="text-sm">{meal.description}</CardDescription>
-      </CardHeader>
-      <CardContent className="pt-0">
-        <div className="grid grid-cols-3 gap-4 text-center text-sm">
-          <div className="flex flex-col items-center">
-            <Flame className="h-4 w-4 text-warning mb-1" />
-            <span className="font-semibold">{meal.calories}</span>
-            <span className="text-muted-foreground text-xs">cal</span>
+    <Card className="shadow-soft border-border/50 hover:shadow-medium transition-all duration-300 relative group">
+      <div className="cursor-pointer" onClick={() => navigate(`/meal/${meal.id}`)}>
+        <CardHeader className="pb-3">
+          <CardTitle className="text-lg font-semibold text-foreground flex items-center justify-between">
+            {meal.meal_name}
+            <Badge variant="outline" className="capitalize">{meal.meal_type}</Badge>
+          </CardTitle>
+          <CardDescription className="text-sm">{meal.description}</CardDescription>
+        </CardHeader>
+        <CardContent className="pt-0">
+          <div className="grid grid-cols-3 gap-4 text-center text-sm">
+            <div className="flex flex-col items-center">
+              <Flame className="h-4 w-4 text-warning mb-1" />
+              <span className="font-semibold">{meal.calories}</span>
+              <span className="text-muted-foreground text-xs">cal</span>
+            </div>
+            <div className="flex flex-col items-center">
+              <Activity className="h-4 w-4 text-primary mb-1" />
+              <span className="font-semibold">{meal.protein}g</span>
+              <span className="text-muted-foreground text-xs">protein</span>
+            </div>
+            <div className="flex flex-col items-center">
+              <Wheat className="h-4 w-4 text-success mb-1" />
+              <span className="font-semibold">{meal.fiber}g</span>
+              <span className="text-muted-foreground text-xs">fiber</span>
+            </div>
           </div>
-          <div className="flex flex-col items-center">
-            <Activity className="h-4 w-4 text-primary mb-1" />
-            <span className="font-semibold">{meal.protein}g</span>
-            <span className="text-muted-foreground text-xs">protein</span>
-          </div>
-          <div className="flex flex-col items-center">
-            <Wheat className="h-4 w-4 text-success mb-1" />
-            <span className="font-semibold">{meal.fiber}g</span>
-            <span className="text-muted-foreground text-xs">fiber</span>
-          </div>
-        </div>
-      </CardContent>
+        </CardContent>
+      </div>
+      <Button
+        size="sm"
+        variant="outline"
+        className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 h-8 w-8 p-0"
+        onClick={(e) => {
+          e.stopPropagation();
+          regenerateMeal(meal.id);
+        }}
+        disabled={regeneratingMeals.has(meal.id)}
+      >
+        <RefreshCw className={`h-3 w-3 ${regeneratingMeals.has(meal.id) ? 'animate-spin' : ''}`} />
+      </Button>
     </Card>
   );
 
   const renderSnacks = (snack: Meal) => (
-    <Card 
-      className="shadow-soft border-border/50 cursor-pointer hover-scale transition-all duration-300"
-      onClick={() => navigate(`/meal/${snack.id}`)}
-    >
-      <CardHeader className="pb-3">
-        <CardTitle className="text-lg font-semibold text-foreground flex items-center justify-between">
-          {snack.meal_name}
-          <Badge variant="outline" className="capitalize">snack</Badge>
-        </CardTitle>
-        <CardDescription className="text-sm">{snack.description}</CardDescription>
-      </CardHeader>
-      <CardContent className="pt-0">
-        <div className="grid grid-cols-3 gap-4 text-center text-sm">
-          <div className="flex flex-col items-center">
-            <Flame className="h-4 w-4 text-warning mb-1" />
-            <span className="font-semibold">{snack.calories}</span>
-            <span className="text-muted-foreground text-xs">cal</span>
+    <Card className="shadow-soft border-border/50 hover:shadow-medium transition-all duration-300 relative group">
+      <div className="cursor-pointer" onClick={() => navigate(`/meal/${snack.id}`)}>
+        <CardHeader className="pb-3">
+          <CardTitle className="text-lg font-semibold text-foreground flex items-center justify-between">
+            {snack.meal_name}
+            <Badge variant="outline" className="capitalize">snack</Badge>
+          </CardTitle>
+          <CardDescription className="text-sm">{snack.description}</CardDescription>
+        </CardHeader>
+        <CardContent className="pt-0">
+          <div className="grid grid-cols-3 gap-4 text-center text-sm">
+            <div className="flex flex-col items-center">
+              <Flame className="h-4 w-4 text-warning mb-1" />
+              <span className="font-semibold">{snack.calories}</span>
+              <span className="text-muted-foreground text-xs">cal</span>
+            </div>
+            <div className="flex flex-col items-center">
+              <Activity className="h-4 w-4 text-primary mb-1" />
+              <span className="font-semibold">{snack.protein}g</span>
+              <span className="text-muted-foreground text-xs">protein</span>
+            </div>
+            <div className="flex flex-col items-center">
+              <Wheat className="h-4 w-4 text-success mb-1" />
+              <span className="font-semibold">{snack.fiber}g</span>
+              <span className="text-muted-foreground text-xs">fiber</span>
+            </div>
           </div>
-          <div className="flex flex-col items-center">
-            <Activity className="h-4 w-4 text-primary mb-1" />
-            <span className="font-semibold">{snack.protein}g</span>
-            <span className="text-muted-foreground text-xs">protein</span>
-          </div>
-          <div className="flex flex-col items-center">
-            <Wheat className="h-4 w-4 text-success mb-1" />
-            <span className="font-semibold">{snack.fiber}g</span>
-            <span className="text-muted-foreground text-xs">fiber</span>
-          </div>
-        </div>
-      </CardContent>
+        </CardContent>
+      </div>
+      <Button
+        size="sm"
+        variant="outline"
+        className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 h-8 w-8 p-0"
+        onClick={(e) => {
+          e.stopPropagation();
+          regenerateMeal(snack.id);
+        }}
+        disabled={regeneratingMeals.has(snack.id)}
+      >
+        <RefreshCw className={`h-3 w-3 ${regeneratingMeals.has(snack.id) ? 'animate-spin' : ''}`} />
+      </Button>
     </Card>
   );
 
