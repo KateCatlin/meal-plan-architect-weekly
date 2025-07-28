@@ -506,43 +506,45 @@ export function MealPlan({ restrictions }: MealPlanProps) {
 
       {/* Feedback Dialog */}
       <Dialog open={feedbackDialogOpen} onOpenChange={setFeedbackDialogOpen}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="w-[95vw] max-w-sm mx-auto">
           <DialogHeader>
             <DialogTitle>Regenerate Meal</DialogTitle>
           </DialogHeader>
-          <div className="space-y-4 p-1">
+          <div className="space-y-3 px-1">
             <p className="text-sm text-muted-foreground">
               Optional: Tell us what you'd like to change about this meal
             </p>
             <Textarea
-              placeholder="e.g., more protein, less carbs, avoid chicken, make it vegetarian, or make this meal three eggs..."
+              placeholder="e.g., more protein, less carbs, avoid chicken..."
               value={feedback}
               onChange={(e) => setFeedback(e.target.value)}
-              rows={3}
-              className="w-full resize-none"
+              rows={2}
+              className="w-full resize-none text-sm"
             />
-            <div className="flex flex-col sm:flex-row gap-2">
-              <Button
-                variant="outline"
-                onClick={() => setFeedbackDialogOpen(false)}
-                className="flex-1"
-              >
-                Cancel
-              </Button>
-              <Button
-                onClick={() => regenerateMeal(selectedMealId)}
-                variant="outline"
-                className="flex-1"
-              >
-                Regenerate Without Changes
-              </Button>
+            <div className="flex flex-col gap-2">
               <Button
                 onClick={handleRegenerateWithFeedback}
                 disabled={regeneratingMeals.has(selectedMealId)}
-                className="flex-1"
+                className="w-full"
               >
                 {regeneratingMeals.has(selectedMealId) ? 'Regenerating...' : 'Regenerate'}
               </Button>
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  onClick={() => regenerateMeal(selectedMealId)}
+                  className="flex-1 text-xs"
+                >
+                  Without Changes
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => setFeedbackDialogOpen(false)}
+                  className="flex-1"
+                >
+                  Cancel
+                </Button>
+              </div>
             </div>
           </div>
         </DialogContent>
