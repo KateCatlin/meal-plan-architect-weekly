@@ -17,7 +17,7 @@ const commonAllergies = [
 ];
 
 const dietaryThemes = [
-  "Low FODMAP", "Low Histamine", "Keto", "Paleo", "Vegetarian", "Vegan", "Mediterranean", "Low Sodium"
+  "No FODMAP", "No Histamine", "Keto", "Paleo", "Vegetarian", "Vegan", "Mediterranean", "Low Sodium"
 ];
 
 export function DietaryRestrictionsForm({ onSubmit }: { onSubmit: (data: DietaryRestrictions) => void }) {
