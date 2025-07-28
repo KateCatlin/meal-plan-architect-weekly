@@ -124,7 +124,8 @@ serve(async (req) => {
       'squash',
       'tomatoes',
       'unpasteurized milk', 'goat milk', 'sheep milk',
-      'wheat'
+      'wheat',
+      'vinegar', 'balsamic vinegar'
     ];
     
     const isLowFodmap = dietaryThemes.some(theme => theme.toLowerCase().replace(/\s/g, '').includes('lowfodmap'));
