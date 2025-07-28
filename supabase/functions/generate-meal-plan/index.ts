@@ -99,7 +99,7 @@ serve(async (req) => {
       'cashews', 'pistachios'
     ];
     
-    const isLowFodmap = dietaryThemes.some(theme => theme.toLowerCase().includes('low-fodmap'));
+    const isLowFodmap = dietaryThemes.some(theme => theme.toLowerCase().replace(/\s/g, '').includes('lowfodmap'));
     const fodmapRestriction = isLowFodmap ? `\n- STRICTLY AVOID these low-FODMAP ingredients: ${lowFodmapIngredients.join(', ')}` : '';
 
     const prompt = `
