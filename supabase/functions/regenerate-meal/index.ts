@@ -62,6 +62,19 @@ serve(async (req) => {
       .filter(r => r.restriction_type === 'dietary_theme')
       .map(r => r.restriction_name)
 
+    // Add hardcoded low-FODMAP restrictions if applicable
+    const lowFodmapIngredients = [
+      'artichoke', 'asparagus', 'garlic', 'green peas', 'leek', 'mushrooms', 'onion', 'red capsicum', 'bell pepper',
+      'apples', 'apple juice', 'cherries', 'dried fruit', 'mango', 'nectarines', 'peaches', 'pears', 'plums', 'watermelon',
+      'milk', 'custard', 'evaporated milk', 'ice cream', 'soy milk', 'sweetened condensed milk', 'yogurt',
+      'wheat', 'rye', 'barley', 'wheat bread', 'rye bread', 'barley bread', 'breakfast cereals', 'biscuits',
+      'high fructose corn syrup', 'honey', 'sugar free confectionery',
+      'cashews', 'pistachios'
+    ];
+    
+    const isLowFodmap = dietaryThemes.some(theme => theme.toLowerCase().includes('low-fodmap'));
+    const fodmapRestriction = isLowFodmap ? `\n- STRICTLY AVOID these low-FODMAP ingredients: ${lowFodmapIngredients.join(', ')}` : '';
+
     // Create the AI prompt for regenerating the meal
     const prompt = `Generate a new ${currentMeal.meal_type} meal that is different from the previous one. 
 
@@ -73,7 +86,7 @@ Requirements:
 - Minimum protein: ${goals?.protein_goal || 25}g
 - Minimum fiber: ${goals?.fiber_goal || 8}g
 - Avoid allergies: ${allergies.join(', ') || 'None'}
-- Follow dietary themes: ${dietaryThemes.join(', ') || 'None'}
+- Follow dietary themes: ${dietaryThemes.join(', ') || 'None'}${fodmapRestriction}
 - Make it completely different from the previous meal
 ${feedback ? `- User feedback: ${feedback}` : ''}
 

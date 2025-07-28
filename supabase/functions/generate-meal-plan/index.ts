@@ -89,12 +89,25 @@ serve(async (req) => {
     const dietaryThemes = restrictions.filter((r: any) => r.restriction_type === 'diet')
       .map((r: any) => r.restriction_name);
 
+    // Add hardcoded low-FODMAP restrictions if applicable
+    const lowFodmapIngredients = [
+      'artichoke', 'asparagus', 'garlic', 'green peas', 'leek', 'mushrooms', 'onion', 'red capsicum', 'bell pepper',
+      'apples', 'apple juice', 'cherries', 'dried fruit', 'mango', 'nectarines', 'peaches', 'pears', 'plums', 'watermelon',
+      'milk', 'custard', 'evaporated milk', 'ice cream', 'soy milk', 'sweetened condensed milk', 'yogurt',
+      'wheat', 'rye', 'barley', 'wheat bread', 'rye bread', 'barley bread', 'breakfast cereals', 'biscuits',
+      'high fructose corn syrup', 'honey', 'sugar free confectionery',
+      'cashews', 'pistachios'
+    ];
+    
+    const isLowFodmap = dietaryThemes.some(theme => theme.toLowerCase().includes('low-fodmap'));
+    const fodmapRestriction = isLowFodmap ? `\n- STRICTLY AVOID these low-FODMAP ingredients: ${lowFodmapIngredients.join(', ')}` : '';
+
     const prompt = `
 Generate a complete 7-day meal plan with the following requirements:
 
 DIETARY RESTRICTIONS:
 - Allergies to avoid: ${allergies.length > 0 ? allergies.join(', ') : 'None'}
-- Dietary themes to follow: ${dietaryThemes.length > 0 ? dietaryThemes.join(', ') : 'None'}
+- Dietary themes to follow: ${dietaryThemes.length > 0 ? dietaryThemes.join(', ') : 'None'}${fodmapRestriction}
 
 NUTRITIONAL GOALS:
 - Daily calories: ${goals?.calorie_min || 1800}-${goals?.calorie_max || 2200}
