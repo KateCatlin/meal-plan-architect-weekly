@@ -99,15 +99,46 @@ serve(async (req) => {
       'cashews', 'pistachios'
     ];
     
+    // Add hardcoded low histamine restrictions if applicable
+    const lowHistamineIngredients = [
+      'parmesan', 'blue cheese', 'brie', 'aged cheese', 'fermented cheese',
+      'alcohol', 'wine', 'beer', 'spirits',
+      'avocado',
+      'kiwi', 'pineapple', 'papaya', 'strawberries', 'passionfruit', 'plum', 'bananas',
+      'peanuts', 'walnuts', 'cashews',
+      'allspice', 'anise', 'cinnamon', 'chili powder', 'clove', 'curry powder', 'cayenne', 'msg', 'nutmeg', 'paprika',
+      'chocolate',
+      'lemon', 'lime', 'grapefruit', 'orange',
+      'dried fruit',
+      'eggplant',
+      'kimchi', 'sauerkraut', 'tempeh', 'yogurt', 'kefir', 'sourdough',
+      'canned fish',
+      'beans', 'chickpeas', 'soybeans', 'peanut',
+      'licorice',
+      'pickles', 'olives', 'mustard', 'ketchup',
+      'hot dogs', 'sausage', 'deli meat', 'jerky', 'canned meat',
+      'shellfish',
+      'sour cream', 'buttermilk',
+      'soy', 'soy sauce', 'soybeans', 'soy lecithin', 'tofu',
+      'spinach',
+      'squash',
+      'tomatoes',
+      'unpasteurized milk', 'goat milk', 'sheep milk',
+      'wheat'
+    ];
+    
     const isLowFodmap = dietaryThemes.some(theme => theme.toLowerCase().replace(/\s/g, '').includes('lowfodmap'));
+    const isLowHistamine = dietaryThemes.some(theme => theme.toLowerCase().replace(/\s/g, '').includes('lowhistamine'));
+    
     const fodmapRestriction = isLowFodmap ? `\n- STRICTLY AVOID these low-FODMAP ingredients: ${lowFodmapIngredients.join(', ')}` : '';
+    const histamineRestriction = isLowHistamine ? `\n- STRICTLY AVOID these low histamine ingredients: ${lowHistamineIngredients.join(', ')}` : '';
 
     const prompt = `
 Generate a complete 7-day meal plan with the following requirements:
 
 DIETARY RESTRICTIONS:
 - Allergies to avoid: ${allergies.length > 0 ? allergies.join(', ') : 'None'}
-- Dietary themes to follow: ${dietaryThemes.length > 0 ? dietaryThemes.join(', ') : 'None'}${fodmapRestriction}
+- Dietary themes to follow: ${dietaryThemes.length > 0 ? dietaryThemes.join(', ') : 'None'}${fodmapRestriction}${histamineRestriction}
 
 NUTRITIONAL GOALS:
 - Daily calories: ${goals?.calorie_min || 1800}-${goals?.calorie_max || 2200}
