@@ -2,11 +2,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Clock, Users, Flame, Activity, Wheat, Calendar, History, ShoppingCart } from "lucide-react";
+import { Clock, Users, Flame, Activity, Wheat, Calendar, History, ShoppingCart, Target } from "lucide-react";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
 import { GroceryList } from "./GroceryList";
 
 interface MealPlanProps {
@@ -43,10 +44,12 @@ const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
 
 export function MealPlan({ restrictions }: MealPlanProps) {
   const { user } = useAuth();
+  const { toast } = useToast();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [meals, setMeals] = useState<GroupedMeals>({});
   const [loading, setLoading] = useState(true);
+  const [optimizing, setOptimizing] = useState(false);
   const [showFullPlan, setShowFullPlan] = useState(false);
   const [currentMealPlan, setCurrentMealPlan] = useState<any>(null);
 
@@ -129,6 +132,63 @@ export function MealPlan({ restrictions }: MealPlanProps) {
 
     fetchMeals();
   }, [user, searchParams]);
+
+  const optimizeMealPlan = async () => {
+    if (!user || !currentMealPlan) return;
+
+    setOptimizing(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('optimize-meal-plan', {
+        body: {
+          userId: user.id,
+          mealPlanId: currentMealPlan.id
+        }
+      });
+
+      if (error) throw error;
+
+      if (data.optimized) {
+        toast({
+          title: "Meal plan optimized!",
+          description: data.message,
+        });
+        // Refresh the meals to show the optimized version
+        window.location.reload();
+      } else {
+        toast({
+          title: "No optimization needed",
+          description: data.message,
+        });
+      }
+    } catch (error: any) {
+      console.error('Error optimizing meal plan:', error);
+      toast({
+        title: "Optimization failed",
+        description: error.message || "Failed to optimize meal plan",
+        variant: "destructive",
+      });
+    } finally {
+      setOptimizing(false);
+    }
+  };
+
+  const checkNutritionalGoals = () => {
+    const dailyTotals = Object.entries(meals).map(([dayOfWeek, dayMeals]) => {
+      const totals = calculateDayTotals(dayMeals);
+      return {
+        day: parseInt(dayOfWeek),
+        ...totals,
+        meetsProteinGoal: totals.protein >= restrictions.protein[0],
+        meetsFiberGoal: totals.fiber >= restrictions.fiber[0]
+      };
+    });
+
+    const daysNotMeetingGoals = dailyTotals.filter(day => 
+      !day.meetsProteinGoal || !day.meetsFiberGoal
+    );
+
+    return { dailyTotals, daysNotMeetingGoals };
+  };
 
   if (loading) {
     return (
@@ -253,19 +313,30 @@ export function MealPlan({ restrictions }: MealPlanProps) {
                 <GroceryList 
                   mealPlanId={currentMealPlan?.id || null}
                   mealPlanName={currentMealPlan?.plan_name}
-                />
-              </DialogContent>
-            </Dialog>
-            
-            <Button 
-              onClick={() => navigate('/history')} 
-              variant="outline" 
-              size="sm"
-              className="hover-scale"
-            >
-              <History className="h-4 w-4 mr-2" />
-              View History
-            </Button>
+                 />
+               </DialogContent>
+             </Dialog>
+
+             <Button 
+               onClick={optimizeMealPlan}
+               disabled={optimizing}
+               variant="outline" 
+               size="sm"
+               className="hover-scale"
+             >
+               <Target className="h-4 w-4 mr-2" />
+               {optimizing ? 'Optimizing...' : 'Optimize Goals'}
+             </Button>
+             
+             <Button 
+               onClick={() => navigate('/history')} 
+               variant="outline" 
+               size="sm"
+               className="hover-scale"
+             >
+               <History className="h-4 w-4 mr-2" />
+               View History
+             </Button>
           </div>
         </div>
         
@@ -322,20 +393,24 @@ export function MealPlan({ restrictions }: MealPlanProps) {
                 <CardHeader className="bg-gradient-card">
                   <div className="flex justify-between items-center">
                     <CardTitle className="text-2xl font-bold text-foreground">{dayName}</CardTitle>
-                    <div className="flex gap-6 text-sm">
-                      <div className="text-center">
-                        <div className="font-bold text-primary">{totals.calories}</div>
-                        <div className="text-muted-foreground">calories</div>
-                      </div>
-                      <div className="text-center">
-                        <div className="font-bold text-primary">{Math.round(totals.protein)}g</div>
-                        <div className="text-muted-foreground">protein</div>
-                      </div>
-                      <div className="text-center">
-                        <div className="font-bold text-primary">{Math.round(totals.fiber)}g</div>
-                        <div className="text-muted-foreground">fiber</div>
-                      </div>
-                    </div>
+                     <div className="flex gap-6 text-sm">
+                       <div className="text-center">
+                         <div className="font-bold text-primary">{totals.calories}</div>
+                         <div className="text-muted-foreground">calories</div>
+                       </div>
+                       <div className="text-center">
+                         <div className={`font-bold ${totals.protein >= restrictions.protein[0] ? 'text-success' : 'text-warning'}`}>
+                           {Math.round(totals.protein)}g
+                         </div>
+                         <div className="text-muted-foreground">protein {totals.protein >= restrictions.protein[0] ? '✓' : '⚠'}</div>
+                       </div>
+                       <div className="text-center">
+                         <div className={`font-bold ${totals.fiber >= restrictions.fiber[0] ? 'text-success' : 'text-warning'}`}>
+                           {Math.round(totals.fiber)}g
+                         </div>
+                         <div className="text-muted-foreground">fiber {totals.fiber >= restrictions.fiber[0] ? '✓' : '⚠'}</div>
+                       </div>
+                     </div>
                   </div>
                 </CardHeader>
                 <CardContent className="pt-6">
