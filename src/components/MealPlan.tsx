@@ -50,7 +50,7 @@ export function MealPlan({ restrictions }: MealPlanProps) {
   const [meals, setMeals] = useState<GroupedMeals>({});
   const [loading, setLoading] = useState(true);
   const [optimizing, setOptimizing] = useState(false);
-  const [showFullPlan, setShowFullPlan] = useState(false);
+  
   const [currentMealPlan, setCurrentMealPlan] = useState<any>(null);
   const [regeneratingMeals, setRegeneratingMeals] = useState<Set<string>>(new Set());
 
@@ -445,7 +445,7 @@ export function MealPlan({ restrictions }: MealPlanProps) {
       <div className="space-y-8">
         {Object.entries(meals)
           .sort(([a], [b]) => parseInt(a) - parseInt(b))
-          .slice(0, showFullPlan ? 7 : 2)
+          .slice(0, 7)
           .map(([dayOfWeek, dayMeals]) => {
             const dayName = days[parseInt(dayOfWeek) - 1];
             const totals = calculateDayTotals(dayMeals);
@@ -488,16 +488,6 @@ export function MealPlan({ restrictions }: MealPlanProps) {
           })}
       </div>
 
-      <div className="text-center">
-        <Button 
-          variant="outline" 
-          size="lg"
-          onClick={() => setShowFullPlan(!showFullPlan)}
-          className="hover-scale"
-        >
-          {showFullPlan ? 'Show Less' : 'View Complete 7-Day Plan'}
-        </Button>
-      </div>
     </div>
   );
 }
