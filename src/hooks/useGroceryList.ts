@@ -5,6 +5,7 @@ import { useAuth } from "@/hooks/useAuth";
 interface GroceryItem {
   ingredient: string;
   count: number;
+  totalQuantity: number;
   meals: string[];
 }
 
@@ -44,17 +45,21 @@ export const useGroceryList = (mealPlanId: string | null) => {
                 return;
               }
               
-              // Extract the base ingredient name (remove quantities and measurements)
-              const baseIngredient = extractBaseIngredient(cleanIngredient);
+              // Extract quantity and base ingredient
+              const { quantity, baseIngredient, displayIngredient } = extractIngredientWithQuantity(ingredient.trim());
               
               if (ingredientMap.has(baseIngredient)) {
                 const existing = ingredientMap.get(baseIngredient)!;
                 existing.count += 1;
-                existing.meals.push(meal.meal_name);
+                existing.totalQuantity += quantity;
+                if (!existing.meals.includes(meal.meal_name)) {
+                  existing.meals.push(meal.meal_name);
+                }
               } else {
                 ingredientMap.set(baseIngredient, {
-                  ingredient: ingredient.trim(), // Keep original formatting for display
+                  ingredient: displayIngredient,
                   count: 1,
+                  totalQuantity: quantity,
                   meals: [meal.meal_name]
                 });
               }
@@ -62,8 +67,11 @@ export const useGroceryList = (mealPlanId: string | null) => {
           }
         });
 
-        // Convert map to array and sort alphabetically
-        const groceryItems = Array.from(ingredientMap.values()).sort((a, b) =>
+        // Update display ingredients with total quantities
+        const groceryItems = Array.from(ingredientMap.values()).map(item => ({
+          ...item,
+          ingredient: createDisplayIngredient(item.totalQuantity, extractBaseIngredient(item.ingredient), item.ingredient)
+        })).sort((a, b) =>
           a.ingredient.localeCompare(b.ingredient)
         );
 
@@ -79,6 +87,43 @@ export const useGroceryList = (mealPlanId: string | null) => {
   }, [user, mealPlanId]);
 
   return { groceryList, loading };
+};
+
+// Helper function to extract quantity and base ingredient name
+const extractIngredientWithQuantity = (ingredient: string): { quantity: number; baseIngredient: string; displayIngredient: string } => {
+  const originalIngredient = ingredient;
+  const lowerIngredient = ingredient.toLowerCase();
+  
+  // Extract quantity - look for numbers at the beginning
+  const quantityMatch = lowerIngredient.match(/^(\d+(?:\.\d+)?|\d*\.?\d+)\s*/);
+  let quantity = 1; // Default quantity
+  
+  if (quantityMatch) {
+    quantity = parseFloat(quantityMatch[1]);
+  }
+  
+  // Get base ingredient using the existing function logic
+  const baseIngredient = extractBaseIngredient(lowerIngredient);
+  
+  // For display, we want to show the aggregated quantity with the base ingredient
+  const displayIngredient = createDisplayIngredient(quantity, baseIngredient, originalIngredient);
+  
+  return { quantity, baseIngredient, displayIngredient };
+};
+
+// Helper function to create display ingredient with proper quantity
+const createDisplayIngredient = (quantity: number, baseIngredient: string, originalIngredient: string): string => {
+  // Extract unit from original ingredient
+  const unitMatch = originalIngredient.toLowerCase().match(/^\d+(?:\.\d+)?\s*(cups?|tbsp|tablespoons?|tsp|teaspoons?|oz|ounces?|lbs?|pounds?|g|grams?|kg|kilograms?|ml|l|liters?|small|medium|large)\s+/i);
+  const unit = unitMatch ? unitMatch[1] : '';
+  
+  if (unit) {
+    return `${quantity} ${unit} ${baseIngredient}`;
+  } else if (quantity > 1) {
+    return `${quantity} ${baseIngredient}`;
+  } else {
+    return baseIngredient;
+  }
 };
 
 // Helper function to extract base ingredient name
