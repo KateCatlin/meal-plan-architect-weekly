@@ -256,7 +256,7 @@ export function MealPlan({ restrictions }: MealPlanProps) {
     );
   }
   const renderMeal = (meal: Meal) => (
-    <Card className="shadow-soft border-border/50 hover:shadow-medium transition-all duration-300 relative group">
+    <Card className="shadow-soft border-border/50 hover:shadow-medium transition-all duration-300 relative">
       <div className="cursor-pointer" onClick={() => navigate(`/meal/${meal.id}`)}>
         <CardHeader className="pb-3">
           <CardTitle className="text-lg font-semibold text-foreground flex items-center justify-between">
@@ -288,7 +288,7 @@ export function MealPlan({ restrictions }: MealPlanProps) {
       <Button
         size="sm"
         variant="outline"
-        className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 h-8 w-8 p-0"
+        className="absolute top-2 right-2 h-8 w-8 p-0"
         onClick={(e) => {
           e.stopPropagation();
           regenerateMeal(meal.id);
@@ -301,7 +301,7 @@ export function MealPlan({ restrictions }: MealPlanProps) {
   );
 
   const renderSnacks = (snack: Meal) => (
-    <Card className="shadow-soft border-border/50 hover:shadow-medium transition-all duration-300 relative group">
+    <Card className="shadow-soft border-border/50 hover:shadow-medium transition-all duration-300 relative">
       <div className="cursor-pointer" onClick={() => navigate(`/meal/${snack.id}`)}>
         <CardHeader className="pb-3">
           <CardTitle className="text-lg font-semibold text-foreground flex items-center justify-between">
@@ -333,7 +333,7 @@ export function MealPlan({ restrictions }: MealPlanProps) {
       <Button
         size="sm"
         variant="outline"
-        className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 h-8 w-8 p-0"
+        className="absolute top-2 right-2 h-8 w-8 p-0"
         onClick={(e) => {
           e.stopPropagation();
           regenerateMeal(snack.id);
