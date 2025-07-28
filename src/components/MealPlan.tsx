@@ -510,7 +510,7 @@ export function MealPlan({ restrictions }: MealPlanProps) {
           <DialogHeader>
             <DialogTitle>Regenerate Meal</DialogTitle>
           </DialogHeader>
-          <div className="space-y-4">
+          <div className="space-y-4 p-1">
             <p className="text-sm text-muted-foreground">
               Optional: Tell us what you'd like to change about this meal
             </p>
@@ -519,23 +519,27 @@ export function MealPlan({ restrictions }: MealPlanProps) {
               value={feedback}
               onChange={(e) => setFeedback(e.target.value)}
               rows={3}
+              className="w-full resize-none"
             />
-            <div className="flex gap-2 justify-end">
+            <div className="flex flex-col sm:flex-row gap-2">
               <Button
                 variant="outline"
                 onClick={() => setFeedbackDialogOpen(false)}
+                className="flex-1"
               >
                 Cancel
               </Button>
               <Button
                 onClick={() => regenerateMeal(selectedMealId)}
                 variant="outline"
+                className="flex-1"
               >
                 Regenerate Without Changes
               </Button>
               <Button
                 onClick={handleRegenerateWithFeedback}
                 disabled={regeneratingMeals.has(selectedMealId)}
+                className="flex-1"
               >
                 {regeneratingMeals.has(selectedMealId) ? 'Regenerating...' : 'Regenerate'}
               </Button>
