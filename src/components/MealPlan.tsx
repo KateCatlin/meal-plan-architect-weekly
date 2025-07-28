@@ -287,15 +287,15 @@ export function MealPlan({ restrictions }: MealPlanProps) {
       </div>
       <Button
         size="sm"
-        variant="outline"
-        className="absolute top-2 right-2 h-8 w-8 p-0"
+        variant="secondary"
+        className="absolute top-2 right-2 h-8 w-8 p-0 bg-background/90 hover:bg-background border shadow-md z-10"
         onClick={(e) => {
           e.stopPropagation();
           regenerateMeal(meal.id);
         }}
         disabled={regeneratingMeals.has(meal.id)}
       >
-        <RefreshCw className={`h-3 w-3 ${regeneratingMeals.has(meal.id) ? 'animate-spin' : ''}`} />
+        <RefreshCw className={`h-4 w-4 ${regeneratingMeals.has(meal.id) ? 'animate-spin' : ''}`} />
       </Button>
     </Card>
   );
@@ -332,15 +332,15 @@ export function MealPlan({ restrictions }: MealPlanProps) {
       </div>
       <Button
         size="sm"
-        variant="outline"
-        className="absolute top-2 right-2 h-8 w-8 p-0"
+        variant="secondary"
+        className="absolute top-2 right-2 h-8 w-8 p-0 bg-background/90 hover:bg-background border shadow-md z-10"
         onClick={(e) => {
           e.stopPropagation();
           regenerateMeal(snack.id);
         }}
         disabled={regeneratingMeals.has(snack.id)}
       >
-        <RefreshCw className={`h-3 w-3 ${regeneratingMeals.has(snack.id) ? 'animate-spin' : ''}`} />
+        <RefreshCw className={`h-4 w-4 ${regeneratingMeals.has(snack.id) ? 'animate-spin' : ''}`} />
       </Button>
     </Card>
   );
