@@ -39,6 +39,11 @@ export const useGroceryList = (mealPlanId: string | null) => {
               // Clean up the ingredient string
               const cleanIngredient = ingredient.trim().toLowerCase();
               
+              // Skip water - don't add it to grocery list
+              if (cleanIngredient === 'water' || cleanIngredient.includes('water') && cleanIngredient.split(' ').length === 1) {
+                return;
+              }
+              
               // Extract the base ingredient name (remove quantities and measurements)
               const baseIngredient = extractBaseIngredient(cleanIngredient);
               
