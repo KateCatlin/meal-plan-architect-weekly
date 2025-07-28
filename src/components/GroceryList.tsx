@@ -111,12 +111,12 @@ export function GroceryList({ mealPlanId, mealPlanName }: GroceryListProps) {
         categories.produce.push(item);
       } else if (ingredient.includes('chicken') || ingredient.includes('beef') ||
                 ingredient.includes('fish') || ingredient.includes('salmon') ||
-                ingredient.includes('turkey') || ingredient.includes('egg') ||
-                ingredient.includes('tofu') || ingredient.includes('lentil')) {
+                ingredient.includes('turkey') || ingredient.includes('tofu') || 
+                ingredient.includes('lentil')) {
         categories.protein.push(item);
       } else if (ingredient.includes('milk') || ingredient.includes('cheese') ||
                 ingredient.includes('yogurt') || ingredient.includes('butter') ||
-                ingredient.includes('cream')) {
+                ingredient.includes('cream') || ingredient.includes('egg')) {
         categories.dairy.push(item);
       } else if (ingredient.includes('rice') || ingredient.includes('pasta') ||
                 ingredient.includes('bread') || ingredient.includes('quinoa') ||
