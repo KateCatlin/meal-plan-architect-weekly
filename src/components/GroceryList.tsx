@@ -133,6 +133,17 @@ export function GroceryList({ mealPlanId, mealPlanName }: GroceryListProps) {
       }
     });
 
+    // Sort each category alphabetically by ingredient name (ignoring measurements)
+    Object.keys(categories).forEach(categoryKey => {
+      const category = categories[categoryKey as keyof typeof categories];
+      category.sort((a, b) => {
+        // Extract base ingredient name for sorting (remove measurements)
+        const aBase = a.ingredient.toLowerCase().replace(/^\d+(\.\d+)?\s*(cups?|tbsp|tablespoons?|tsp|teaspoons?|oz|ounces?|lbs?|pounds?|g|grams?|kg|kilograms?|ml|l|liters?|small|medium|large)\s+/i, '').trim();
+        const bBase = b.ingredient.toLowerCase().replace(/^\d+(\.\d+)?\s*(cups?|tbsp|tablespoons?|tsp|teaspoons?|oz|ounces?|lbs?|pounds?|g|grams?|kg|kilograms?|ml|l|liters?|small|medium|large)\s+/i, '').trim();
+        return aBase.localeCompare(bBase);
+      });
+    });
+
     return categories;
   };
 
