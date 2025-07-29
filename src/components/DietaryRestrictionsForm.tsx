@@ -29,7 +29,7 @@ export function DietaryRestrictionsForm({ onSubmit }: { onSubmit: (data: Dietary
   const [themes, setThemes] = useState<string[]>([]);
   const [customAllergy, setCustomAllergy] = useState("");
   const [customTheme, setCustomTheme] = useState("");
-  const [calories, setCalories] = useState([2000]);
+  const [calories, setCalories] = useState([1800, 2200]);
   const [protein, setProtein] = useState([150]);
   const [fiber, setFiber] = useState([25]);
   const [customMealRequirements, setCustomMealRequirements] = useState("");
@@ -329,11 +329,29 @@ export function DietaryRestrictionsForm({ onSubmit }: { onSubmit: (data: Dietary
         <CardContent className="space-y-6">
           <div className="grid gap-6 md:grid-cols-3">
             <div className="space-y-3">
-              <Label className="text-sm font-medium">Daily Calories</Label>
+              <Label className="text-sm font-medium">Daily Calorie Range</Label>
               <div className="px-2">
                 <Slider
                   value={calories}
-                  onValueChange={setCalories}
+                  onValueChange={(value) => {
+                    // Ensure minimum 100-calorie gap between min and max
+                    if (value.length === 2 && value[1] - value[0] >= 100) {
+                      setCalories(value);
+                    } else if (value.length === 2 && value[1] - value[0] < 100) {
+                      // Adjust the range to maintain minimum gap
+                      const [min, max] = value;
+                      if (max - min < 100) {
+                        const newMax = min + 100;
+                        if (newMax <= 4000) {
+                          setCalories([min, newMax]);
+                        } else {
+                          setCalories([max - 100, max]);
+                        }
+                      }
+                    } else {
+                      setCalories(value);
+                    }
+                  }}
                   max={4000}
                   min={1200}
                   step={100}
@@ -341,7 +359,7 @@ export function DietaryRestrictionsForm({ onSubmit }: { onSubmit: (data: Dietary
                 />
               </div>
               <div className="text-center">
-                <span className="text-2xl font-bold text-primary">{calories[0]}</span>
+                <span className="text-2xl font-bold text-primary">{calories[0]} - {calories[1]}</span>
                 <span className="text-sm text-muted-foreground ml-1">calories</span>
               </div>
             </div>
