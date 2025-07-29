@@ -13,11 +13,11 @@ import { saveDietaryRestrictions, loadDietaryRestrictions, DietaryRestrictions }
 import { supabase } from "@/integrations/supabase/client";
 
 const commonAllergies = [
-  "Gluten", "Dairy", "Nuts", "Shellfish", "Eggs", "Soy", "Fish", "Sesame"
+  "Dairy", "Eggs", "Fish", "Gluten", "Nuts", "Sesame", "Shellfish", "Soy"
 ];
 
 const dietaryThemes = [
-  "Low FODMAP", "No FODMAP", "Low Histamine", "No Histamine", "Keto", "Paleo", "Vegetarian", "Vegan", "Mediterranean", "Low Sodium", "Autoimmune Protocol (AIP)", "Whole30"
+  "Autoimmune Protocol (AIP)", "Keto", "Low FODMAP", "Low Histamine", "Low Sodium", "Mediterranean", "No FODMAP", "No Histamine", "Paleo", "Vegan", "Vegetarian", "Whole30"
 ];
 
 export function DietaryRestrictionsForm({ onSubmit }: { onSubmit: (data: DietaryRestrictions) => void }) {
