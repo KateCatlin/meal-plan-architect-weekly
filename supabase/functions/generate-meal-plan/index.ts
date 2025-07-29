@@ -89,6 +89,10 @@ serve(async (req) => {
     const dietaryThemes = restrictions.filter((r: any) => r.restriction_type === 'diet')
       .map((r: any) => r.restriction_name);
     const customRequirements = restrictions.find((r: any) => r.restriction_type === 'custom_requirement')?.restriction_name || '';
+    
+    // Get cooking frequency preferences
+    const breakfastCookingFreq = parseInt(restrictions.find((r: any) => r.restriction_type === 'breakfast_cooking_frequency')?.restriction_name) || 7;
+    const lunchDinnerCookingFreq = parseInt(restrictions.find((r: any) => r.restriction_type === 'lunch_dinner_cooking_frequency')?.restriction_name) || 14;
 
     // Add hardcoded low-FODMAP restrictions if applicable
     const lowFodmapIngredients = [
@@ -139,6 +143,17 @@ serve(async (req) => {
     const histamineRestriction = isNoHistamine ? `\n- STRICTLY AVOID these histamine ingredients: ${lowHistamineIngredients.join(', ')}` 
       : isLowHistamine ? `\n- Use only SMALL AMOUNTS of these histamine ingredients (max 1-2 tablespoons per meal): ${lowHistamineIngredients.join(', ')}` : '';
 
+    // Build cooking frequency instructions
+    const breakfastInstructions = breakfastCookingFreq === 7 
+      ? "Create 7 different breakfast meals, one for each day."
+      : `Create only ${breakfastCookingFreq} different breakfast meal types. Repeat these meals across the week so that consecutive days have the same breakfast until all ${breakfastCookingFreq} types are used.`;
+    
+    const lunchDinnerInstructions = lunchDinnerCookingFreq === 14
+      ? "Create unique lunch and dinner meals for each day (14 total different meals)."
+      : lunchDinnerCookingFreq === 7
+      ? "Create 7 different meal types. For each day, use the SAME meal type for both lunch AND dinner (same meal_name, ingredients, instructions for both lunch and dinner on the same day)."
+      : `Create only ${lunchDinnerCookingFreq} different meal types for lunch and dinner. Each meal type should be used for both lunch AND dinner on consecutive days until all ${lunchDinnerCookingFreq} types are used across the week.`;
+
     const prompt = `
 Generate a complete 7-day meal plan with the following requirements:
 
@@ -152,12 +167,16 @@ NUTRITIONAL GOALS:
 - Daily protein: ${goals?.protein_goal || 150}g
 - Daily fiber: ${goals?.fiber_goal || 25}g
 
+COOKING FREQUENCY REQUIREMENTS:
+- BREAKFAST: ${breakfastInstructions}
+- LUNCH & DINNER: ${lunchDinnerInstructions}
+
 REQUIREMENTS:
 1. Create 3 meals per day (breakfast, lunch, dinner) for 7 days (21 total meals)
-2. Each meal should include realistic nutrition estimates
-3. Provide detailed ingredient lists for each meal
-4. Include clear cooking instructions
-5. Ensure meals are varied and interesting
+2. STRICTLY follow the cooking frequency requirements above
+3. Each meal should include realistic nutrition estimates
+4. Provide detailed ingredient lists for each meal
+5. Include clear cooking instructions
 6. Make sure all meals respect the dietary restrictions
 7. Aim to meet the nutritional goals across the day
 
