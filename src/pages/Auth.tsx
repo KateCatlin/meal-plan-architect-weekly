@@ -64,10 +64,20 @@ export default function Auth() {
           throw error;
         }
       } else {
-        toast({
-          title: "Check your email",
-          description: "We've sent you a confirmation link to complete your registration.",
-        });
+        // Check if user was automatically signed in (email confirmation disabled)
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session) {
+          toast({
+            title: "Account created!",
+            description: "You've been signed up and logged in successfully.",
+          });
+          window.location.href = '/';
+        } else {
+          toast({
+            title: "Check your email",
+            description: "We've sent you a confirmation link to complete your registration.",
+          });
+        }
       }
     } catch (error: any) {
       toast({
