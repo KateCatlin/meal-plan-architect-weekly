@@ -138,6 +138,7 @@ serve(async (req) => {
     const isLowHistamine = dietaryThemes.some(theme => theme.toLowerCase().replace(/\s/g, '').includes('lowhistamine'));
     const isNoHistamine = dietaryThemes.some(theme => theme.toLowerCase().replace(/\s/g, '').includes('nohistamine'));
     const isAIP = dietaryThemes.some(theme => theme.toLowerCase().includes('autoimmune protocol') || theme.toLowerCase().includes('aip'));
+    const isWhole30 = dietaryThemes.some(theme => theme.toLowerCase().includes('whole30'));
     
     const aipForbiddenFoods = [
       'amaranth', 'barley', 'buckwheat', 'bulgur', 'corn', 'farro', 'kamut', 'millet', 'oats', 'oatmeal', 'quinoa', 'rice', 'rye', 'sorghum', 'spelt', 'teff', 'wheat',
@@ -149,11 +150,25 @@ serve(async (req) => {
       'alcohol'
     ];
 
+    const whole30ForbiddenFoods = [
+      'sugar', 'brown sugar', 'cane sugar', 'coconut sugar', 'agave nectar', 'date syrup', 'high-fructose corn syrup', 'honey', 'maple syrup', 'molasses', 'monk fruit extract', 'stevia', 'truvia', 'saccharin', 'sweet n low', 'sucralose', 'splenda', 'aspartame', 'equal', 'nutrasweet', 'erythritol', 'xylitol',
+      'alcohol',
+      'wheat', 'rye', 'barley', 'triticale', 'oats', 'corn', 'rice', 'millet', 'bulgur', 'sorghum', 'sprouted grains', 'quinoa', 'amaranth', 'buckwheat', 'bran', 'germ', 'starch',
+      'beans', 'black beans', 'red beans', 'pinto beans', 'navy beans', 'garbanzo', 'chickpeas', 'white beans', 'kidney beans', 'lima beans', 'fava beans', 'cannellini', 'lentils', 'adzuki', 'mung beans', 'cranberry beans', 'black-eyed peas', 'peanuts', 'peanut butter', 'soy', 'soy sauce', 'miso', 'tofu', 'tempeh', 'edamame', 'soy protein', 'soy milk', 'soy lecithin',
+      'milk', 'cheese', 'sour cream', 'yogurt', 'cream', 'cottage cheese', 'kefir', 'ice cream', 'frozen yogurt',
+      'bread', 'tortillas', 'wraps', 'crackers', 'pizza crust', 'pie crust', 'biscuits', 'pancakes', 'crepes', 'waffles', 'muffins', 'cupcakes', 'cookies', 'brownies', 'pasta', 'noodles', 'cereal', 'chips', 'potato chips', 'sweet potato chips', 'tortilla chips', 'plantain chips', 'taro chips', 'cassava chips', 'french fries', 'tots'
+    ];
+
+    const whole30AllowedExceptions = [
+      'fruit juice', 'green beans', 'sugar snap peas', 'snow peas', 'green peas', 'yellow peas', 'split peas', 'ghee', 'clarified butter', 'coconut aminos', 'vanilla extract', 'lemon extract', 'lavender extract', 'champagne vinegar', 'red wine vinegar', 'sherry vinegar', 'white wine vinegar', 'rice vinegar', 'iodized salt'
+    ];
+
     const fodmapRestriction = isNoFodmap ? `\n- STRICTLY AVOID these FODMAP ingredients: ${lowFodmapIngredients.join(', ')}` 
       : isLowFodmap ? `\n- Use only SMALL AMOUNTS of these FODMAP ingredients (max 1-2 tablespoons per meal): ${lowFodmapIngredients.join(', ')}` : '';
     const histamineRestriction = isNoHistamine ? `\n- STRICTLY AVOID these histamine ingredients: ${lowHistamineIngredients.join(', ')}` 
       : isLowHistamine ? `\n- Use only SMALL AMOUNTS of these histamine ingredients (max 1-2 tablespoons per meal): ${lowHistamineIngredients.join(', ')}` : '';
     const aipRestriction = isAIP ? `\n- STRICTLY AVOID ALL AIP forbidden ingredients: ${aipForbiddenFoods.join(', ')}` : '';
+    const whole30Restriction = isWhole30 ? `\n- STRICTLY AVOID ALL Whole30 forbidden ingredients: ${whole30ForbiddenFoods.join(', ')}. HOWEVER, these Whole30 exceptions ARE allowed: ${whole30AllowedExceptions.join(', ')}` : '';
 
     // Build cooking frequency instructions
     const breakfastInstructions = breakfastCookingFreq === 7 
@@ -171,7 +186,7 @@ Generate a complete 7-day meal plan with the following requirements:
 
 DIETARY RESTRICTIONS:
 - Allergies to avoid: ${allergies.length > 0 ? allergies.join(', ') : 'None'}
-- Dietary themes to follow: ${dietaryThemes.length > 0 ? dietaryThemes.join(', ') : 'None'}${fodmapRestriction}${histamineRestriction}${aipRestriction}
+- Dietary themes to follow: ${dietaryThemes.length > 0 ? dietaryThemes.join(', ') : 'None'}${fodmapRestriction}${histamineRestriction}${aipRestriction}${whole30Restriction}
 ${customRequirements ? `\nCUSTOM MEAL REQUIREMENTS:\n- ${customRequirements}` : ''}
 
 NUTRITIONAL GOALS:
