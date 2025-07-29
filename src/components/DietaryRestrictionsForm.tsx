@@ -355,6 +355,7 @@ export function DietaryRestrictionsForm({ onSubmit }: { onSubmit: (data: Dietary
                   max={4000}
                   min={1200}
                   step={100}
+                  minStepsBetweenThumbs={1}
                   className="w-full"
                 />
               </div>
