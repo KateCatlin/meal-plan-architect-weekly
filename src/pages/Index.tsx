@@ -8,7 +8,6 @@ import { ChefHat, Heart, Target, Clock, Users, Star, User, LogOut } from "lucide
 import { useAuth } from "@/hooks/useAuth";
 import { loadDietaryRestrictions } from "@/services/dietaryService";
 import heroImage from "@/assets/hero-nutrition.jpg";
-
 interface DietaryRestrictions {
   allergies: string[];
   dietaryThemes: string[];
@@ -16,27 +15,27 @@ interface DietaryRestrictions {
   protein: number[];
   fiber: number[];
 }
-
 const Index = () => {
   const [currentStep, setCurrentStep] = useState<'welcome' | 'form' | 'plan'>('welcome');
   const [userPreferences, setUserPreferences] = useState<DietaryRestrictions | null>(null);
-  const { user, loading, signOut } = useAuth();
+  const {
+    user,
+    loading,
+    signOut
+  } = useAuth();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-
   useEffect(() => {
     // Redirect to auth if not logged in
     if (!loading && !user) {
       navigate('/auth');
     }
   }, [user, loading, navigate]);
-
   useEffect(() => {
     // Check if we should show the meal plan view based on URL params
     const view = searchParams.get('view');
     const week = searchParams.get('week');
     const planId = searchParams.get('planId');
-    
     if (view === 'plan' && user?.id) {
       // Load existing preferences when going directly to plan view
       const loadPreferences = async () => {
@@ -52,75 +51,55 @@ const Index = () => {
       loadPreferences();
     }
   }, [searchParams, user]);
-
   const handlePreferencesSubmit = (data: DietaryRestrictions) => {
     setUserPreferences(data);
     setCurrentStep('plan');
     // Update URL to reflect the plan view
-    navigate('/?view=plan', { replace: true });
+    navigate('/?view=plan', {
+      replace: true
+    });
   };
-
   if (loading) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
+    return <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
           <ChefHat className="h-12 w-12 text-primary mx-auto mb-4 animate-spin" />
           <p className="text-muted-foreground">Loading...</p>
         </div>
-      </div>
-    );
+      </div>;
   }
-
-  const features = [
-    {
-      icon: <Heart className="h-8 w-8 text-primary" />,
-      title: "Personalized Nutrition",
-      description: "Tailored meal plans based on your specific dietary restrictions and health goals"
-    },
-    {
-      icon: <Target className="h-8 w-8 text-primary" />,
-      title: "Goal-Oriented Planning",
-      description: "Hit your calorie, protein, and fiber targets with precision-crafted meals"
-    },
-    {
-      icon: <Clock className="h-8 w-8 text-primary" />,
-      title: "Time-Efficient",
-      description: "Quick meal prep solutions that fit your busy lifestyle"
-    },
-    {
-      icon: <Users className="h-8 w-8 text-primary" />,
-      title: "Family-Friendly",
-      description: "Accommodate multiple dietary needs in one convenient meal plan"
-    }
-  ];
-
+  const features = [{
+    icon: <Heart className="h-8 w-8 text-primary" />,
+    title: "Personalized Nutrition",
+    description: "Tailored meal plans based on your specific dietary restrictions and health goals"
+  }, {
+    icon: <Target className="h-8 w-8 text-primary" />,
+    title: "Goal-Oriented Planning",
+    description: "Hit your calorie, protein, and fiber targets with precision-crafted meals"
+  }, {
+    icon: <Clock className="h-8 w-8 text-primary" />,
+    title: "Time-Efficient",
+    description: "Quick meal prep solutions that fit your busy lifestyle"
+  }, {
+    icon: <Users className="h-8 w-8 text-primary" />,
+    title: "Family-Friendly",
+    description: "Accommodate multiple dietary needs in one convenient meal plan"
+  }];
   if (currentStep === 'form') {
-    return (
-      <div className="min-h-screen bg-background py-12 px-4">
+    return <div className="min-h-screen bg-background py-12 px-4">
         <DietaryRestrictionsForm onSubmit={handlePreferencesSubmit} />
-      </div>
-    );
+      </div>;
   }
-
   if (currentStep === 'plan' && userPreferences) {
-    return (
-      <div className="min-h-screen bg-background py-12 px-4">
+    return <div className="min-h-screen bg-background py-12 px-4">
         <MealPlan restrictions={userPreferences} />
         <div className="text-center mt-12">
-          <Button 
-            variant="outline" 
-            onClick={() => setCurrentStep('form')}
-            size="lg"
-          >
+          <Button variant="outline" onClick={() => setCurrentStep('form')} size="lg">
             Adjust Preferences
           </Button>
         </div>
-      </div>
-    );
+      </div>;
   }
-
-  return (
-    <div className="min-h-screen bg-background">
+  return <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="absolute top-0 left-0 right-0 z-20 p-4">
         <div className="max-w-6xl mx-auto flex justify-between items-center">
@@ -143,15 +122,12 @@ const Index = () => {
 
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <div 
-          className="absolute inset-0 z-0"
-          style={{
-            backgroundImage: `url(${heroImage})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat'
-          }}
-        >
+        <div className="absolute inset-0 z-0" style={{
+        backgroundImage: `url(${heroImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}>
           <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/70 to-background/90"></div>
         </div>
         
@@ -166,19 +142,10 @@ const Index = () => {
               Personalized weekly meal plans that respect your dietary restrictions and help you achieve your nutritional goals
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button 
-                variant="hero" 
-                size="xl" 
-                onClick={() => setCurrentStep('form')}
-                className="text-lg px-8 py-4"
-              >
+              <Button variant="hero" size="xl" onClick={() => setCurrentStep('form')} className="text-lg px-8 py-4">
                 Start Your Meal Plan
               </Button>
-              <Button 
-                variant="outline" 
-                size="xl"
-                className="text-lg px-8 py-4"
-              >
+              <Button variant="outline" size="xl" className="text-lg px-8 py-4">
                 Learn More
               </Button>
             </div>
@@ -199,8 +166,7 @@ const Index = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {features.map((feature, index) => (
-              <Card key={index} className="shadow-soft hover:shadow-medium transition-all duration-300 border-border/50">
+            {features.map((feature, index) => <Card key={index} className="shadow-soft hover:shadow-medium transition-all duration-300 border-border/50">
                 <CardHeader className="text-center">
                   <div className="mx-auto mb-4 p-3 bg-primary/10 rounded-full w-fit">
                     {feature.icon}
@@ -214,8 +180,7 @@ const Index = () => {
                     {feature.description}
                   </CardDescription>
                 </CardContent>
-              </Card>
-            ))}
+              </Card>)}
           </div>
         </div>
       </section>
@@ -260,12 +225,7 @@ const Index = () => {
           </div>
           
           <div className="mt-12">
-            <Button 
-              variant="hero" 
-              size="xl" 
-              onClick={() => setCurrentStep('form')}
-              className="px-12"
-            >
+            <Button variant="hero" size="xl" onClick={() => setCurrentStep('form')} className="px-12">
               Get Started Now
             </Button>
           </div>
@@ -283,28 +243,20 @@ const Index = () => {
             <Card className="shadow-soft border-border/50">
               <CardContent className="pt-6">
                 <div className="flex justify-center mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="h-5 w-5 text-warning fill-current" />
-                  ))}
+                  {[...Array(5)].map((_, i) => <Star key={i} className="h-5 w-5 text-warning fill-current" />)}
                 </div>
-                <p className="text-muted-foreground mb-4 italic">
-                  "Finally, a meal planner that understands my low FODMAP needs! The recipes are delicious and my digestive issues have improved significantly."
-                </p>
-                <p className="font-semibold text-foreground">Sarah M.</p>
+                <p className="text-muted-foreground mb-4 italic">&quot;I don't have time or interest in learning how to cook - but I do want to eat food that makes me feel good! This app feels like it was built by me!&quot; </p>
+                <p className="font-semibold text-foreground">Kate C.</p>
               </CardContent>
             </Card>
             
             <Card className="shadow-soft border-border/50">
               <CardContent className="pt-6">
                 <div className="flex justify-center mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="h-5 w-5 text-warning fill-current" />
-                  ))}
+                  {[...Array(5)].map((_, i) => <Star key={i} className="h-5 w-5 text-warning fill-current" />)}
                 </div>
-                <p className="text-muted-foreground mb-4 italic">
-                  "As someone with multiple food allergies, this app has been a game-changer. I can finally meal plan with confidence!"
-                </p>
-                <p className="font-semibold text-foreground">Marcus L.</p>
+                <p className="text-muted-foreground mb-4 italic">&quot;It's hard finding recipes for my vegetarian lifestyle and my partner's low histamine needs. This will save me a lot of time.&quot;</p>
+                <p className="font-semibold text-foreground">John C. </p>
               </CardContent>
             </Card>
           </div>
@@ -320,18 +272,11 @@ const Index = () => {
           <p className="text-xl mb-8 opacity-90">
             Join thousands who have improved their health with personalized meal planning
           </p>
-          <Button 
-            variant="secondary" 
-            size="xl" 
-            onClick={() => setCurrentStep('form')}
-            className="px-12 text-lg"
-          >
+          <Button variant="secondary" size="xl" onClick={() => setCurrentStep('form')} className="px-12 text-lg">
             Create My Meal Plan
           </Button>
         </div>
       </section>
-    </div>
-  );
+    </div>;
 };
-
 export default Index;
