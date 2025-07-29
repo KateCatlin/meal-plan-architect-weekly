@@ -199,13 +199,24 @@ COOKING FREQUENCY REQUIREMENTS:
 - LUNCH & DINNER: ${lunchDinnerInstructions}
 
 REQUIREMENTS:
-1. Create 3 meals per day (breakfast, lunch, dinner) for 7 days (21 total meals)
-2. STRICTLY follow the cooking frequency requirements above
-3. Each meal should include realistic nutrition estimates
-4. Provide detailed ingredient lists for each meal
-5. Include clear cooking instructions
-6. Make sure all meals respect the dietary restrictions
-7. Aim to meet the nutritional goals across the day
+1. STRICTLY follow the cooking frequency requirements above - this is CRITICAL
+2. Each meal should include realistic nutrition estimates
+3. Provide detailed ingredient lists for each meal
+4. Include clear cooking instructions
+5. Make sure all meals respect the dietary restrictions
+6. Aim to meet the nutritional goals across the day
+
+IMPORTANT CLARIFICATION FOR COOKING FREQUENCY:
+${lunchDinnerCookingFreq === 7 ? 
+`- You must create exactly 7 different meal types for lunch/dinner
+- Each day (Monday through Sunday) should have the SAME meal for lunch AND dinner
+- For example: Day 1 lunch = "Grilled Chicken Salad", Day 1 dinner = "Grilled Chicken Salad" (same meal_name, ingredients, instructions)
+- This creates 7 different meal types total, each used twice per day (once for lunch, once for dinner)
+- Total meals to generate: 7 breakfasts + 7 lunches + 7 dinners = 21 meals, but only 14 unique meal types (7 breakfast types + 7 lunch/dinner types)` 
+: 
+`- You must create exactly ${lunchDinnerCookingFreq} different meal types for lunch and dinner combined
+- These ${lunchDinnerCookingFreq} meal types should be distributed across the week for both lunch and dinner
+- Each meal type should be used for consecutive meals until all ${lunchDinnerCookingFreq} types are used`}
 
 Please respond with a JSON object in this exact format:
 {
@@ -224,7 +235,7 @@ Please respond with a JSON object in this exact format:
   ]
 }
 
-Generate all 21 meals (3 meals × 7 days). Day 1 = Monday, Day 7 = Sunday.
+Generate meals for all 7 days, following the cooking frequency requirements exactly.
 `;
 
     console.log('Sending request to OpenAI...');
