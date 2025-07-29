@@ -1,6 +1,7 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.7.1';
+import { ensureNutritionalGoals } from '../shared/optimize-helpers.ts';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -204,7 +205,9 @@ REQUIREMENTS:
 3. Provide detailed ingredient lists for each meal
 4. Include clear cooking instructions
 5. Make sure all meals respect the dietary restrictions
-6. Aim to meet the nutritional goals across the day
+6. CRITICAL: Ensure the daily total of protein reaches AT LEAST ${goals?.protein_goal || 150}g
+7. CRITICAL: Ensure the daily total of fiber reaches AT LEAST ${goals?.fiber_goal || 25}g
+8. Balance macronutrients appropriately within the calorie range
 
 IMPORTANT CLARIFICATION FOR COOKING FREQUENCY:
 ${lunchDinnerCookingFreq === 7 ? 
@@ -341,13 +344,45 @@ Generate meals for all 7 days, following the cooking frequency requirements exac
 
     console.log('Successfully saved', mealsToInsert.length, 'meals');
 
-    return new Response(JSON.stringify({
-      success: true,
-      mealPlan: mealPlan,
-      mealsCount: mealsToInsert.length
-    }), {
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-    });
+    // Auto-optimize to ensure nutritional goals are met
+    console.log('Auto-optimizing meal plan to ensure nutritional goals are met...');
+    try {
+      const optimizationResult = await ensureNutritionalGoals({
+        supabase,
+        openAIApiKey,
+        mealPlanId: mealPlan.id,
+        userId,
+        goals,
+        restrictions,
+        maxIterations: 3
+      });
+
+      console.log('Auto-optimization result:', optimizationResult);
+
+      return new Response(JSON.stringify({
+        success: true,
+        mealPlan: mealPlan,
+        mealsCount: mealsToInsert.length,
+        optimization: optimizationResult
+      }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    } catch (optimizationError) {
+      console.warn('Auto-optimization failed, but meal plan was created:', optimizationError);
+      // Still return success for the meal plan creation, but note optimization failure
+      return new Response(JSON.stringify({
+        success: true,
+        mealPlan: mealPlan,
+        mealsCount: mealsToInsert.length,
+        optimization: {
+          success: false,
+          message: 'Auto-optimization failed, but meal plan was created. You can manually optimize later.',
+          error: optimizationError.message
+        }
+      }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
 
   } catch (error) {
     console.error('Error in generate-meal-plan function:', error);
