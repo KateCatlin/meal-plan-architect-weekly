@@ -20,6 +20,7 @@ interface DietaryRestrictions {
 const Index = () => {
   const [currentStep, setCurrentStep] = useState<'welcome' | 'form' | 'plan'>('welcome');
   const [userPreferences, setUserPreferences] = useState<DietaryRestrictions | null>(null);
+  const [hasExistingPreferences, setHasExistingPreferences] = useState<boolean>(false);
   const { user, loading, signOut } = useAuth();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -30,6 +31,25 @@ const Index = () => {
       navigate('/auth');
     }
   }, [user, loading, navigate]);
+
+  useEffect(() => {
+    // Check for existing preferences when user is available
+    const checkExistingPreferences = async () => {
+      if (user?.id) {
+        try {
+          await loadDietaryRestrictions(user.id);
+          setHasExistingPreferences(true);
+        } catch (error) {
+          console.log('No existing preferences found:', error);
+          setHasExistingPreferences(false);
+        }
+      }
+    };
+
+    if (user?.id && !loading) {
+      checkExistingPreferences();
+    }
+  }, [user, loading]);
 
   useEffect(() => {
     // Check if we should show the meal plan view based on URL params
@@ -174,13 +194,24 @@ const Index = () => {
               >
                 Start Your Meal Plan
               </Button>
-              <Button 
-                variant="outline" 
-                size="xl"
-                className="text-lg px-8 py-4"
-              >
-                Learn More
-              </Button>
+              {hasExistingPreferences ? (
+                <Button 
+                  variant="outline" 
+                  size="xl"
+                  onClick={() => navigate('/?view=plan')}
+                  className="text-lg px-8 py-4"
+                >
+                  Return to Your Current Plan
+                </Button>
+              ) : (
+                <Button 
+                  variant="outline" 
+                  size="xl"
+                  className="text-lg px-8 py-4"
+                >
+                  Learn More
+                </Button>
+              )}
             </div>
           </div>
         </div>
