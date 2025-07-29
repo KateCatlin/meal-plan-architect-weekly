@@ -395,16 +395,6 @@ export function MealPlan({ restrictions }: MealPlanProps) {
                </DialogContent>
              </Dialog>
 
-             <Button 
-               onClick={optimizeMealPlan}
-               disabled={optimizing}
-               variant="outline" 
-               size="sm"
-               className="hover-scale"
-             >
-               <Target className="h-4 w-4 mr-2" />
-               {optimizing ? 'Optimizing...' : 'Optimize Goals'}
-             </Button>
              
              <Button 
                onClick={() => navigate('/history')} 
