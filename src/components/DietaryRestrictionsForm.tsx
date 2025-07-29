@@ -171,9 +171,21 @@ export function DietaryRestrictionsForm({ onSubmit }: { onSubmit: (data: Dietary
       console.log('Meal plan generated successfully:', mealPlanResult);
       
       onSubmit(data);
+      
+      // Create a comprehensive success message
+      let description = `Your personalized meal plan with ${mealPlanResult.mealsCount} meals has been created successfully.`;
+      
+      if (mealPlanResult.optimization) {
+        if (mealPlanResult.optimization.success) {
+          description += ` All protein and fiber goals are guaranteed to be met!`;
+        } else if (mealPlanResult.optimization.iterations > 0) {
+          description += ` Optimization was applied to better meet your nutritional goals.`;
+        }
+      }
+      
       toast({
         title: "Meal Plan Generated!",
-        description: `Your personalized meal plan with ${mealPlanResult.mealsCount} meals has been created successfully.`,
+        description,
       });
     } catch (error) {
       console.error('Error generating meal plan:', error);

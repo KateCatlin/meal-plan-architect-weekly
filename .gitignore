@@ -12,6 +12,10 @@ dist
 dist-ssr
 *.local
 
+# Test files in supabase functions
+supabase/functions/test-*.ts
+supabase/functions/*test*.ts
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

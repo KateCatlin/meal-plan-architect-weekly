@@ -190,10 +190,10 @@ DIETARY RESTRICTIONS:
 - Dietary themes to follow: ${dietaryThemes.length > 0 ? dietaryThemes.join(', ') : 'None'}${fodmapRestriction}${histamineRestriction}${aipRestriction}${whole30Restriction}
 ${customRequirements ? `\nCUSTOM MEAL REQUIREMENTS:\n- ${customRequirements}` : ''}
 
-NUTRITIONAL GOALS:
+NUTRITIONAL GOALS (MUST BE MET):
 - Daily calories: ${goals?.calorie_min || 1800}-${goals?.calorie_max || 2200}
-- Daily protein: ${goals?.protein_goal || 150}g
-- Daily fiber: ${goals?.fiber_goal || 25}g
+- Daily protein: MINIMUM ${goals?.protein_goal || 150}g (this is mandatory)
+- Daily fiber: MINIMUM ${goals?.fiber_goal || 25}g (this is mandatory)
 
 COOKING FREQUENCY REQUIREMENTS:
 - BREAKFAST: ${breakfastInstructions}
