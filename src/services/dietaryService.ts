@@ -8,6 +8,8 @@ export interface DietaryRestrictions {
   protein: number[];
   fiber: number[];
   customMealRequirements?: string;
+  breakfastCookingFrequency: number[];
+  lunchDinnerCookingFrequency: number[];
 }
 
 export interface SavedDietaryData {
@@ -62,7 +64,21 @@ export const saveDietaryRestrictions = async (userId: string, data: DietaryRestr
     restriction_name: data.customMealRequirements
   }] : [];
 
-  const allRestrictions = [...allergyInserts, ...themeInserts, ...customRequirementsInserts];
+  // Save cooking frequency preferences
+  const cookingFrequencyInserts = [
+    {
+      user_id: userId,
+      restriction_type: 'breakfast_cooking_frequency',
+      restriction_name: data.breakfastCookingFrequency[0].toString()
+    },
+    {
+      user_id: userId,
+      restriction_type: 'lunch_dinner_cooking_frequency',
+      restriction_name: data.lunchDinnerCookingFrequency[0].toString()
+    }
+  ];
+
+  const allRestrictions = [...allergyInserts, ...themeInserts, ...customRequirementsInserts, ...cookingFrequencyInserts];
 
   if (allRestrictions.length > 0) {
     const { error: restrictionsError } = await supabase
@@ -135,13 +151,23 @@ export const loadDietaryRestrictions = async (userId: string): Promise<DietaryRe
     ?.find(r => r.restriction_type === 'custom_requirement')
     ?.restriction_name || '';
 
+  const breakfastCookingFrequency = restrictions
+    ?.find(r => r.restriction_type === 'breakfast_cooking_frequency')
+    ?.restriction_name ? [parseInt(restrictions.find(r => r.restriction_type === 'breakfast_cooking_frequency')!.restriction_name)] : [7];
+
+  const lunchDinnerCookingFrequency = restrictions
+    ?.find(r => r.restriction_type === 'lunch_dinner_cooking_frequency')
+    ?.restriction_name ? [parseInt(restrictions.find(r => r.restriction_type === 'lunch_dinner_cooking_frequency')!.restriction_name)] : [14];
+
   const result: DietaryRestrictions = {
     allergies,
     dietaryThemes,
     calories: goals?.calorie_max ? [Math.round((goals.calorie_min! + goals.calorie_max) / 2)] : [2000],
     protein: goals?.protein_goal ? [goals.protein_goal] : [150],
     fiber: goals?.fiber_goal ? [goals.fiber_goal] : [25],
-    customMealRequirements
+    customMealRequirements,
+    breakfastCookingFrequency,
+    lunchDinnerCookingFrequency
   };
 
   console.log('Loaded dietary restrictions:', result);

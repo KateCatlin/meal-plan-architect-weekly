@@ -33,6 +33,8 @@ export function DietaryRestrictionsForm({ onSubmit }: { onSubmit: (data: Dietary
   const [protein, setProtein] = useState([150]);
   const [fiber, setFiber] = useState([25]);
   const [customMealRequirements, setCustomMealRequirements] = useState("");
+  const [breakfastCookingFrequency, setBreakfastCookingFrequency] = useState([7]);
+  const [lunchDinnerCookingFrequency, setLunchDinnerCookingFrequency] = useState([14]);
 
   // Load existing preferences on component mount
   useEffect(() => {
@@ -62,6 +64,8 @@ export function DietaryRestrictionsForm({ onSubmit }: { onSubmit: (data: Dietary
         setProtein(existingData.protein);
         setFiber(existingData.fiber);
         setCustomMealRequirements(existingData.customMealRequirements || "");
+        setBreakfastCookingFrequency(existingData.breakfastCookingFrequency);
+        setLunchDinnerCookingFrequency(existingData.lunchDinnerCookingFrequency);
       } catch (error) {
         console.log('No existing data found or error loading:', error);
         // Don't show error toast for first-time users
@@ -130,7 +134,9 @@ export function DietaryRestrictionsForm({ onSubmit }: { onSubmit: (data: Dietary
         calories,
         protein,
         fiber,
-        customMealRequirements
+        customMealRequirements,
+        breakfastCookingFrequency,
+        lunchDinnerCookingFrequency
       };
 
       await saveDietaryRestrictions(user.id, data);
@@ -189,7 +195,9 @@ export function DietaryRestrictionsForm({ onSubmit }: { onSubmit: (data: Dietary
       calories,
       protein,
       fiber,
-      customMealRequirements
+      customMealRequirements,
+      breakfastCookingFrequency,
+      lunchDinnerCookingFrequency
     };
     onSubmit(existingData);
   };
@@ -360,6 +368,64 @@ export function DietaryRestrictionsForm({ onSubmit }: { onSubmit: (data: Dietary
                 <span className="text-2xl font-bold text-primary">{fiber[0]}</span>
                 <span className="text-sm text-muted-foreground ml-1">grams</span>
               </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Cooking Frequency Section */}
+      <Card className="shadow-soft border-border/50">
+        <CardHeader>
+          <CardTitle className="text-foreground">Cooking Frequency</CardTitle>
+          <CardDescription>Control how often you want to cook to minimize leftovers or meal repetition</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <div className="grid gap-6 md:grid-cols-2">
+            <div className="space-y-3">
+              <Label className="text-sm font-medium">Breakfast Cooking Days per Week</Label>
+              <div className="px-2">
+                <Slider
+                  value={breakfastCookingFrequency}
+                  onValueChange={setBreakfastCookingFrequency}
+                  max={7}
+                  min={2}
+                  step={1}
+                  className="w-full"
+                />
+              </div>
+              <div className="text-center">
+                <span className="text-2xl font-bold text-primary">{breakfastCookingFrequency[0]}</span>
+                <span className="text-sm text-muted-foreground ml-1">different breakfasts</span>
+              </div>
+              <p className="text-xs text-muted-foreground text-center">
+                {breakfastCookingFrequency[0] === 7 ? "A different breakfast every day" : 
+                 breakfastCookingFrequency[0] === 2 ? "2 breakfast types, each eaten multiple days" :
+                 `${breakfastCookingFrequency[0]} breakfast types, distributed throughout the week`}
+              </p>
+            </div>
+
+            <div className="space-y-3">
+              <Label className="text-sm font-medium">Lunch + Dinner Cooking Sessions per Week</Label>
+              <div className="px-2">
+                <Slider
+                  value={lunchDinnerCookingFrequency}
+                  onValueChange={setLunchDinnerCookingFrequency}
+                  max={14}
+                  min={2}
+                  step={1}
+                  className="w-full"
+                />
+              </div>
+              <div className="text-center">
+                <span className="text-2xl font-bold text-primary">{lunchDinnerCookingFrequency[0]}</span>
+                <span className="text-sm text-muted-foreground ml-1">meal types</span>
+              </div>
+              <p className="text-xs text-muted-foreground text-center">
+                {lunchDinnerCookingFrequency[0] === 14 ? "Different lunch and dinner every day" : 
+                 lunchDinnerCookingFrequency[0] === 7 ? "Same meal for lunch & dinner each day, different daily" :
+                 lunchDinnerCookingFrequency[0] === 2 ? "2 meal types, each eaten for multiple days" :
+                 `${lunchDinnerCookingFrequency[0]} meal types, each eaten for consecutive meals`}
+              </p>
             </div>
           </div>
         </CardContent>
