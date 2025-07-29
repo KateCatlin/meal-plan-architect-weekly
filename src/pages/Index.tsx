@@ -106,12 +106,34 @@ const Index = () => {
       </div>;
   }
   if (currentStep === 'plan' && userPreferences) {
-    return <div className="min-h-screen bg-background py-12 px-4">
-        <MealPlan restrictions={userPreferences} />
-        <div className="text-center mt-12">
-          <Button variant="outline" onClick={() => setCurrentStep('form')} size="lg">
-            Adjust Preferences
-          </Button>
+    return <div className="min-h-screen bg-background">
+        {/* Header */}
+        <header className="sticky top-0 z-20 p-4 bg-background/95 backdrop-blur-sm border-b border-border">
+          <div className="max-w-6xl mx-auto flex justify-between items-center">
+            <div className="flex items-center space-x-2">
+              <ChefHat className="h-8 w-8 text-primary" />
+              <span className="text-xl font-bold text-foreground">FeedMe</span>
+            </div>
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+                <User className="h-4 w-4" />
+                <span>{user?.email}</span>
+              </div>
+              <Button variant="ghost" size="sm" onClick={signOut}>
+                <LogOut className="h-4 w-4 mr-2" />
+                Sign Out
+              </Button>
+            </div>
+          </div>
+        </header>
+        
+        <div className="py-12 px-4">
+          <MealPlan restrictions={userPreferences} />
+          <div className="text-center mt-12">
+            <Button variant="outline" onClick={() => setCurrentStep('form')} size="lg">
+              Adjust Preferences
+            </Button>
+          </div>
         </div>
       </div>;
   }
