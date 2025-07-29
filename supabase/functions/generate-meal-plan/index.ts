@@ -137,11 +137,23 @@ serve(async (req) => {
     const isNoFodmap = dietaryThemes.some(theme => theme.toLowerCase().replace(/\s/g, '').includes('nofodmap'));
     const isLowHistamine = dietaryThemes.some(theme => theme.toLowerCase().replace(/\s/g, '').includes('lowhistamine'));
     const isNoHistamine = dietaryThemes.some(theme => theme.toLowerCase().replace(/\s/g, '').includes('nohistamine'));
+    const isAIP = dietaryThemes.some(theme => theme.toLowerCase().includes('autoimmune protocol') || theme.toLowerCase().includes('aip'));
     
+    const aipForbiddenFoods = [
+      'amaranth', 'barley', 'buckwheat', 'bulgur', 'corn', 'farro', 'kamut', 'millet', 'oats', 'oatmeal', 'quinoa', 'rice', 'rye', 'sorghum', 'spelt', 'teff', 'wheat',
+      'eggs',
+      'cayenne', 'chili pepper', 'eggplant', 'goji berry', 'ground cherry', 'habanero', 'jalapeno', 'paprika', 'poblano', 'potato', 'sweet pepper', 'tobacco', 'tomato', 'tomatillo', 'wolf berries',
+      'anise', 'canola', 'caraway', 'chia', 'coriander', 'cumin', 'fennel seed', 'fenugreek', 'mustard', 'nutmeg', 'poppy', 'pumpkin', 'sesame', 'sunflower', 'hemp',
+      'almond', 'brazil nuts', 'coffee', 'cocoa', 'hazelnuts', 'pecan', 'macadamia', 'walnut',
+      'butter', 'cheese', 'cream', 'cream cheese', 'ghee', 'milk', 'yogurt',
+      'alcohol'
+    ];
+
     const fodmapRestriction = isNoFodmap ? `\n- STRICTLY AVOID these FODMAP ingredients: ${lowFodmapIngredients.join(', ')}` 
       : isLowFodmap ? `\n- Use only SMALL AMOUNTS of these FODMAP ingredients (max 1-2 tablespoons per meal): ${lowFodmapIngredients.join(', ')}` : '';
     const histamineRestriction = isNoHistamine ? `\n- STRICTLY AVOID these histamine ingredients: ${lowHistamineIngredients.join(', ')}` 
       : isLowHistamine ? `\n- Use only SMALL AMOUNTS of these histamine ingredients (max 1-2 tablespoons per meal): ${lowHistamineIngredients.join(', ')}` : '';
+    const aipRestriction = isAIP ? `\n- STRICTLY AVOID ALL AIP forbidden ingredients: ${aipForbiddenFoods.join(', ')}` : '';
 
     // Build cooking frequency instructions
     const breakfastInstructions = breakfastCookingFreq === 7 
@@ -159,7 +171,7 @@ Generate a complete 7-day meal plan with the following requirements:
 
 DIETARY RESTRICTIONS:
 - Allergies to avoid: ${allergies.length > 0 ? allergies.join(', ') : 'None'}
-- Dietary themes to follow: ${dietaryThemes.length > 0 ? dietaryThemes.join(', ') : 'None'}${fodmapRestriction}${histamineRestriction}
+- Dietary themes to follow: ${dietaryThemes.length > 0 ? dietaryThemes.join(', ') : 'None'}${fodmapRestriction}${histamineRestriction}${aipRestriction}
 ${customRequirements ? `\nCUSTOM MEAL REQUIREMENTS:\n- ${customRequirements}` : ''}
 
 NUTRITIONAL GOALS:
