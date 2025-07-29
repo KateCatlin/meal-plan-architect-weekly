@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
-import { Clock, Users, Flame, Activity, Wheat, Calendar, History, ShoppingCart, Target, RefreshCw } from "lucide-react";
+import { Clock, Users, Flame, Activity, Wheat, Calendar, History, ShoppingCart, RefreshCw } from "lucide-react";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
