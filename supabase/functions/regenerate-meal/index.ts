@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
+import { loadPrompt, getPromptPath } from '../shared/prompt-loader.ts';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -114,34 +115,24 @@ serve(async (req) => {
     const histamineRestriction = isNoHistamine ? `\n- STRICTLY AVOID these histamine ingredients: ${lowHistamineIngredients.join(', ')}` 
       : isLowHistamine ? `\n- Use only SMALL AMOUNTS of these histamine ingredients (max 1-2 tablespoons per meal): ${lowHistamineIngredients.join(', ')}` : '';
 
-    // Create the AI prompt for regenerating the meal
-    const prompt = `Generate a new ${currentMeal.meal_type} meal that is different from the previous one. 
+    // Load and process the external prompt file
+    const promptData = await loadPrompt(getPromptPath('regenerate-meal.prompt.yml'), {
+      mealType: currentMeal.meal_type,
+      previousMealName: currentMeal.meal_name,
+      previousMealDescription: currentMeal.description,
+      calorieMin: goals?.calorie_min || 400,
+      calorieMax: goals?.calorie_max || 600,
+      proteinGoal: goals?.protein_goal || 25,
+      fiberGoal: goals?.fiber_goal || 8,
+      allergies: allergies.join(', ') || 'None',
+      dietaryThemes: dietaryThemes.join(', ') || 'None',
+      fodmapRestriction,
+      histamineRestriction,
+      customRequirements,
+      feedback
+    });
 
-Previous meal: ${currentMeal.meal_name} - ${currentMeal.description}
-
-Requirements:
-- Meal type: ${currentMeal.meal_type}
-- Target calories: ${goals?.calorie_min || 400}-${goals?.calorie_max || 600} calories
-- Minimum protein: ${goals?.protein_goal || 25}g
-- Minimum fiber: ${goals?.fiber_goal || 8}g
-- Avoid allergies: ${allergies.join(', ') || 'None'}
-- Follow dietary themes: ${dietaryThemes.join(', ') || 'None'}${fodmapRestriction}${histamineRestriction}
-${customRequirements ? `- Custom requirements: ${customRequirements}` : ''}
-- Make it completely different from the previous meal
-${feedback ? `- User feedback: ${feedback}` : ''}
-
-Provide a JSON response with:
-{
-  "meal_name": "...",
-  "description": "...",
-  "calories": number,
-  "protein": number,
-  "fiber": number,
-  "ingredients": ["ingredient1", "ingredient2", ...],
-  "instructions": "Step by step cooking instructions..."
-}`
-
-    console.log('Sending prompt to OpenAI:', prompt.substring(0, 200) + '...')
+    console.log('Sending prompt to OpenAI for meal regeneration...')
 
     const openaiResponse = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
@@ -151,18 +142,9 @@ Provide a JSON response with:
       },
       body: JSON.stringify({
         model: 'gpt-4o-mini',
-        messages: [
-          {
-            role: 'system',
-            content: 'You are a professional nutritionist and chef. Generate healthy, balanced meals that meet specific nutritional requirements. Always respond with valid JSON only.'
-          },
-          {
-            role: 'user',
-            content: prompt
-          }
-        ],
-        temperature: 0.8,
-        max_tokens: 1000,
+        messages: promptData.messages,
+        temperature: promptData.modelParameters.temperature,
+        max_tokens: promptData.modelParameters.max_tokens,
       }),
     })
 

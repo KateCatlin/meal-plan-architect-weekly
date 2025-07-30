@@ -1,0 +1,85 @@
+name: Meal Plan Optimizer
+description: Optimizes existing meal plans to meet nutritional protein and fiber goals by suggesting meal replacements
+model: gpt-4o-mini
+modelParameters:
+  temperature: 0.7
+  max_tokens: 2000
+messages:
+  - role: system
+    content: You are a nutritionist optimizing a meal plan. Always respond with valid JSON in the exact format requested.
+  - role: user
+    content: |
+      You are a nutritionist optimizing a meal plan. The user MUST meet these daily goals:
+      - Protein: {{proteinGoal}}g (CRITICAL: the new meal must provide enough protein to meet the daily goal)
+      - Fiber: {{fiberGoal}}g (CRITICAL: the new meal must provide enough fiber to meet the daily goal)
+      - Calories: {{calorieMin}}-{{calorieMax}}
+
+      DIETARY RESTRICTIONS:
+      - Allergies to avoid: {{allergies}}
+      - Dietary themes to follow: {{dietaryThemes}}
+
+      DAYS NEEDING OPTIMIZATION:
+      {{optimizationPrompts}}
+
+      CRITICAL: For each day, you must suggest a meal replacement that provides enough protein and fiber to close the deficits. The new meal's protein and fiber values must be sufficient to meet the daily targets.
+
+      Respond with a JSON object in this format:
+      {
+        "optimizations": [
+          {
+            "day_of_week": 1,
+            "meal_to_replace": "meal_id_here",
+            "new_meal": {
+              "meal_name": "New Meal Name",
+              "description": "Brief description",
+              "meal_type": "breakfast|lunch|dinner",
+              "ingredients": ["ingredient 1", "ingredient 2"],
+              "instructions": "Cooking instructions",
+              "calories": 500,
+              "protein": 35,
+              "fiber": 12
+            }
+          }
+        ]
+      }
+testData:
+  - proteinGoal: 150
+    fiberGoal: 25
+    calorieMin: 1800
+    calorieMax: 2200
+    allergies: "None"
+    dietaryThemes: "Mediterranean"
+    optimizationPrompts: |
+      Day 1 needs optimization:
+      Current meals: [{"name": "Oatmeal", "type": "breakfast", "protein": 5, "fiber": 4, "calories": 300}]
+      Protein deficit: 20g
+      Fiber deficit: 8g
+    expected: |
+      {
+        "optimizations": [
+          {
+            "day_of_week": 1,
+            "meal_to_replace": "meal_123",
+            "new_meal": {
+              "meal_name": "High-Protein Greek Bowl",
+              "description": "Protein-rich replacement meal",
+              "meal_type": "breakfast",
+              "ingredients": ["Greek yogurt", "almonds", "chia seeds"],
+              "instructions": "Mix all ingredients",
+              "calories": 450,
+              "protein": 30,
+              "fiber": 15
+            }
+          }
+        ]
+      }
+evaluators:
+  - name: Response should be valid JSON
+    string:
+      contains: '"optimizations":'
+  - name: Should include new meal with nutritional info
+    string:
+      contains: '"protein":'
+  - name: Should specify meal to replace
+    string:
+      contains: '"meal_to_replace":'
