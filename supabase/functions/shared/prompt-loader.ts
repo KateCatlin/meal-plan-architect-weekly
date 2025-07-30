@@ -67,7 +67,6 @@ function processTemplate(template: string, variables: Record<string, any>): stri
  * Gets the absolute path to a prompt file in the prompts directory
  */
 export function getPromptPath(promptFileName: string): string {
-  // Get the current working directory and navigate to prompts folder
-  const cwd = Deno.cwd();
-  return `${cwd}/prompts/${promptFileName}`;
+  // In edge functions, we need to use the relative path from the function's perspective
+  return `../../prompts/${promptFileName}`;
 }
