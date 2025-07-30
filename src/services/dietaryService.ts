@@ -94,8 +94,8 @@ export const saveDietaryRestrictions = async (userId: string, data: DietaryRestr
   // Save or update nutritional goals
   const goalData = {
     user_id: userId,
-    calorie_min: data.calories[0] - 200,
-    calorie_max: data.calories[0] + 200,
+    calorie_min: data.calories[0],
+    calorie_max: data.calories.length > 1 ? data.calories[1] : data.calories[0],
     protein_goal: data.protein[0],
     fiber_goal: data.fiber[0]
   };
@@ -162,7 +162,7 @@ export const loadDietaryRestrictions = async (userId: string): Promise<DietaryRe
   const result: DietaryRestrictions = {
     allergies,
     dietaryThemes,
-    calories: goals?.calorie_max ? [Math.round((goals.calorie_min! + goals.calorie_max) / 2)] : [2000],
+    calories: goals?.calorie_min && goals?.calorie_max ? [goals.calorie_min, goals.calorie_max] : [1800, 2200],
     protein: goals?.protein_goal ? [goals.protein_goal] : [150],
     fiber: goals?.fiber_goal ? [goals.fiber_goal] : [25],
     customMealRequirements,
