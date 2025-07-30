@@ -2,7 +2,6 @@ import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.7.1';
 import { ensureNutritionalGoals } from '../shared/optimize-helpers.ts';
-import { loadPrompt, getPromptPath } from '../shared/prompt-loader.ts';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -195,23 +194,72 @@ serve(async (req) => {
 - These ${lunchDinnerCookingFreq} meal types should be distributed across the week for both lunch and dinner
 - Each meal type should be used for consecutive meals until all ${lunchDinnerCookingFreq} types are used`;
 
-    // Load and process the external prompt file
-    const promptData = await loadPrompt(getPromptPath('generate-meal-plan.prompt.yml'), {
-      allergies: allergies.length > 0 ? allergies.join(', ') : 'None',
-      dietaryThemes: dietaryThemes.length > 0 ? dietaryThemes.join(', ') : 'None',
-      fodmapRestriction,
-      histamineRestriction,
-      aipRestriction,
-      whole30Restriction,
-      customRequirements,
-      calorieMin: goals?.calorie_min || 1800,
-      calorieMax: goals?.calorie_max || 2200,
-      proteinGoal: goals?.protein_goal || 150,
-      fiberGoal: goals?.fiber_goal || 25,
-      breakfastInstructions,
-      lunchDinnerInstructions,
-      cookingFrequencyDetails
-    });
+    // Create the prompt directly (since external files aren't available in edge functions)
+    const allergiesStr = allergies.length > 0 ? allergies.join(', ') : 'None';
+    const dietaryThemesStr = dietaryThemes.length > 0 ? dietaryThemes.join(', ') : 'None';
+    const customReq = customRequirements ? `\n\nCUSTOM MEAL REQUIREMENTS:\n- ${customRequirements}` : '';
+    
+    const promptData = {
+      messages: [
+        {
+          role: 'system',
+          content: 'You are a professional nutritionist and meal planning expert. Always respond with valid JSON in the exact format requested.'
+        },
+        {
+          role: 'user',
+          content: `Generate a complete 7-day meal plan with the following requirements:
+
+DIETARY RESTRICTIONS:
+- Allergies to avoid: ${allergiesStr}
+- Dietary themes to follow: ${dietaryThemesStr}${fodmapRestriction}${histamineRestriction}${aipRestriction}${whole30Restriction}${customReq}
+
+NUTRITIONAL GOALS (MUST BE MET):
+- Daily calories: ${goals?.calorie_min || 1800}-${goals?.calorie_max || 2200}
+- Daily protein: MINIMUM ${goals?.protein_goal || 150}g (this is mandatory)
+- Daily fiber: MINIMUM ${goals?.fiber_goal || 25}g (this is mandatory)
+
+COOKING FREQUENCY REQUIREMENTS:
+- BREAKFAST: ${breakfastInstructions}
+- LUNCH & DINNER: ${lunchDinnerInstructions}
+
+REQUIREMENTS:
+1. STRICTLY follow the cooking frequency requirements above - this is CRITICAL
+2. Each meal should include realistic nutrition estimates
+3. Provide detailed ingredient lists for each meal
+4. Include clear cooking instructions
+5. Make sure all meals respect the dietary restrictions
+6. CRITICAL: Ensure the daily total of protein reaches AT LEAST ${goals?.protein_goal || 150}g
+7. CRITICAL: Ensure the daily total of fiber reaches AT LEAST ${goals?.fiber_goal || 25}g
+8. Balance macronutrients appropriately within the calorie range
+
+IMPORTANT CLARIFICATION FOR COOKING FREQUENCY:
+${cookingFrequencyDetails}
+
+Please respond with a JSON object in this exact format:
+{
+  "meals": [
+    {
+      "day_of_week": 1,
+      "meal_type": "breakfast",
+      "meal_name": "Meal Name",
+      "description": "Brief description of the meal",
+      "ingredients": ["ingredient 1", "ingredient 2", "ingredient 3"],
+      "instructions": "Step by step cooking instructions",
+      "calories": 450,
+      "protein": 25,
+      "fiber": 8
+    }
+  ]
+}
+
+Generate meals for all 7 days, following the cooking frequency requirements exactly.`
+        }
+      ],
+      modelParameters: {
+        temperature: 0.7,
+        max_tokens: 4000
+      }
+    };
 
     console.log('Sending request to OpenAI...');
 
