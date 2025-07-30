@@ -1,4 +1,5 @@
 // Shared optimization helpers that can be used by both generate-meal-plan and optimize-meal-plan
+import { loadPrompt, getPromptPath } from './prompt-loader.ts';
 
 interface OptimizationParams {
   supabase: any;
@@ -94,41 +95,16 @@ Fiber deficit: ${dayInfo.fiberDeficit}g
 `;
     }).join('\n');
 
-    const prompt = `
-You are a nutritionist optimizing a meal plan. The user MUST meet these daily goals:
-- Protein: ${goals.protein_goal}g (CRITICAL: the new meal must provide enough protein to meet the daily goal)
-- Fiber: ${goals.fiber_goal}g (CRITICAL: the new meal must provide enough fiber to meet the daily goal)
-- Calories: ${goals.calorie_min}-${goals.calorie_max}
-
-DIETARY RESTRICTIONS:
-- Allergies to avoid: ${allergies.length > 0 ? allergies.join(', ') : 'None'}
-- Dietary themes to follow: ${dietaryThemes.length > 0 ? dietaryThemes.join(', ') : 'None'}
-
-DAYS NEEDING OPTIMIZATION:
-${optimizationPrompts}
-
-CRITICAL: For each day, you must suggest a meal replacement that provides enough protein and fiber to close the deficits. The new meal's protein and fiber values must be sufficient to meet the daily targets.
-
-Respond with a JSON object in this format:
-{
-  "optimizations": [
-    {
-      "day_of_week": 1,
-      "meal_to_replace": "meal_id_here",
-      "new_meal": {
-        "meal_name": "New Meal Name",
-        "description": "Brief description",
-        "meal_type": "breakfast|lunch|dinner",
-        "ingredients": ["ingredient 1", "ingredient 2"],
-        "instructions": "Cooking instructions",
-        "calories": 500,
-        "protein": 35,
-        "fiber": 12
-      }
-    }
-  ]
-}
-`;
+    // Load and process the external optimization prompt
+    const promptData = await loadPrompt(getPromptPath('optimize-meal-plan.prompt.yml'), {
+      proteinGoal: goals.protein_goal,
+      fiberGoal: goals.fiber_goal,
+      calorieMin: goals.calorie_min,
+      calorieMax: goals.calorie_max,
+      allergies: allergies.length > 0 ? allergies.join(', ') : 'None',
+      dietaryThemes: dietaryThemes.length > 0 ? dietaryThemes.join(', ') : 'None',
+      optimizationPrompts
+    });
 
     console.log('Sending optimization request to OpenAI...');
 
@@ -140,18 +116,9 @@ Respond with a JSON object in this format:
       },
       body: JSON.stringify({
         model: 'gpt-4o-mini',
-        messages: [
-          {
-            role: 'system',
-            content: 'You are a professional nutritionist specializing in meal plan optimization. You must ensure daily protein and fiber targets are met. Always respond with valid JSON.'
-          },
-          {
-            role: 'user',
-            content: prompt
-          }
-        ],
-        temperature: 0.7,
-        max_tokens: 2000,
+        messages: promptData.messages,
+        temperature: promptData.modelParameters.temperature,
+        max_tokens: promptData.modelParameters.max_tokens,
       }),
     });
 

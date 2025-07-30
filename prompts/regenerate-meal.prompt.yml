@@ -1,0 +1,77 @@
+name: Meal Regenerator
+description: Regenerates a single meal based on user feedback and dietary requirements while maintaining nutritional goals
+model: gpt-4o-mini
+modelParameters:
+  temperature: 0.7
+  max_tokens: 1500
+messages:
+  - role: system
+    content: You are a professional nutritionist and meal planning expert. Always respond with valid JSON in the exact format requested.
+  - role: user
+    content: |
+      Generate a new {{mealType}} meal that is different from the previous one.
+
+      Previous meal: {{previousMealName}} - {{previousMealDescription}}
+
+      Requirements:
+      - Meal type: {{mealType}}
+      - Target calories: {{calorieMin}}-{{calorieMax}} calories
+      - Minimum protein: {{proteinGoal}}g
+      - Minimum fiber: {{fiberGoal}}g
+      - Avoid allergies: {{allergies}}
+      - Follow dietary themes: {{dietaryThemes}}{{fodmapRestriction}}{{histamineRestriction}}
+      {{#customRequirements}}
+      - Custom requirements: {{customRequirements}}
+      {{/customRequirements}}
+      - Make it completely different from the previous meal
+      {{#feedback}}
+      - User feedback: {{feedback}}
+      {{/feedback}}
+
+      Provide a JSON response with:
+      {
+        "meal_name": "...",
+        "description": "...",
+        "calories": number,
+        "protein": number,
+        "fiber": number,
+        "ingredients": ["ingredient1", "ingredient2", ...],
+        "instructions": "Step by step cooking instructions..."
+      }
+testData:
+  - mealType: "breakfast"
+    previousMealName: "Oatmeal Bowl"
+    previousMealDescription: "Simple oatmeal with fruits"
+    calorieMin: 400
+    calorieMax: 600
+    proteinGoal: 25
+    fiberGoal: 8
+    allergies: "None"
+    dietaryThemes: "Mediterranean"
+    fodmapRestriction: ""
+    histamineRestriction: ""
+    customRequirements: ""
+    feedback: "I want something with more protein"
+    expected: |
+      {
+        "meal_name": "Greek Yogurt Protein Bowl",
+        "description": "High-protein breakfast with Greek yogurt and nuts",
+        "calories": 520,
+        "protein": 35,
+        "fiber": 12,
+        "ingredients": ["Greek yogurt", "almonds", "berries", "chia seeds"],
+        "instructions": "Mix Greek yogurt with toppings and serve immediately"
+      }
+evaluators:
+  - name: Response should be valid JSON
+    string:
+      contains: '"meal_name":'
+  - name: Should include nutritional information
+    string:
+      contains: '"protein":'
+  - name: Should include ingredients array
+    string:
+      contains: '"ingredients":'
+  - name: Should include cooking instructions
+    string:
+      contains: '"instructions":'

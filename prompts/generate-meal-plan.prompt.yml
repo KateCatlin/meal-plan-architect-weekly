@@ -1,0 +1,102 @@
+name: Meal Plan Generator
+description: Generates a complete 7-day meal plan based on dietary restrictions, nutritional goals, and cooking frequency preferences
+model: gpt-4o-mini
+modelParameters:
+  temperature: 0.7
+  max_tokens: 4000
+messages:
+  - role: system
+    content: You are a professional nutritionist and meal planning expert. Always respond with valid JSON in the exact format requested.
+  - role: user
+    content: |
+      Generate a complete 7-day meal plan with the following requirements:
+
+      DIETARY RESTRICTIONS:
+      - Allergies to avoid: {{allergies}}
+      - Dietary themes to follow: {{dietaryThemes}}{{fodmapRestriction}}{{histamineRestriction}}{{aipRestriction}}{{whole30Restriction}}
+      {{#customRequirements}}
+      CUSTOM MEAL REQUIREMENTS:
+      - {{customRequirements}}
+      {{/customRequirements}}
+
+      NUTRITIONAL GOALS (MUST BE MET):
+      - Daily calories: {{calorieMin}}-{{calorieMax}}
+      - Daily protein: MINIMUM {{proteinGoal}}g (this is mandatory)
+      - Daily fiber: MINIMUM {{fiberGoal}}g (this is mandatory)
+
+      COOKING FREQUENCY REQUIREMENTS:
+      - BREAKFAST: {{breakfastInstructions}}
+      - LUNCH & DINNER: {{lunchDinnerInstructions}}
+
+      REQUIREMENTS:
+      1. STRICTLY follow the cooking frequency requirements above - this is CRITICAL
+      2. Each meal should include realistic nutrition estimates
+      3. Provide detailed ingredient lists for each meal
+      4. Include clear cooking instructions
+      5. Make sure all meals respect the dietary restrictions
+      6. CRITICAL: Ensure the daily total of protein reaches AT LEAST {{proteinGoal}}g
+      7. CRITICAL: Ensure the daily total of fiber reaches AT LEAST {{fiberGoal}}g
+      8. Balance macronutrients appropriately within the calorie range
+
+      IMPORTANT CLARIFICATION FOR COOKING FREQUENCY:
+      {{cookingFrequencyDetails}}
+
+      Please respond with a JSON object in this exact format:
+      {
+        "meals": [
+          {
+            "day_of_week": 1,
+            "meal_type": "breakfast",
+            "meal_name": "Meal Name",
+            "description": "Brief description of the meal",
+            "ingredients": ["ingredient 1", "ingredient 2", "ingredient 3"],
+            "instructions": "Step by step cooking instructions",
+            "calories": 450,
+            "protein": 25,
+            "fiber": 8
+          }
+        ]
+      }
+
+      Generate meals for all 7 days, following the cooking frequency requirements exactly.
+testData:
+  - allergies: "None"
+    dietaryThemes: "Mediterranean"
+    fodmapRestriction: ""
+    histamineRestriction: ""
+    aipRestriction: ""
+    whole30Restriction: ""
+    customRequirements: ""
+    calorieMin: 1800
+    calorieMax: 2200
+    proteinGoal: 150
+    fiberGoal: 25
+    breakfastInstructions: "Create 7 different breakfast meals, one for each day."
+    lunchDinnerInstructions: "Create unique lunch and dinner meals for each day (14 total different meals)."
+    cookingFrequencyDetails: "You must create exactly 14 different meal types for lunch and dinner combined"
+    expected: |
+      {
+        "meals": [
+          {
+            "day_of_week": 1,
+            "meal_type": "breakfast",
+            "meal_name": "Mediterranean Breakfast Bowl",
+            "description": "Protein-rich breakfast with Greek yogurt and nuts",
+            "ingredients": ["Greek yogurt", "almonds", "berries", "honey"],
+            "instructions": "Mix yogurt with toppings",
+            "calories": 350,
+            "protein": 20,
+            "fiber": 8
+          }
+        ]
+      }
+evaluators:
+  - name: Response should be valid JSON
+    string:
+      contains: '"meals":'
+  - name: Should include nutritional information
+    string:
+      contains: '"calories":'
+  - name: Should include ingredients array
+    string:
+      contains: '"ingredients":'
