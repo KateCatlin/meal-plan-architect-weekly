@@ -7,6 +7,9 @@ interface GroceryItem {
   count: number;
   totalQuantity: number;
   meals: string[];
+  unit: string;
+  isCountable: boolean;
+  hasMultipleUnits: boolean;
 }
 
 export const useGroceryList = (mealPlanId: string | null) => {
@@ -45,13 +48,32 @@ export const useGroceryList = (mealPlanId: string | null) => {
                 return;
               }
               
-              // Extract quantity and base ingredient
-              const { quantity, baseIngredient, displayIngredient } = extractIngredientWithQuantity(ingredient.trim());
+              // Extract quantity and base ingredient with better unit handling
+              const { quantity, baseIngredient, displayIngredient, unit, isCountable } = extractIngredientWithQuantity(ingredient.trim());
               
               if (ingredientMap.has(baseIngredient)) {
                 const existing = ingredientMap.get(baseIngredient)!;
                 existing.count += 1;
-                existing.totalQuantity += quantity;
+                
+                // Smart quantity aggregation based on ingredient type
+                if (isCountable) {
+                  // For countable items (like bell peppers), only add if same unit or no unit
+                  if (existing.unit === unit || existing.unit === '' || unit === '') {
+                    existing.totalQuantity += quantity;
+                  } else {
+                    // Different units for countable items - don't aggregate, show range
+                    existing.hasMultipleUnits = true;
+                  }
+                } else {
+                  // For measurable items, try to aggregate if same unit
+                  if (existing.unit === unit) {
+                    existing.totalQuantity += quantity;
+                  } else {
+                    // Different units - mark as needing manual review
+                    existing.hasMultipleUnits = true;
+                  }
+                }
+                
                 if (!existing.meals.includes(meal.meal_name)) {
                   existing.meals.push(meal.meal_name);
                 }
@@ -60,17 +82,22 @@ export const useGroceryList = (mealPlanId: string | null) => {
                   ingredient: displayIngredient,
                   count: 1,
                   totalQuantity: quantity,
-                  meals: [meal.meal_name]
+                  meals: [meal.meal_name],
+                  unit,
+                  isCountable,
+                  hasMultipleUnits: false
                 });
               }
             });
           }
         });
 
-        // Update display ingredients with total quantities
+        // Update display ingredients with smart quantity totaling
         const groceryItems = Array.from(ingredientMap.values()).map(item => ({
           ...item,
-          ingredient: createDisplayIngredient(item.totalQuantity, extractBaseIngredient(item.ingredient), item.ingredient)
+          ingredient: item.hasMultipleUnits 
+            ? `${extractBaseIngredient(item.ingredient)} (multiple units - see meal details)`
+            : createDisplayIngredient(item.totalQuantity, extractBaseIngredient(item.ingredient), item.ingredient)
         })).sort((a, b) =>
           a.ingredient.localeCompare(b.ingredient)
         );
@@ -89,26 +116,32 @@ export const useGroceryList = (mealPlanId: string | null) => {
   return { groceryList, loading };
 };
 
-// Helper function to extract quantity and base ingredient name
-const extractIngredientWithQuantity = (ingredient: string): { quantity: number; baseIngredient: string; displayIngredient: string } => {
+// Helper function to extract quantity and base ingredient name with better unit handling
+const extractIngredientWithQuantity = (ingredient: string): { quantity: number; baseIngredient: string; displayIngredient: string; unit: string; isCountable: boolean } => {
   const originalIngredient = ingredient;
   const lowerIngredient = ingredient.toLowerCase();
   
-  // Extract quantity - look for numbers at the beginning
-  const quantityMatch = lowerIngredient.match(/^(\d+(?:\.\d+)?|\d*\.?\d+)\s*/);
+  // Extract quantity and unit - look for numbers at the beginning followed by optional units
+  const quantityMatch = lowerIngredient.match(/^(\d+(?:\.\d+)?|\d*\.?\d+)\s*(cups?|tbsp|tablespoons?|tsp|teaspoons?|oz|ounces?|lbs?|pounds?|g|grams?|kg|kilograms?|ml|l|liters?|small|medium|large)?\s*/);
   let quantity = 1; // Default quantity
+  let unit = '';
   
   if (quantityMatch) {
     quantity = parseFloat(quantityMatch[1]);
+    unit = quantityMatch[2] || '';
   }
   
   // Get base ingredient using the existing function logic
   const baseIngredient = extractBaseIngredient(lowerIngredient);
   
+  // Determine if this is a countable item (like "bell pepper") vs measurable (like "olive oil")
+  const countableItems = ['bell pepper', 'pepper', 'onion', 'tomato', 'carrot', 'cucumber', 'apple', 'banana', 'lemon', 'lime', 'orange', 'avocado', 'egg', 'potato', 'sweet potato', 'zucchini', 'eggplant', 'mushroom', 'garlic clove'];
+  const isCountable = countableItems.some(item => baseIngredient.includes(item)) && (unit === '' || ['small', 'medium', 'large'].includes(unit));
+  
   // For display, we want to show the aggregated quantity with the base ingredient
   const displayIngredient = createDisplayIngredient(quantity, baseIngredient, originalIngredient);
   
-  return { quantity, baseIngredient, displayIngredient };
+  return { quantity, baseIngredient, displayIngredient, unit, isCountable };
 };
 
 // Helper function to create display ingredient with proper quantity
@@ -117,10 +150,26 @@ const createDisplayIngredient = (quantity: number, baseIngredient: string, origi
   const unitMatch = originalIngredient.toLowerCase().match(/^\d+(?:\.\d+)?\s*(cups?|tbsp|tablespoons?|tsp|teaspoons?|oz|ounces?|lbs?|pounds?|g|grams?|kg|kilograms?|ml|l|liters?|small|medium|large)\s+/i);
   const unit = unitMatch ? unitMatch[1] : '';
   
+  // Format quantity nicely
+  const formattedQuantity = quantity % 1 === 0 ? quantity.toString() : quantity.toFixed(1);
+  
   if (unit) {
-    return `${quantity} ${unit} ${baseIngredient}`;
+    // Handle plural/singular forms for units
+    let displayUnit = unit;
+    if (quantity > 1) {
+      // Make unit plural if not already
+      if (!unit.endsWith('s') && !['tbsp', 'tsp'].includes(unit)) {
+        displayUnit = unit + 's';
+      }
+    } else if (quantity === 1) {
+      // Make unit singular if plural
+      if (unit.endsWith('s') && !['tbsp', 'tsp'].includes(unit)) {
+        displayUnit = unit.slice(0, -1);
+      }
+    }
+    return `${formattedQuantity} ${displayUnit} ${baseIngredient}`;
   } else if (quantity > 1) {
-    return `${quantity} ${baseIngredient}`;
+    return `${formattedQuantity} ${baseIngredient}`;
   } else {
     return baseIngredient;
   }
