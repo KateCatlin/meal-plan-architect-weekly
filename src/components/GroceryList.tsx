@@ -188,9 +188,9 @@ export function GroceryList({ mealPlanId, mealPlanName }: GroceryListProps) {
                 }`}>
                   {item.ingredient}
                 </span>
-                {item.count > 1 && (
+                {item.meals.length > 1 && (
                   <Badge variant="secondary" className="ml-2 text-xs">
-                    Used in {item.count} meals
+                    Used in {item.meals.length} meals
                   </Badge>
                 )}
               </div>
