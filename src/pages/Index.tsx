@@ -248,7 +248,7 @@ const Index = () => {
                 2
               </div>
               <h3 className="text-xl font-semibold text-foreground">Get Your Safe Meal Plan</h3>
-              <p className="text-muted-foreground">Receive a personalized weekly meal plan designed specifically for your condition</p>
+              <p className="text-muted-foreground">Receive a weekly meal plan and grocery list tailored to your unique dietary needs and healing goals</p>
             </div>
             
             <div className="space-y-4">
