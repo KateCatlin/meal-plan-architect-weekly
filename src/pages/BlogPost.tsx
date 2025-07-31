@@ -1205,26 +1205,22 @@ const BlogPost = () => {
         <div className="mt-12">
           <h3 className="text-2xl font-bold mb-6">Continue Reading</h3>
           <div className="grid md:grid-cols-2 gap-6">
-            <Button asChild variant="outline" className="h-auto p-6 text-left">
-              <Link to="/blog">
-                <div>
-                  <h4 className="font-semibold mb-2">Browse All Articles</h4>
-                  <p className="text-sm text-muted-foreground">
-                    Discover more evidence-based guides, recipes, and tips for managing chronic conditions through nutrition.
-                  </p>
-                </div>
+            <div className="border rounded-lg p-6 hover:bg-muted/50 transition-colors">
+              <Link to="/blog" className="block">
+                <h4 className="font-semibold mb-2">Browse All Articles</h4>
+                <p className="text-sm text-muted-foreground">
+                  Discover more evidence-based guides, recipes, and tips for managing chronic conditions through nutrition.
+                </p>
               </Link>
-            </Button>
-            <Button asChild variant="outline" className="h-auto p-6 text-left">
-              <Link to={user ? "/" : "/auth"}>
-                <div>
-                  <h4 className="font-semibold mb-2">Get Your Meal Plan</h4>
-                  <p className="text-sm text-muted-foreground">
-                    Transform these insights into personalized meal plans tailored to your specific dietary needs.
-                  </p>
-                </div>
+            </div>
+            <div className="border rounded-lg p-6 hover:bg-muted/50 transition-colors">
+              <Link to={user ? "/" : "/auth"} className="block">
+                <h4 className="font-semibold mb-2">Get Your Meal Plan</h4>
+                <p className="text-sm text-muted-foreground">
+                  Transform these insights into personalized meal plans tailored to your specific dietary needs.
+                </p>
               </Link>
-            </Button>
+            </div>
           </div>
         </div>
       </article>
