@@ -7,6 +7,7 @@ import { AuthProvider } from "@/hooks/useAuth";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
 import MealDetail from "./pages/MealDetail";
 import MealPlanHistory from "./pages/MealPlanHistory";
 import NotFound from "./pages/NotFound";
@@ -24,6 +25,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:id" element={<BlogPost />} />
             <Route path="/meal/:mealId" element={<MealDetail />} />
             <Route path="/history" element={<MealPlanHistory />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
