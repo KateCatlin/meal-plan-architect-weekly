@@ -112,7 +112,7 @@ const Index = () => {
           <div className="max-w-6xl mx-auto flex justify-between items-center">
             <div className="flex items-center space-x-2">
               <ChefHat className="h-8 w-8 text-primary" />
-              <span className="text-xl font-bold text-foreground">FeedMe</span>
+              <span className="text-xl font-bold text-foreground">The Gentle Plate</span>
             </div>
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-2 text-sm text-muted-foreground">
@@ -143,7 +143,7 @@ const Index = () => {
         <div className="max-w-6xl mx-auto flex justify-between items-center">
           <div className="flex items-center space-x-2">
             <ChefHat className="h-8 w-8 text-primary" />
-            <span className="text-xl font-bold text-foreground">FeedMe</span>
+            <span className="text-xl font-bold text-foreground">The Gentle Plate</span>
           </div>
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2 text-sm text-muted-foreground">
