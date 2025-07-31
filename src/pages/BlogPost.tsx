@@ -1142,7 +1142,10 @@ const BlogPost = () => {
                 return <p key={index} className="font-semibold mb-2">{paragraph.slice(2, -2)}</p>;
               }
               if (paragraph.startsWith('- ')) {
-                return <li key={index} className="mb-1">{paragraph.slice(2)}</li>;
+                // Handle bold text within list items
+                const content = paragraph.slice(2);
+                const processedContent = content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                return <li key={index} className="mb-1" dangerouslySetInnerHTML={{ __html: processedContent }} />;
               }
               if (paragraph.startsWith('*') && paragraph.endsWith('*')) {
                 return <p key={index} className="italic text-muted-foreground mb-4">{paragraph.slice(1, -1)}</p>;
@@ -1150,7 +1153,9 @@ const BlogPost = () => {
               if (paragraph.trim() === '') {
                 return <br key={index} />;
               }
-              return <p key={index} className="mb-4 leading-relaxed">{paragraph}</p>;
+              // Handle bold text within regular paragraphs
+              const processedContent = paragraph.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+              return <p key={index} className="mb-4 leading-relaxed" dangerouslySetInnerHTML={{ __html: processedContent }} />;
             })}
           </div>
         </div>
