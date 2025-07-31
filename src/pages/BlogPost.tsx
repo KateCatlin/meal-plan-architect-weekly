@@ -118,6 +118,10 @@ Some foods don't contain histamine but can trigger your body to release it:
 - Avoid complex spice blends
 - Use fresh herbs like basil, oregano, and thyme
 
+### 4. Track Your Symptoms
+
+Keep a food diary alongside symptom notes. Patterns will quickly emerge, helping you personalize your diet effectively.
+
 ## Sample 3-Day Meal Plan
 
 ### Day 1
@@ -159,10 +163,6 @@ When symptoms increase:
 2. Keep a detailed food diary
 3. Consider working with a healthcare provider familiar with MCAS
 4. Stay hydrated and rest
-
-### 3. Track Your Symptoms
-
-Keep a food diary alongside symptom notes. Patterns will quickly emerge, helping you personalize your diet effectively.
 
 ## The Bottom Line
 
