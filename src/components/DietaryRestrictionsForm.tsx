@@ -11,6 +11,7 @@ import { toast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import { saveDietaryRestrictions, loadDietaryRestrictions, DietaryRestrictions } from "@/services/dietaryService";
 import { supabase } from "@/integrations/supabase/client";
+import { sanitizeText, rateLimiter, logSecurityEvent } from '@/lib/security';
 
 const commonAllergies = [
   "Dairy", "Eggs", "Fish", "Gluten", "Nuts", "Sesame", "Shellfish", "Soy"
@@ -125,16 +126,30 @@ export function DietaryRestrictionsForm({ onSubmit }: { onSubmit: (data: Dietary
       return;
     }
 
+    // Rate limiting check
+    if (!rateLimiter.isAllowed(`meal-plan:${user.id}`, 3, 300000)) { // 3 requests per 5 minutes
+      logSecurityEvent('RATE_LIMIT_EXCEEDED', user.id, { action: 'meal_plan_generation' });
+      toast({
+        title: "Too Many Requests",
+        description: "Please wait a few minutes before generating another meal plan.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    // Input validation and sanitization
+    const sanitizedCustomMealRequirements = sanitizeText(customMealRequirements, 1000);
+
     setLoading(true);
     
     try {
       const data: DietaryRestrictions = {
-        allergies,
-        dietaryThemes: themes,
+        allergies: allergies.map(a => sanitizeText(a, 50)),
+        dietaryThemes: themes.map(t => sanitizeText(t, 100)),
         calories,
         protein,
         fiber,
-        customMealRequirements,
+        customMealRequirements: sanitizedCustomMealRequirements,
         breakfastCookingFrequency,
         lunchDinnerCookingFrequency
       };

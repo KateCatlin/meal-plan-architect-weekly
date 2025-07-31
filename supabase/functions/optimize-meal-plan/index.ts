@@ -6,6 +6,10 @@ import { ensureNutritionalGoals } from '../shared/optimize-helpers.ts';
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  'X-Content-Type-Options': 'nosniff',
+  'X-Frame-Options': 'DENY',
+  'X-XSS-Protection': '1; mode=block',
+  'Referrer-Policy': 'strict-origin-when-cross-origin',
 };
 
 serve(async (req) => {
@@ -15,7 +19,23 @@ serve(async (req) => {
   }
 
   try {
-    const { userId, mealPlanId } = await req.json();
+    const body = await req.json();
+    const { userId, mealPlanId } = body;
+    
+    // Input validation
+    if (!userId || typeof userId !== 'string') {
+      throw new Error('Valid User ID is required');
+    }
+    
+    if (!mealPlanId || typeof mealPlanId !== 'string') {
+      throw new Error('Valid Meal Plan ID is required');
+    }
+    
+    // Validate UUID formats
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+    if (!uuidRegex.test(userId) || !uuidRegex.test(mealPlanId)) {
+      throw new Error('Invalid ID format');
+    }
 
     if (!userId || !mealPlanId) {
       throw new Error('User ID and meal plan ID are required');

@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ChefHat, ArrowLeft, Clock, User, Share2 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
+import DOMPurify from 'dompurify';
 
 // Blog post content data
 const blogPostsContent = {
@@ -1173,7 +1174,8 @@ const BlogPost = () => {
                 // Handle bold text within list items
                 const content = paragraph.slice(2);
                 const processedContent = content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-                return <li key={index} className="mb-1" dangerouslySetInnerHTML={{ __html: processedContent }} />;
+                const sanitizedContent = DOMPurify.sanitize(processedContent);
+                return <li key={index} className="mb-1" dangerouslySetInnerHTML={{ __html: sanitizedContent }} />;
               }
               if (paragraph.startsWith('*') && paragraph.endsWith('*')) {
                 return <p key={index} className="italic text-muted-foreground mb-4">{paragraph.slice(1, -1)}</p>;
@@ -1183,7 +1185,8 @@ const BlogPost = () => {
               }
               // Handle bold text within regular paragraphs
               const processedContent = paragraph.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-              return <p key={index} className="mb-4 leading-relaxed" dangerouslySetInnerHTML={{ __html: processedContent }} />;
+              const sanitizedContent = DOMPurify.sanitize(processedContent);
+              return <p key={index} className="mb-4 leading-relaxed" dangerouslySetInnerHTML={{ __html: sanitizedContent }} />;
             })}
           </div>
         </div>

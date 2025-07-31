@@ -19,7 +19,27 @@ serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     )
 
-    const { mealId, userId, feedback } = await req.json()
+    // Parse and validate request body
+    const body = await req.json();
+    const { mealId, userId, feedback } = body;
+    
+    // Input validation
+    if (!mealId || typeof mealId !== 'string') {
+      throw new Error('Valid Meal ID is required');
+    }
+    
+    if (!userId || typeof userId !== 'string') {
+      throw new Error('Valid User ID is required');
+    }
+    
+    // Validate UUID formats
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+    if (!uuidRegex.test(mealId) || !uuidRegex.test(userId)) {
+      throw new Error('Invalid ID format');
+    }
+    
+    // Sanitize feedback
+    const sanitizedFeedback = feedback ? feedback.toString().slice(0, 1000) : '';
 
     console.log('Regenerating meal:', { mealId, userId, feedback })
 

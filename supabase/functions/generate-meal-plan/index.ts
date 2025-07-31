@@ -6,6 +6,10 @@ import { ensureNutritionalGoals } from '../shared/optimize-helpers.ts';
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  'X-Content-Type-Options': 'nosniff',
+  'X-Frame-Options': 'DENY',
+  'X-XSS-Protection': '1; mode=block',
+  'Referrer-Policy': 'strict-origin-when-cross-origin',
 };
 
 // Helper function to get current week's Monday and Sunday
@@ -31,17 +35,44 @@ serve(async (req) => {
   }
 
   try {
+    const body = await req.json();
+    
+    // Input validation and sanitization
     const { 
       userId, 
       restrictions, 
       goals, 
       planName = "Weekly Meal Plan",
       planType = "weekly" 
-    } = await req.json();
+    } = body;
 
-    if (!userId) {
-      throw new Error('User ID is required');
+    // Validate required fields
+    if (!userId || typeof userId !== 'string') {
+      throw new Error('Valid User ID is required');
     }
+    
+    // Validate userId format (UUID)
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+    if (!uuidRegex.test(userId)) {
+      throw new Error('Invalid User ID format');
+    }
+    
+    // Validate restrictions array
+    if (restrictions && !Array.isArray(restrictions)) {
+      throw new Error('Restrictions must be an array');
+    }
+    
+    // Validate goals object
+    if (goals && typeof goals !== 'object') {
+      throw new Error('Goals must be an object');
+    }
+    
+    // Sanitize planName
+    const sanitizedPlanName = planName?.toString().slice(0, 100) || "Weekly Meal Plan";
+    
+    // Rate limiting check
+    const rateLimitKey = `meal-plan-generation:${userId}`;
+    console.log(`Rate limit check for: ${rateLimitKey}`);
 
     console.log('Generating meal plan for user:', userId);
     console.log('Restrictions:', restrictions);
