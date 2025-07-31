@@ -13,7 +13,7 @@ const blogPostsContent = {
     tags: ["Low-Histamine", "MCAS", "Ultimate Guide"],
     readTime: "12 min read",
     publishDate: "2024-01-15",
-    image: "photo-1618160702438-9b02ab6515c9",
+    image: "photo-1490818387583-1baba5e638af",
     content: `
 # The Complete Guide to the Low-Histamine Diet for MCAS
 
