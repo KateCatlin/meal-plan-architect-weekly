@@ -171,6 +171,7 @@ serve(async (req) => {
     const isNoHistamine = dietaryThemes.some(theme => theme.toLowerCase().replace(/\s/g, '').includes('nohistamine'));
     const isAIP = dietaryThemes.some(theme => theme.toLowerCase().includes('autoimmune protocol') || theme.toLowerCase().includes('aip'));
     const isWhole30 = dietaryThemes.some(theme => theme.toLowerCase().includes('whole30'));
+    const isHighSodium = dietaryThemes.some(theme => theme.toLowerCase().includes('high-sodium') || theme.toLowerCase().includes('high sodium'));
     
     const aipForbiddenFoods = [
       'amaranth', 'barley', 'buckwheat', 'bulgur', 'corn', 'farro', 'kamut', 'millet', 'oats', 'oatmeal', 'quinoa', 'rice', 'rye', 'sorghum', 'spelt', 'teff', 'wheat',
@@ -201,6 +202,7 @@ serve(async (req) => {
       : isLowHistamine ? `\n- Use only SMALL AMOUNTS of these histamine ingredients (max 1-2 tablespoons per meal): ${lowHistamineIngredients.join(', ')}` : '';
     const aipRestriction = isAIP ? `\n- STRICTLY AVOID ALL AIP forbidden ingredients: ${aipForbiddenFoods.join(', ')}` : '';
     const whole30Restriction = isWhole30 ? `\n- STRICTLY AVOID ALL Whole30 forbidden ingredients: ${whole30ForbiddenFoods.join(', ')}. HOWEVER, these Whole30 exceptions ARE allowed: ${whole30AllowedExceptions.join(', ')}` : '';
+    const highSodiumGuidance = isHighSodium ? `\n- HIGH-SODIUM DIET REQUIREMENTS: Include plenty of salty foods such as: pretzels, salted nuts and seeds, crackers and chips, pickles and olives, broths and soups (bone broth, bouillon), miso soup, soy sauce or tamari, salt-based seasoning blends, salted dressings, cottage cheese, salted butter, feta cheese and other naturally salty cheeses, canned soups, and salted deli meats. Add extra salt to foods and prioritize naturally high-sodium ingredients in every meal.` : '';
 
     // Build cooking frequency instructions
     const breakfastInstructions = breakfastCookingFreq === 7 
@@ -242,7 +244,7 @@ serve(async (req) => {
 
 DIETARY RESTRICTIONS:
 - Allergies to avoid: ${allergiesStr}
-- Dietary themes to follow: ${dietaryThemesStr}${fodmapRestriction}${histamineRestriction}${aipRestriction}${whole30Restriction}${customReq}
+- Dietary themes to follow: ${dietaryThemesStr}${fodmapRestriction}${histamineRestriction}${aipRestriction}${whole30Restriction}${highSodiumGuidance}${customReq}
 
 NUTRITIONAL GOALS (MUST BE MET):
 - Daily calories: ${goals?.calorie_min || 1800}-${goals?.calorie_max || 2200}

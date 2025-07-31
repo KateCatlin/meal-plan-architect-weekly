@@ -13,7 +13,7 @@ messages:
 
       DIETARY RESTRICTIONS:
       - Allergies to avoid: {{allergies}}
-      - Dietary themes to follow: {{dietaryThemes}}{{fodmapRestriction}}{{histamineRestriction}}{{aipRestriction}}{{whole30Restriction}}
+      - Dietary themes to follow: {{dietaryThemes}}{{fodmapRestriction}}{{histamineRestriction}}{{aipRestriction}}{{whole30Restriction}}{{highSodiumGuidance}}
       {{#customRequirements}}
       CUSTOM MEAL REQUIREMENTS:
       - {{customRequirements}}
