@@ -243,7 +243,7 @@ const Index = () => {
               <div className="w-16 h-16 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-2xl font-bold mx-auto">
                 2
               </div>
-              <h3 className="text-xl font-semibold text-foreground">Get Your Safe Meal Plan</h3>
+              <h3 className="text-xl font-semibold text-foreground">Get Your Personalized Meal Plan</h3>
               <p className="text-muted-foreground">Receive a weekly meal plan and grocery list tailored to your unique dietary needs and healing goals</p>
             </div>
             
