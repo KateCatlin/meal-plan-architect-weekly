@@ -7,6 +7,14 @@ import { Input } from "@/components/ui/input";
 import { ChefHat, Search, Clock, User, ArrowLeft, Filter } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 
+// Import the new images
+import mcasDietGuide from "@/assets/mcas-diet-guide.jpg";
+import lowFodmapSnacks from "@/assets/low-fodmap-snacks.jpg";
+import saltPotsFriendly from "@/assets/salt-pots-friendly.jpg";
+import turmericAntiInflammatory from "@/assets/turmeric-anti-inflammatory.jpg";
+import celiacHolidayDining from "@/assets/celiac-holiday-dining.jpg";
+import greenSmoothieBowl from "@/assets/green-smoothie-bowl.jpg";
+
 // Sample blog posts data
 const blogPosts = [
   {
@@ -17,7 +25,7 @@ const blogPosts = [
     tags: ["Low-Histamine", "MCAS", "Ultimate Guide"],
     readTime: "12 min read",
     publishDate: "2024-01-15",
-    image: "photo-1618160702438-9b02ab6515c9",
+    image: mcasDietGuide,
     featured: true
   },
   {
@@ -28,7 +36,7 @@ const blogPosts = [
     tags: ["Low-FODMAP", "IBS", "Snacks"],
     readTime: "5 min read",
     publishDate: "2024-01-10",
-    image: "photo-1465146344425-f00d5f5c8f07"
+    image: lowFodmapSnacks
   },
   {
     id: 3,
@@ -38,7 +46,7 @@ const blogPosts = [
     tags: ["POTS", "Meal Prep", "High-Sodium"],
     readTime: "8 min read",
     publishDate: "2024-01-08",
-    image: "photo-1523712999610-f77fbcfc3843"
+    image: saltPotsFriendly
   },
   {
     id: 4,
@@ -48,7 +56,7 @@ const blogPosts = [
     tags: ["Anti-Inflammatory", "Gluten-Free", "Recipe"],
     readTime: "3 min read",
     publishDate: "2024-01-05",
-    image: "photo-1500673922987-e212871fec22"
+    image: turmericAntiInflammatory
   },
   {
     id: 5,
@@ -58,7 +66,7 @@ const blogPosts = [
     tags: ["Celiac", "Gluten-Free", "Holiday Tips"],
     readTime: "7 min read",
     publishDate: "2024-01-03",
-    image: "photo-1517022812141-23620dba5c23"
+    image: celiacHolidayDining
   },
   {
     id: 6,
@@ -68,7 +76,7 @@ const blogPosts = [
     tags: ["Low-Histamine", "Smoothie", "Recipe"],
     readTime: "2 min read",
     publishDate: "2024-01-01",
-    image: "photo-1465146344425-f00d5f5c8f07"
+    image: greenSmoothieBowl
   }
 ];
 
@@ -227,7 +235,7 @@ const Blog = () => {
                 </div>
                 <div className="md:w-1/3">
                   <img
-                    src={`https://images.unsplash.com/${featuredPost.image}?auto=format&fit=crop&w=400&h=300`}
+                    src={featuredPost.image}
                     alt={featuredPost.title}
                     className="w-full h-48 md:h-full object-cover"
                   />
@@ -243,7 +251,7 @@ const Blog = () => {
             <Card key={post.id} className="overflow-hidden hover:shadow-lg transition-all duration-300 group">
               <div className="aspect-video overflow-hidden">
                 <img
-                  src={`https://images.unsplash.com/${post.image}?auto=format&fit=crop&w=400&h=225`}
+                  src={post.image}
                   alt={post.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />

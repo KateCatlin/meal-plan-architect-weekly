@@ -5,6 +5,14 @@ import { ChefHat, ArrowLeft, Clock, User, Share2 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import DOMPurify from 'dompurify';
 
+// Import the new images
+import mcasDietGuide from "@/assets/mcas-diet-guide.jpg";
+import lowFodmapSnacks from "@/assets/low-fodmap-snacks.jpg";
+import saltPotsFriendly from "@/assets/salt-pots-friendly.jpg";
+import turmericAntiInflammatory from "@/assets/turmeric-anti-inflammatory.jpg";
+import celiacHolidayDining from "@/assets/celiac-holiday-dining.jpg";
+import greenSmoothieBowl from "@/assets/green-smoothie-bowl.jpg";
+
 // Blog post content data
 const blogPostsContent = {
   1: {
@@ -14,7 +22,7 @@ const blogPostsContent = {
     tags: ["Low-Histamine", "MCAS", "Ultimate Guide"],
     readTime: "12 min read",
     publishDate: "2024-01-15",
-    image: "photo-1490818387583-1baba5e638af",
+    image: mcasDietGuide,
     content: `
 **Disclaimer:** This guide is intended for informational purposes only and does not replace professional medical advice. Always consult your healthcare provider before making significant changes to your diet or lifestyle.
 
@@ -185,7 +193,7 @@ Remember, this is a therapeutic diet meant to help you identify triggers and man
     tags: ["Low-FODMAP", "IBS", "Snacks"],
     readTime: "5 min read",
     publishDate: "2024-01-10",
-    image: "photo-1465146344425-f00d5f5c8f07",
+    image: lowFodmapSnacks,
     content: `
 **Disclaimer:** This guide is intended for informational purposes only and does not replace professional medical advice. Always consult your healthcare provider before making significant changes to your diet or lifestyle.
 
@@ -290,7 +298,7 @@ Keep a snack diary for the first few weeks to track which options make you feel 
     tags: ["POTS", "Meal Prep", "High-Sodium"],
     readTime: "8 min read",
     publishDate: "2024-01-08",
-    image: "photo-1523712999610-f77fbcfc3843",
+    image: saltPotsFriendly,
     content: `
 **Disclaimer:** This guide is intended for informational purposes only and does not replace professional medical advice. Always consult your healthcare provider before making significant changes to your diet or lifestyle.
 
@@ -497,7 +505,7 @@ Living with Postural Orthostatic Tachycardia Syndrome (POTS) means managing fati
     tags: ["Anti-Inflammatory", "Gluten-Free", "Recipe"],
     readTime: "3 min read",
     publishDate: "2024-01-05",
-    image: "photo-1500673922987-e212871fec22",
+    image: turmericAntiInflammatory,
     content: `
 **Disclaimer:** This guide is intended for informational purposes only and does not replace professional medical advice. Always consult your healthcare provider before making significant changes to your diet or lifestyle.
 
@@ -658,7 +666,7 @@ This vibrant, healing bowl combines the anti-inflammatory power of turmeric with
     tags: ["Celiac", "Gluten-Free", "Holiday Tips"],
     readTime: "7 min read",
     publishDate: "2024-01-03",
-    image: "photo-1618160702438-9b02ab6515c9",
+    image: celiacHolidayDining,
     content: `
 **Disclaimer:** This guide is intended for informational purposes only and does not replace professional medical advice. Always consult your healthcare provider before making significant changes to your diet or lifestyle.
 
@@ -860,7 +868,7 @@ Remember: The goal is to enjoy the celebration and connect with loved ones. With
     tags: ["Low-Histamine", "Smoothie", "Recipe"],
     readTime: "2 min read",
     publishDate: "2024-01-01",
-    image: "photo-1465146344425-f00d5f5c8f07",
+    image: greenSmoothieBowl,
     content: `
 **Disclaimer:** This guide is intended for informational purposes only and does not replace professional medical advice. Always consult your healthcare provider before making significant changes to your diet or lifestyle.
 
@@ -1101,7 +1109,7 @@ const BlogPost = () => {
         {/* Hero Image */}
         <div className="aspect-video overflow-hidden rounded-lg mb-8">
           <img
-            src={`https://images.unsplash.com/${post.image}?auto=format&fit=crop&w=1200&h=675`}
+            src={post.image}
             alt={post.title}
             className="w-full h-full object-cover"
           />
