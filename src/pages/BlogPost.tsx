@@ -122,6 +122,10 @@ Some foods don't contain histamine but can trigger your body to release it:
 
 Keep a food diary alongside symptom notes. Patterns will quickly emerge, helping you personalize your diet effectively.
 
+### 5. Let The Gentle Plate Do the Work!
+
+Eliminate the guesswork by using The Gentle Plate's personalized meal planner. We create tailored low-histamine meal plans, designed specifically for your dietary needs, making symptom management easier and stress-free.
+
 ## Sample 3-Day Meal Plan
 
 ### Day 1
