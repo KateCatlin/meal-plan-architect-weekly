@@ -15,6 +15,7 @@ import turmericAntiInflammatory from "@/assets/turmeric-anti-inflammatory.jpg";
 import celiacHolidayDining from "@/assets/celiac-holiday-dining.jpg";
 import greenSmoothieBowl from "@/assets/green-smoothie-bowl.jpg";
 import mcasDiningOut from "@/assets/mcas-dining-out.jpg";
+import ibsTriggerGuide from "@/assets/ibs-trigger-guide.jpg";
 
 // Sample blog posts data
 const blogPosts = [
@@ -88,6 +89,16 @@ const blogPosts = [
     readTime: "6 min read",
     publishDate: "2024-01-20",
     image: mcasDiningOut
+  },
+  {
+    id: 8,
+    title: "Understanding Your IBS Triggers: A Complete Guide to Identifying and Managing Symptom Patterns",
+    description: "Learn how to identify your personal IBS triggers, track symptoms effectively, and develop a personalized management plan for better digestive health.",
+    category: "Problem-Solving",
+    tags: ["IBS", "Digestive Health", "Symptom Tracking", "Trigger Foods", "Gut Health"],
+    readTime: "8 min read",
+    publishDate: "2024-01-25",
+    image: ibsTriggerGuide
   }
 ];
 
