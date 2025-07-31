@@ -16,6 +16,16 @@ import celiacHolidayDining from "@/assets/celiac-holiday-dining.jpg";
 import greenSmoothieBowl from "@/assets/green-smoothie-bowl.jpg";
 import mcasDiningOut from "@/assets/mcas-dining-out.jpg";
 import ibsTriggerGuide from "@/assets/ibs-trigger-guide.jpg";
+import energyBoostingBreakfast from "@/assets/energy-boosting-breakfast.jpg";
+import readingFoodLabels from "@/assets/reading-food-labels.jpg";
+import mealPrepHacks from "@/assets/meal-prep-hacks.jpg";
+import gutHealingSmoothie from "@/assets/gut-healing-smoothie.jpg";
+import emergencySnackKit from "@/assets/emergency-snack-kit.jpg";
+import gutRebuildingFoods from "@/assets/gut-rebuilding-foods.jpg";
+import onePotMeals from "@/assets/one-pot-meals.jpg";
+import allergiesVsSensitivities from "@/assets/allergies-vs-sensitivities.jpg";
+import safeKitchenSetup from "@/assets/safe-kitchen-setup.jpg";
+import gentleHydration from "@/assets/gentle-hydration.jpg";
 
 // Sample blog posts data
 const blogPosts = [
@@ -99,6 +109,106 @@ const blogPosts = [
     readTime: "8 min read",
     publishDate: "2024-01-25",
     image: ibsTriggerGuide
+  },
+  {
+    id: 9,
+    title: "5 Energy-Boosting Breakfast Ideas for Chronic Fatigue",
+    description: "Gentle, nourishing breakfast recipes designed to provide sustained energy without overwhelming your digestive system during fatigue flares.",
+    category: "Recipe",
+    tags: ["Chronic Fatigue", "Energy", "Breakfast", "Gentle Nutrition"],
+    readTime: "6 min read",
+    publishDate: "2024-02-01",
+    image: energyBoostingBreakfast
+  },
+  {
+    id: 10,
+    title: "The Ultimate Guide to Reading Food Labels for Allergies",
+    description: "Master the art of label reading to identify hidden allergens, understand ingredient lists, and keep yourself safe while grocery shopping.",
+    category: "Ultimate Guide",
+    tags: ["Food Allergies", "Label Reading", "Safety", "Shopping Tips"],
+    readTime: "10 min read",
+    publishDate: "2024-02-03",
+    image: readingFoodLabels
+  },
+  {
+    id: 11,
+    title: "Meal Prep Hacks for People with Limited Energy",
+    description: "Practical strategies for preparing nutritious meals when chronic illness leaves you with minimal energy for cooking.",
+    category: "Problem-Solving",
+    tags: ["Meal Prep", "Chronic Illness", "Energy Management", "Cooking Tips"],
+    readTime: "7 min read",
+    publishDate: "2024-02-05",
+    image: mealPrepHacks
+  },
+  {
+    id: 12,
+    title: "Building a Gut-Healing Smoothie: Ingredients That Help",
+    description: "Discover which smoothie ingredients support digestive healing and learn to create gentle, nutrient-dense blends for sensitive stomachs.",
+    category: "Recipe",
+    tags: ["Gut Health", "Smoothies", "Digestive Healing", "Anti-Inflammatory"],
+    readTime: "5 min read",
+    publishDate: "2024-02-07",
+    image: gutHealingSmoothie
+  },
+  {
+    id: 13,
+    title: "Emergency Snack Kit for Dietary Restrictions",
+    description: "Build the perfect portable snack kit with safe, allergen-free options that travel well and provide reliable nutrition on-the-go.",
+    category: "Problem-Solving",
+    tags: ["Emergency Kit", "Snacks", "Travel", "Food Allergies"],
+    readTime: "4 min read",
+    publishDate: "2024-02-09",
+    image: emergencySnackKit
+  },
+  {
+    id: 14,
+    title: "How to Rebuild Your Gut After Antibiotics",
+    description: "A step-by-step guide to restoring your microbiome and digestive health following antibiotic treatment, with foods and supplements that help.",
+    category: "Ultimate Guide",
+    tags: ["Gut Health", "Antibiotics", "Microbiome", "Recovery"],
+    readTime: "9 min read",
+    publishDate: "2024-02-11",
+    image: gutRebuildingFoods
+  },
+  {
+    id: 15,
+    title: "Simple One-Pot Meals for Flare-Up Days",
+    description: "Easy, minimal-effort recipes that require just one pot and simple ingredients, perfect for cooking during symptom flares.",
+    category: "Recipe",
+    tags: ["One-Pot", "Easy Cooking", "Flare-Up", "Simple Meals"],
+    readTime: "5 min read",
+    publishDate: "2024-02-13",
+    image: onePotMeals
+  },
+  {
+    id: 16,
+    title: "The Science Behind Food Sensitivities vs. Allergies",
+    description: "Understand the key differences between food allergies and sensitivities, their symptoms, testing methods, and management strategies.",
+    category: "Ultimate Guide",
+    tags: ["Food Allergies", "Food Sensitivities", "Science", "Education"],
+    readTime: "11 min read",
+    publishDate: "2024-02-15",
+    image: allergiesVsSensitivities
+  },
+  {
+    id: 17,
+    title: "Creating a Safe Kitchen: Tools and Tips for Multiple Food Allergies",
+    description: "Essential kitchen setup strategies, tools, and organizational tips to prevent cross-contamination when managing multiple food allergies.",
+    category: "Problem-Solving",
+    tags: ["Kitchen Safety", "Food Allergies", "Cross-Contamination", "Organization"],
+    readTime: "8 min read",
+    publishDate: "2024-02-17",
+    image: safeKitchenSetup
+  },
+  {
+    id: 18,
+    title: "Hydration Beyond Water: Gentle Drinks for Sensitive Stomachs",
+    description: "Explore hydrating alternatives to plain water that are gentle on sensitive digestive systems and provide additional nutrients.",
+    category: "Problem-Solving",
+    tags: ["Hydration", "Digestive Health", "Gentle Nutrition", "Beverages"],
+    readTime: "6 min read",
+    publishDate: "2024-02-19",
+    image: gentleHydration
   }
 ];
 
