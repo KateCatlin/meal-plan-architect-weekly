@@ -160,6 +160,10 @@ When symptoms increase:
 3. Consider working with a healthcare provider familiar with MCAS
 4. Stay hydrated and rest
 
+### 3. Track Your Symptoms
+
+Keep a food diary alongside symptom notes. Patterns will quickly emerge, helping you personalize your diet effectively.
+
 ## The Bottom Line
 
 The low-histamine diet for MCAS is highly individual. What works for one person may not work for another. Start with the safest foods and gradually test new additions while monitoring your symptoms.
