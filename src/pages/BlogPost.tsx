@@ -31,6 +31,14 @@ Mast Cell Activation Syndrome is a condition where mast cells become overactive,
 - Cardiovascular symptoms (rapid heart rate, blood pressure changes)
 - Neurological symptoms (brain fog, headaches, anxiety)
 
+## What is a Low-Histamine Diet?
+
+A low-histamine diet involves minimizing foods that either contain high levels of histamine or trigger histamine release from mast cells. Histamine is a naturally occurring chemical involved in immune responses, digestion, and central nervous system regulation. However, in people with MCAS, histamine levels can rise excessively, triggering symptoms.
+
+## Why Diet Matters for MCAS
+
+While medication and lifestyle adjustments play a role, diet is often the most immediate and controllable factor. Many MCAS sufferers find significant symptom relief by following a carefully managed low-histamine diet.
+
 ## The Low-Histamine Diet Basics
 
 ### High-Histamine Foods to Avoid
