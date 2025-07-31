@@ -84,21 +84,21 @@ const Index = () => {
       </div>;
   }
   const features = [{
-    icon: <Heart className="h-8 w-8 text-primary" />,
-    title: "Personalized Nutrition",
-    description: "Tailored meal plans based on your specific dietary restrictions and health goals"
+    icon: <Shield className="h-8 w-8 text-primary" />,
+    title: "Medically-Informed Meal Plans",
+    description: "Created with deep understanding of complex dietary restrictions like low histamine, FODMAP, and autoimmune protocols"
   }, {
-    icon: <Target className="h-8 w-8 text-primary" />,
-    title: "Goal-Oriented Planning",
-    description: "Hit your calorie, protein, and fiber targets with precision-crafted meals"
+    icon: <Heart className="h-8 w-8 text-primary" />,
+    title: "Eat with Confidence",
+    description: "No more fear at mealtime. Every recipe is carefully crafted to respect your specific health needs"
   }, {
     icon: <Clock className="h-8 w-8 text-primary" />,
-    title: "Time-Efficient",
-    description: "Quick meal prep solutions that fit your busy lifestyle"
+    title: "Reduce Meal Planning Stress",
+    description: "Stop spending hours researching 'safe' recipes. We do the hard work so you can focus on healing"
   }, {
     icon: <Users className="h-8 w-8 text-primary" />,
-    title: "Family-Friendly",
-    description: "Accommodate multiple dietary needs in one convenient meal plan"
+    title: "Whole Family Solutions",
+    description: "Create meal plans that work for everyone, even when managing multiple conditions in one household"
   }];
   if (currentStep === 'form') {
     return <div className="min-h-screen bg-background py-12 px-4">
@@ -173,11 +173,11 @@ const Index = () => {
           <div className="animate-fade-in">
             <ChefHat className="h-16 w-16 text-primary mx-auto mb-6 animate-bounce-gentle" />
             <h1 className="text-5xl md:text-7xl font-bold text-foreground mb-6 leading-tight">
-              Smart Meal Planning for
-              <span className="text-primary block">Your Unique Needs</span>
+              Eat with Confidence.
+              <span className="text-primary block">Manage Your Health.</span>
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
-              Personalized weekly meal plans that respect your dietary restrictions and help you achieve your nutritional goals
+              Finally, meal planning that understands your chronic illness. Safe, gentle meal plans for complex dietary needs like MCAS, Celiac, and FODMAP restrictions.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button variant="hero" size="xl" onClick={() => setCurrentStep('form')} className="text-lg px-8 py-4">
@@ -211,10 +211,10 @@ const Index = () => {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-foreground mb-4">
-              Why Choose Our Meal Planner?
+              Finally, Meal Planning That Gets It
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              We understand that everyone's nutritional needs are different. Our intelligent system creates meal plans that work for you.
+              We understand complex dietary restrictions aren't just preferences - they're medical necessities. Every meal plan is designed with your health and safety in mind.
             </p>
           </div>
           
@@ -242,7 +242,7 @@ const Index = () => {
       <section className="py-20 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl font-bold text-foreground mb-16">
-            Simple Steps to Better Nutrition
+            Your Path to Confident Eating
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
@@ -250,9 +250,9 @@ const Index = () => {
               <div className="w-16 h-16 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-2xl font-bold mx-auto">
                 1
               </div>
-              <h3 className="text-xl font-semibold text-foreground">Set Your Preferences</h3>
+              <h3 className="text-xl font-semibold text-foreground">Share Your Health Journey</h3>
               <p className="text-muted-foreground">
-                Tell us about your allergies, dietary themes, and nutritional goals
+                Tell us about your conditions, restrictions, and what foods feel safe for your body
               </p>
             </div>
             
@@ -260,9 +260,9 @@ const Index = () => {
               <div className="w-16 h-16 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-2xl font-bold mx-auto">
                 2
               </div>
-              <h3 className="text-xl font-semibold text-foreground">Get Your Plan</h3>
+              <h3 className="text-xl font-semibold text-foreground">Get Your Safe Meal Plan</h3>
               <p className="text-muted-foreground">
-                Receive a customized weekly meal plan with recipes and nutrition info
+                Receive gentle, medically-informed meal plans designed specifically for your condition
               </p>
             </div>
             
@@ -270,9 +270,9 @@ const Index = () => {
               <div className="w-16 h-16 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-2xl font-bold mx-auto">
                 3
               </div>
-              <h3 className="text-xl font-semibold text-foreground">Enjoy Better Health</h3>
+              <h3 className="text-xl font-semibold text-foreground">Eat Without Fear</h3>
               <p className="text-muted-foreground">
-                Follow your plan and track your progress toward your nutrition goals
+                Enjoy mealtime again, knowing every recipe supports your healing journey
               </p>
             </div>
           </div>
@@ -289,7 +289,7 @@ const Index = () => {
       <section className="py-20 px-4 bg-muted/20">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl font-bold text-foreground mb-16">
-            Trusted by Health-Conscious Individuals
+            Stories from Our Community
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -298,8 +298,8 @@ const Index = () => {
                 <div className="flex justify-center mb-4">
                   {[...Array(5)].map((_, i) => <Star key={i} className="h-5 w-5 text-warning fill-current" />)}
                 </div>
-                <p className="text-muted-foreground mb-4 italic">&quot;I don't have time or interest in learning how to cook - but I do want to eat food that makes me feel good! This app feels like it was built by me!&quot; </p>
-                <p className="font-semibold text-foreground">Kate C.</p>
+                <p className="text-muted-foreground mb-4 italic">&quot;Living with MCAS means constant fear about triggering a reaction. The Gentle Plate finally gave me meal plans I can trust completely. No more hours researching every ingredient.&quot;</p>
+                <p className="font-semibold text-foreground">Maria K. • MCAS & POTS</p>
               </CardContent>
             </Card>
             
@@ -308,8 +308,8 @@ const Index = () => {
                 <div className="flex justify-center mb-4">
                   {[...Array(5)].map((_, i) => <Star key={i} className="h-5 w-5 text-warning fill-current" />)}
                 </div>
-                <p className="text-muted-foreground mb-4 italic">&quot;It's hard finding recipes for my vegetarian lifestyle and my partner's low histamine needs. This will save me a lot of time.&quot;</p>
-                <p className="font-semibold text-foreground">John C. </p>
+                <p className="text-muted-foreground mb-4 italic">&quot;When my daughter was diagnosed with Celiac, I was overwhelmed. This service gave our whole family safe, delicious meals we can all enjoy together - no more separate cooking!&quot;</p>
+                <p className="font-semibold text-foreground">David M. • Celiac Family</p>
               </CardContent>
             </Card>
           </div>
@@ -320,10 +320,10 @@ const Index = () => {
       <section className="py-20 px-4 bg-gradient-primary text-primary-foreground">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl font-bold mb-4">
-            Ready to Transform Your Nutrition?
+            Ready to Eat with Confidence Again?
           </h2>
           <p className="text-xl mb-8 opacity-90">
-            Join thousands who have improved their health with personalized meal planning
+            Join our community of people managing their health, one gentle plate at a time
           </p>
           <Button variant="secondary" size="xl" onClick={() => setCurrentStep('form')} className="px-12 text-lg">
             Create My Meal Plan
