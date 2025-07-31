@@ -170,6 +170,8 @@ Remember, this is a therapeutic diet meant to help you identify triggers and man
     publishDate: "2024-01-10",
     image: "photo-1465146344425-f00d5f5c8f07",
     content: `
+**Disclaimer:** This guide is intended for informational purposes only and does not replace professional medical advice. Always consult your healthcare provider before making significant changes to your diet or lifestyle.
+
 # 10 Safe and Easy Low-FODMAP Snack Ideas
 
 Living with IBS and following a low-FODMAP diet doesn't mean giving up on convenient, tasty snacks. Here are 10 portable, satisfying options that won't trigger symptoms.
@@ -273,6 +275,8 @@ Keep a snack diary for the first few weeks to track which options make you feel 
     publishDate: "2024-01-08",
     image: "photo-1523712999610-f77fbcfc3843",
     content: `
+**Disclaimer:** This guide is intended for informational purposes only and does not replace professional medical advice. Always consult your healthcare provider before making significant changes to your diet or lifestyle.
+
 # How to Meal Prep for a POTS-Friendly Week
 
 Living with Postural Orthostatic Tachycardia Syndrome (POTS) means managing fatigue, blood pressure fluctuations, and the need for higher sodium intake. Strategic meal prep can help you maintain consistent nutrition while conserving precious energy.
@@ -478,6 +482,8 @@ Living with Postural Orthostatic Tachycardia Syndrome (POTS) means managing fati
     publishDate: "2024-01-05",
     image: "photo-1500673922987-e212871fec22",
     content: `
+**Disclaimer:** This guide is intended for informational purposes only and does not replace professional medical advice. Always consult your healthcare provider before making significant changes to your diet or lifestyle.
+
 # Anti-Inflammatory Turmeric Rice Bowl
 
 This vibrant, healing bowl combines the anti-inflammatory power of turmeric with gentle, easily digestible ingredients. Perfect for anyone managing chronic conditions or simply wanting to nourish their body with healing foods.
@@ -637,6 +643,8 @@ This vibrant, healing bowl combines the anti-inflammatory power of turmeric with
     publishDate: "2024-01-03",
     image: "photo-1618160702438-9b02ab6515c9",
     content: `
+**Disclaimer:** This guide is intended for informational purposes only and does not replace professional medical advice. Always consult your healthcare provider before making significant changes to your diet or lifestyle.
+
 # Navigating Holidays with Celiac Disease
 
 The holidays should be about connection and joy, not stress and worry about food safety. With the right planning and communication strategies, you can fully participate in holiday celebrations while keeping your gluten-free diet intact.
@@ -837,6 +845,8 @@ Remember: The goal is to enjoy the celebration and connect with loved ones. With
     publishDate: "2024-01-01",
     image: "photo-1465146344425-f00d5f5c8f07",
     content: `
+**Disclaimer:** This guide is intended for informational purposes only and does not replace professional medical advice. Always consult your healthcare provider before making significant changes to your diet or lifestyle.
+
 # Gentle Green Smoothie Bowl
 
 This nourishing smoothie bowl is designed for sensitive digestive systems while still providing essential nutrients and sustained energy. Perfect for those following low-histamine, anti-inflammatory, or gentle healing diets.
