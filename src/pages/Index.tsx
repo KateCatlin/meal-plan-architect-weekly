@@ -117,6 +117,9 @@ const Index = () => {
               <span className="text-xl font-bold text-foreground">The Gentle Plate</span>
             </div>
             <div className="flex items-center space-x-4">
+              <Button variant="ghost" size="sm" onClick={() => navigate('/blog')}>
+                Blog
+              </Button>
               <div className="flex items-center space-x-2 text-sm text-muted-foreground">
                 <User className="h-4 w-4" />
                 <span>{user?.email}</span>
@@ -148,6 +151,9 @@ const Index = () => {
             <span className="text-xl font-bold text-foreground">The Gentle Plate</span>
           </div>
           <div className="flex items-center space-x-4">
+            <Button variant="ghost" size="sm" onClick={() => navigate('/blog')}>
+              Blog
+            </Button>
             <div className="flex items-center space-x-2 text-sm text-muted-foreground">
               <User className="h-4 w-4" />
               <span>{user?.email}</span>
