@@ -26,8 +26,6 @@ import onePotMeals from "@/assets/one-pot-meals.jpg";
 import allergiesVsSensitivities from "@/assets/allergies-vs-sensitivities.jpg";
 import safeKitchenSetup from "@/assets/safe-kitchen-setup.jpg";
 import gentleHydration from "@/assets/gentle-hydration.jpg";
-import pcosNutritionGuide from "@/assets/pcos-nutrition-guide.jpg";
-import pmddMoodNutrition from "@/assets/pmdd-mood-nutrition.jpg";
 
 // Sample blog posts data
 const blogPosts = [
@@ -211,26 +209,6 @@ const blogPosts = [
     readTime: "6 min read",
     publishDate: "2024-02-19",
     image: gentleHydration
-  },
-  {
-    id: 19,
-    title: "PCOS-Friendly Nutrition: Balancing Hormones Through Food",
-    description: "A comprehensive guide to managing PCOS symptoms through strategic nutrition, focusing on insulin sensitivity, anti-inflammatory foods, and hormone balance.",
-    category: "Ultimate Guide",
-    tags: ["PCOS", "Hormone Balance", "Anti-Inflammatory", "Women's Health"],
-    readTime: "12 min read",
-    publishDate: "2024-02-21",
-    image: pcosNutritionGuide
-  },
-  {
-    id: 20,
-    title: "Eating for Emotional Balance: A PMDD Nutrition Guide",
-    description: "Discover how specific nutrients and meal timing can help manage PMDD symptoms, stabilize mood, and support hormonal health throughout your cycle.",
-    category: "Problem-Solving",
-    tags: ["PMDD", "Mood Support", "Women's Health", "Hormone Balance"],
-    readTime: "9 min read",
-    publishDate: "2024-02-23",
-    image: pmddMoodNutrition
   }
 ];
 
