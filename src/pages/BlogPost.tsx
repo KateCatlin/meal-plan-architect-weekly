@@ -1054,7 +1054,7 @@ This nourishing smoothie bowl is designed for sensitive digestive systems while 
   },
   7: {
     title: "Dining Without Fear: 8 Practical Tips for Eating Out with MCAS",
-    description: "Helps MCAS folks navigate social situations and restaurants confidently, featuring specific examples of low-histamine choices and questions to ask servers.",
+    description: "Empowering those with MCAS to enjoy restaurants and social events by providing practical advice, safe low-histamine menu options, and key questions to ask your server.",
     category: "Problem-Solving",
     tags: ["MCAS", "Dining Out", "Low-Histamine", "Restaurant Guide", "Social Situations"],
     readTime: "6 min read",
@@ -1091,7 +1091,6 @@ When you have MCAS, spontaneous dining decisions can lead to symptom flares. A l
 **Best Choices:**
 - Farm-to-table restaurants (fresh ingredients)
 - Steakhouses (simple meat preparations)
-- Sushi restaurants (fresh fish, simple preparations)
 - Mediterranean restaurants (fresh herbs, simple cooking)
 
 **Approach with Caution:**
@@ -1101,15 +1100,15 @@ When you have MCAS, spontaneous dining decisions can lead to symptom flares. A l
 - Busy chain restaurants with pre-made everything
 
 ### Call Ahead Strategy
-*"Hi, I have a medical condition that requires me to avoid certain aged and fermented foods. Would it be possible to speak with the chef about ingredient preparation for a few dishes?"*
+"Hi, I have a medical condition that requires me to avoid certain aged and fermented foods. Would it be possible to speak with the chef about ingredient preparation for a few dishes?"
 
 ## Tip 2: Master the Art of Ordering
 
 ### Safe Ordering Phrases
-- *"Could I get the salmon grilled with just salt, pepper, and fresh herbs?"*
-- *"Is it possible to have the vegetables steamed with no sauce on the side?"*
-- *"Can you prepare the chicken without any marinade or pre-made seasonings?"*
-- *"I'd like the salad with olive oil and fresh lemon on the side, no prepared dressing."*
+- "Could I get the salmon grilled with just salt, pepper, and fresh herbs?"
+- "Is it possible to have the vegetables steamed with no sauce on the side?"
+- "Can you prepare the chicken without any marinade or pre-made seasonings?"
+- "I'd like the salad with olive oil and fresh lemon on the side, no prepared dressing."
 
 ### Questions That Save the Day
 **About Freshness:**
@@ -1197,7 +1196,7 @@ When you have MCAS, spontaneous dining decisions can lead to symptom flares. A l
 - Be patient with learning curves
 
 ### Sample Restaurant Card
-*"I have Mast Cell Activation Syndrome, which requires me to avoid aged, fermented, and leftover foods. I need freshly prepared ingredients with simple seasonings. Thank you for your understanding and accommodation."*
+"I have Mast Cell Activation Syndrome, which requires me to avoid aged, fermented, and leftover foods. I need freshly prepared ingredients with simple seasonings. Thank you for your understanding and accommodation."
 
 ## Tip 6: Handle Mistakes Gracefully
 
@@ -1225,6 +1224,7 @@ When you have MCAS, spontaneous dining decisions can lead to symptom flares. A l
 **Medications:**
 - Antihistamines (as recommended by your doctor)
 - Any emergency medications prescribed for flares
+- DAO enzymes (if recommended by your doctor) - these can help digest histamines if you're unsure about menu items
 - Digestive enzymes if they help you
 
 **Backup Food:**
@@ -1280,17 +1280,17 @@ When you have MCAS, spontaneous dining decisions can lead to symptom flares. A l
 ## Sample Successful Restaurant Orders
 
 ### At a Steakhouse:
-*"I'd like the grilled salmon with no seasoning except salt and pepper, steamed broccoli on the side, and could I get a simple green salad with olive oil and lemon on the side instead of dressing?"*
+"I'd like the grilled salmon with no seasoning except salt and pepper, steamed broccoli on the side, and could I get a simple green salad with olive oil and lemon on the side instead of dressing?"
 
 ### At a Mediterranean Restaurant:
-*"Could I get the grilled chicken breast with fresh herbs, a side of rice with just olive oil, and cucumber slices? No sauce or marinade on the chicken please."*
+"Could I get the grilled chicken breast with fresh herbs, a side of rice with just olive oil, and cucumber slices? No sauce or marinade on the chicken please."
 
 ### At a Farm-to-Table Restaurant:
-*"I'd love the roasted vegetables - which ones were delivered today? And could I get them simply roasted with just olive oil and salt? Also, do you have any fresh fish that was delivered today that could be grilled plain?"*
+"I'd love the roasted vegetables - which ones were delivered today? And could I get them simply roasted with just olive oil and salt? Also, do you have any fresh fish that was delivered today that could be grilled plain?"
 
 Remember, dining out with MCAS is absolutely possible with the right preparation and mindset. The key is to approach it strategically, communicate clearly, and focus on enjoying the social experience rather than feeling limited by your dietary needs.
 
-*Ready to make meal planning easier at home too? Our personalized meal planner creates MCAS-friendly meal plans that take the guesswork out of every meal, whether you're dining in or out.*
+Ready to make meal planning easier at home too? Our personalized meal planner creates MCAS-friendly meal plans that take the guesswork out of every meal, whether you're dining in or out.
     `
   }
 };

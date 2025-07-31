@@ -79,10 +79,10 @@ const blogPosts = [
     publishDate: "2024-01-01",
     image: greenSmoothieBowl
   },
-  {
-    id: 7,
-    title: "Dining Without Fear: 8 Practical Tips for Eating Out with MCAS",
-    description: "Helps MCAS folks navigate social situations and restaurants confidently, featuring specific examples of low-histamine choices and questions to ask servers.",
+    {
+      id: 7,
+      title: "Dining Without Fear: 8 Practical Tips for Eating Out with MCAS",
+      description: "Empowering those with MCAS to enjoy restaurants and social events by providing practical advice, safe low-histamine menu options, and key questions to ask your server.",
     category: "Problem-Solving",
     tags: ["MCAS", "Dining Out", "Low-Histamine", "Restaurant Guide", "Social Situations"],
     readTime: "6 min read",
