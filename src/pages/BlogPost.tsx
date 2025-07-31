@@ -15,6 +15,8 @@ const blogPostsContent = {
     publishDate: "2024-01-15",
     image: "photo-1490818387583-1baba5e638af",
     content: `
+**Disclaimer:** This guide is intended for informational purposes only and does not replace professional medical advice. Always consult your healthcare provider before making significant changes to your diet or lifestyle.
+
 # The Complete Guide to the Low-Histamine Diet for MCAS
 
 Managing Mast Cell Activation Syndrome (MCAS) through diet can feel overwhelming, but with the right knowledge and approach, you can create a sustainable eating plan that supports your health and reduces symptoms.
