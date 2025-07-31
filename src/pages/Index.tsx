@@ -200,9 +200,7 @@ const Index = () => {
             <h2 className="text-4xl font-bold text-foreground mb-4">
               Finally, Meal Planning That Gets It
             </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              We understand complex dietary restrictions aren't just preferences - they're medical necessities. Every meal plan is designed with your health and safety in mind.
-            </p>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">We know complex dietary needs aren’t just preferences—they’re essential for your well-being. Each meal plan is carefully crafted to support your health, safety, and peace of mind.</p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
