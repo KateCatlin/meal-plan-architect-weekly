@@ -14,6 +14,7 @@ import saltPotsFriendly from "@/assets/salt-pots-friendly.jpg";
 import turmericAntiInflammatory from "@/assets/turmeric-anti-inflammatory.jpg";
 import celiacHolidayDining from "@/assets/celiac-holiday-dining.jpg";
 import greenSmoothieBowl from "@/assets/green-smoothie-bowl.jpg";
+import mcasDiningOut from "@/assets/mcas-dining-out.jpg";
 
 // Sample blog posts data
 const blogPosts = [
@@ -77,6 +78,16 @@ const blogPosts = [
     readTime: "2 min read",
     publishDate: "2024-01-01",
     image: greenSmoothieBowl
+  },
+  {
+    id: 7,
+    title: "Dining Without Fear: 8 Practical Tips for Eating Out with MCAS",
+    description: "Helps MCAS folks navigate social situations and restaurants confidently, featuring specific examples of low-histamine choices and questions to ask servers.",
+    category: "Problem-Solving",
+    tags: ["MCAS", "Dining Out", "Low-Histamine", "Restaurant Guide", "Social Situations"],
+    readTime: "6 min read",
+    publishDate: "2024-01-20",
+    image: mcasDiningOut
   }
 ];
 
