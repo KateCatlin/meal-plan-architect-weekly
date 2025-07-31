@@ -156,7 +156,7 @@ export default function Auth() {
           <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-2xl mb-4">
             <Utensils className="h-8 w-8 text-primary" />
           </div>
-          <h1 className="text-2xl font-bold text-foreground">Welcome to FeedMe</h1>
+          <h1 className="text-2xl font-bold text-foreground">Welcome to The Gentle Plate</h1>
           <p className="text-muted-foreground mt-2">Your personalized meal planning companion</p>
         </div>
 
