@@ -178,9 +178,7 @@ const Index = () => {
               Eat with Confidence.
               <span className="text-primary block">Manage Your Health.</span>
             </h1>
-            <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
-              Finally, meal planning that understands your chronic illness. Safe, gentle meal plans for complex dietary needs like MCAS, Celiac, and FODMAP restrictions.
-            </p>
+            <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">Safe, gentle meal plans for complex dietary needs like MCAS, Celiac, and FODMAP restrictions.</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button variant="hero" size="xl" onClick={() => setCurrentStep('form')} className="text-lg px-8 py-4">
                 Start Your Meal Plan
