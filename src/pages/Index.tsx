@@ -239,7 +239,7 @@ const Index = () => {
               <div className="w-16 h-16 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-2xl font-bold mx-auto">
                 1
               </div>
-              <h3 className="text-xl font-semibold text-foreground">Health-informed Meal Plans</h3>
+              <h3 className="text-xl font-semibold text-foreground">Tell Us About You</h3>
               <p className="text-muted-foreground">
                 Tell us about your conditions, restrictions, and what foods feel safe for your body
               </p>
