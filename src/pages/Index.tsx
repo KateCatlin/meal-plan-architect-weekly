@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { DietaryRestrictionsForm } from "@/components/DietaryRestrictionsForm";
 import { MealPlan } from "@/components/MealPlan";
-import { ChefHat, Heart, Target, Clock, Users, Star, User, LogOut } from "lucide-react";
+import { ChefHat, Heart, Target, Shield, Clock, Users, Star, User, LogOut, CheckCircle, AlertCircle, Coffee, Utensils } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { loadDietaryRestrictions } from "@/services/dietaryService";
 import heroImage from "@/assets/hero-nutrition.jpg";
