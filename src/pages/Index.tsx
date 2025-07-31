@@ -19,7 +19,11 @@ const Index = () => {
   const [currentStep, setCurrentStep] = useState<'welcome' | 'form' | 'plan'>('welcome');
   const [userPreferences, setUserPreferences] = useState<DietaryRestrictions | null>(null);
   const [hasExistingPreferences, setHasExistingPreferences] = useState<boolean>(false);
-  const { user, loading, signOut } = useAuth();
+  const {
+    user,
+    loading,
+    signOut
+  } = useAuth();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   useEffect(() => {
@@ -41,12 +45,10 @@ const Index = () => {
         }
       }
     };
-
     if (user?.id && !loading) {
       checkExistingPreferences();
     }
   }, [user, loading]);
-
   useEffect(() => {
     // Check if we should show the meal plan view based on URL params
     const view = searchParams.get('view');
@@ -183,24 +185,11 @@ const Index = () => {
               <Button variant="hero" size="xl" onClick={() => setCurrentStep('form')} className="text-lg px-8 py-4">
                 Start Your Meal Plan
               </Button>
-              {hasExistingPreferences ? (
-                <Button 
-                  variant="outline" 
-                  size="xl"
-                  onClick={() => navigate('/?view=plan')}
-                  className="text-lg px-8 py-4"
-                >
+              {hasExistingPreferences ? <Button variant="outline" size="xl" onClick={() => navigate('/?view=plan')} className="text-lg px-8 py-4">
                   Return to Your Current Plan
-                </Button>
-              ) : (
-                <Button 
-                  variant="outline" 
-                  size="xl"
-                  className="text-lg px-8 py-4"
-                >
+                </Button> : <Button variant="outline" size="xl" className="text-lg px-8 py-4">
                   Learn More
-                </Button>
-              )}
+                </Button>}
             </div>
           </div>
         </div>
@@ -261,9 +250,7 @@ const Index = () => {
                 2
               </div>
               <h3 className="text-xl font-semibold text-foreground">Get Your Safe Meal Plan</h3>
-              <p className="text-muted-foreground">
-                Receive gentle, medically-informed meal plans designed specifically for your condition
-              </p>
+              <p className="text-muted-foreground">Receive a personalized weekly meal plan designed specifically for your condition</p>
             </div>
             
             <div className="space-y-4">
