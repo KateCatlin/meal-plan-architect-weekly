@@ -256,9 +256,7 @@ const Index = () => {
                 3
               </div>
               <h3 className="text-xl font-semibold text-foreground">Eat Without Fear</h3>
-              <p className="text-muted-foreground">
-                Enjoy mealtime again, knowing every recipe supports your healing journey
-              </p>
+              <p className="text-muted-foreground">Enjoy meals again - every recipe is chosen to support your body and your journey.</p>
             </div>
           </div>
           
