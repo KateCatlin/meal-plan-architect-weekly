@@ -633,7 +633,7 @@ This vibrant, healing bowl combines the anti-inflammatory power of turmeric with
     tags: ["Celiac", "Gluten-Free", "Holiday Tips"],
     readTime: "7 min read",
     publishDate: "2024-01-03",
-    image: "photo-1517022812141-23620dba5c23",
+    image: "photo-1618160702438-9b02ab6515c9",
     content: `
 # Navigating Holidays with Celiac Disease
 
