@@ -24,6 +24,8 @@ import onePotMeals from "@/assets/one-pot-meals.jpg";
 import allergiesVsSensitivities from "@/assets/allergies-vs-sensitivities.jpg";
 import safeKitchenSetup from "@/assets/safe-kitchen-setup.jpg";
 import gentleHydration from "@/assets/gentle-hydration.jpg";
+import pcosNutritionGuide from "@/assets/pcos-nutrition-guide.jpg";
+import pmddMoodNutrition from "@/assets/pmdd-mood-nutrition.jpg";
 
 // Blog post content data
 const blogPostsContent = {
@@ -4526,6 +4528,230 @@ Proper hydration doesn't have to mean forcing down plain water when your digesti
 Start with the options that sound most appealing and tolerable, then gradually expand your repertoire. Pay attention to how different beverages make you feel and adjust accordingly.
 
 *Ready to create meal plans that include optimal hydration strategies for your specific needs? Our meal planner helps you incorporate healing beverages and proper hydration timing into your daily nutrition plan.*
+    `
+  },
+  19: {
+    title: "PCOS-Friendly Nutrition: Balancing Hormones Through Food",
+    description: "A comprehensive guide to managing PCOS symptoms through strategic nutrition, focusing on insulin sensitivity, anti-inflammatory foods, and hormone balance.",
+    category: "Ultimate Guide",
+    tags: ["PCOS", "Hormone Balance", "Anti-Inflammatory", "Women's Health"],
+    readTime: "12 min read",
+    publishDate: "2024-02-21",
+    image: pcosNutritionGuide,
+    content: `
+**Disclaimer:** This guide is intended for informational purposes only and does not replace professional medical advice. Always consult your healthcare provider before making significant changes to your diet or lifestyle.
+
+# PCOS-Friendly Nutrition: Balancing Hormones Through Food
+
+Polycystic Ovary Syndrome (PCOS) affects 1 in 10 women of reproductive age, making it one of the most common hormonal disorders. While there's no cure for PCOS, strategic nutrition can significantly help manage symptoms and improve quality of life.
+
+## Understanding PCOS and Nutrition
+
+PCOS often involves insulin resistance, which means your body struggles to use insulin effectively. This can lead to:
+
+- Weight gain, especially around the midsection
+- Difficulty losing weight
+- Increased cravings for carbohydrates
+- Higher risk of type 2 diabetes
+- Elevated androgen levels causing acne and excess hair growth
+
+## Key Nutritional Strategies for PCOS
+
+### 1. Focus on Blood Sugar Stability
+
+**Choose complex carbohydrates:** Quinoa, brown rice, sweet potatoes, and legumes provide steady energy without blood sugar spikes.
+
+**Pair carbs with protein and healthy fats:** This combination slows digestion and helps maintain stable blood sugar levels.
+
+**Eat regular meals:** Don't skip meals, as this can cause blood sugar swings that worsen insulin resistance.
+
+### 2. Embrace Anti-Inflammatory Foods
+
+Chronic inflammation is common in PCOS and can worsen symptoms. Include:
+
+- **Fatty fish:** Salmon, sardines, and mackerel provide omega-3 fatty acids
+- **Berries:** Blueberries, strawberries, and raspberries are rich in antioxidants
+- **Leafy greens:** Spinach, kale, and arugula support overall health
+- **Nuts and seeds:** Walnuts, flaxseeds, and chia seeds provide healthy fats
+- **Turmeric and ginger:** Natural anti-inflammatory spices
+
+### 3. Support Hormone Balance
+
+**Spearmint tea:** Studies suggest it may help reduce elevated androgen levels.
+
+**Cinnamon:** May help improve insulin sensitivity when used regularly.
+
+**Inositol-rich foods:** Oranges, cantaloupe, and beans contain this insulin-sensitizing compound.
+
+## Sample Day of PCOS-Friendly Eating
+
+**Breakfast:** Greek yogurt with berries, ground flaxseed, and a sprinkle of cinnamon
+
+**Lunch:** Quinoa salad with grilled chicken, avocado, leafy greens, and olive oil dressing
+
+**Snack:** Apple slices with almond butter
+
+**Dinner:** Baked salmon with roasted sweet potato and steamed broccoli
+
+**Evening:** Cup of spearmint tea
+
+## Foods to Limit
+
+- **Refined carbohydrates:** White bread, pastries, sugary cereals
+- **Processed foods:** Packaged snacks, fast food, processed meats
+- **Added sugars:** Sodas, candy, sweetened beverages
+- **Trans fats:** Margarine, fried foods, commercial baked goods
+
+## Lifestyle Tips Beyond Diet
+
+**Stay hydrated:** Aim for 8-10 glasses of water daily to support metabolism.
+
+**Manage stress:** Chronic stress can worsen insulin resistance and hormone imbalances.
+
+**Prioritize sleep:** Poor sleep affects hormones that regulate hunger and blood sugar.
+
+**Consider supplements:** Speak with your healthcare provider about inositol, vitamin D, and omega-3 supplements.
+
+## Working with Healthcare Providers
+
+While nutrition plays a crucial role in managing PCOS, it's important to work with a healthcare team that may include your gynecologist, endocrinologist, and registered dietitian. They can help you create a comprehensive treatment plan that addresses your individual needs.
+
+Remember, managing PCOS is a journey, not a destination. Be patient with yourself as you discover what works best for your body, and celebrate small victories along the way.
+
+*Ready to create a PCOS-friendly meal plan? Our personalized meal planner takes into account your specific needs and preferences to help you manage symptoms while enjoying delicious, satisfying meals.*
+    `
+  },
+  20: {
+    title: "Eating for Emotional Balance: A PMDD Nutrition Guide",
+    description: "Discover how specific nutrients and meal timing can help manage PMDD symptoms, stabilize mood, and support hormonal health throughout your cycle.",
+    category: "Problem-Solving", 
+    tags: ["PMDD", "Mood Support", "Women's Health", "Hormone Balance"],
+    readTime: "9 min read",
+    publishDate: "2024-02-23",
+    image: pmddMoodNutrition,
+    content: `
+**Disclaimer:** This guide is intended for informational purposes only and does not replace professional medical advice. Always consult your healthcare provider before making significant changes to your diet or lifestyle.
+
+# Eating for Emotional Balance: A PMDD Nutrition Guide
+
+Premenstrual Dysphoric Disorder (PMDD) affects 3-8% of menstruating individuals, causing severe mood changes, anxiety, and physical symptoms in the weeks before menstruation. Unlike typical PMS, PMDD significantly interferes with daily life, work, and relationships.
+
+## How Nutrition Can Help
+
+While PMDD is a complex condition that often requires medical treatment, strategic nutrition can help stabilize mood, reduce cravings, and support overall emotional well-being throughout your cycle.
+
+## Key Nutrients for Mood Stability
+
+### 1. Magnesium - The Calming Mineral
+
+Magnesium levels often drop before menstruation, potentially worsening PMDD symptoms. Include:
+
+- **Dark leafy greens:** Spinach, Swiss chard, kale
+- **Nuts and seeds:** Pumpkin seeds, almonds, cashews
+- **Dark chocolate:** 70% cacao or higher (in moderation)
+- **Legumes:** Black beans, chickpeas, lentils
+- **Whole grains:** Quinoa, brown rice, oats
+
+### 2. Omega-3 Fatty Acids - Natural Mood Stabilizers
+
+These essential fats help reduce inflammation and support brain health:
+
+- **Fatty fish:** Salmon, sardines, mackerel (2-3 times per week)
+- **Plant sources:** Flaxseeds, chia seeds, walnuts
+- **Algae oil:** A vegetarian omega-3 supplement option
+
+### 3. Complex Carbohydrates - Serotonin Support
+
+The right carbs can help boost serotonin, your body's natural "feel-good" chemical:
+
+- Oatmeal with berries
+- Sweet potatoes
+- Quinoa and other whole grains
+- Legumes and beans
+
+## Cycle-Syncing Your Nutrition
+
+### Follicular Phase (Days 1-14)
+
+Focus on light, energizing foods:
+- Fresh fruits and vegetables
+- Lean proteins like chicken and fish
+- Green smoothies with spinach and berries
+
+### Luteal Phase (Days 15-28) - Critical for PMDD
+
+This is when PMDD symptoms typically appear. Emphasize:
+- **Magnesium-rich foods:** To support calm and reduce irritability
+- **Complex carbs:** To stabilize blood sugar and mood
+- **Healthy fats:** To support hormone production
+- **B-vitamin rich foods:** Nutritional yeast, eggs, leafy greens
+
+## Managing PMDD Cravings
+
+Intense cravings are common with PMDD. Instead of fighting them, work with them:
+
+**Craving chocolate?** Choose dark chocolate (70%+ cacao) with nuts for magnesium and healthy fats.
+
+**Want carbs?** Opt for complex carbs like sweet potato toast with almond butter.
+
+**Need comfort food?** Try a warm bowl of oatmeal with cinnamon and berries.
+
+## Meal Timing for Mood Stability
+
+**Eat regular meals:** Skipping meals can cause blood sugar drops that worsen mood swings.
+
+**Include protein at each meal:** This helps maintain steady energy and neurotransmitter production.
+
+**Don't go to bed hungry:** A small snack with protein and complex carbs can prevent middle-of-the-night wake-ups.
+
+## Hydration and PMDD
+
+Dehydration can worsen irritability and fatigue. Aim for:
+- 8-10 glasses of water daily
+- Herbal teas like chamomile or passionflower for calming effects
+- Limit caffeine, especially in the luteal phase, as it can increase anxiety
+
+## Foods to Limit During PMDD Weeks
+
+- **Refined sugar:** Can cause energy crashes and mood swings
+- **Excessive caffeine:** May increase anxiety and disrupt sleep
+- **Alcohol:** Can worsen depression and interfere with sleep quality
+- **High-sodium processed foods:** Can increase bloating and irritability
+
+## Sample PMDD-Supportive Day
+
+**Breakfast:** Oatmeal with ground flaxseed, walnuts, and berries
+
+**Lunch:** Quinoa bowl with roasted vegetables, chickpeas, and tahini dressing
+
+**Snack:** Apple slices with almond butter and a sprinkle of cinnamon
+
+**Dinner:** Baked salmon with sweet potato and steamed broccoli
+
+**Evening:** Chamomile tea with a small piece of dark chocolate
+
+## Beyond Nutrition: Holistic PMDD Support
+
+**Track your symptoms:** Use a mood diary to identify patterns and triggers.
+
+**Prioritize sleep:** Aim for 7-9 hours of quality sleep, especially in the luteal phase.
+
+**Gentle movement:** Yoga, walking, or swimming can help regulate mood.
+
+**Stress management:** Meditation, deep breathing, or journaling can provide relief.
+
+## When to Seek Professional Help
+
+While nutrition can be incredibly supportive, PMDD is a serious condition that often requires professional treatment. Consider speaking with a healthcare provider if:
+
+- Symptoms significantly interfere with work, school, or relationships
+- You experience thoughts of self-harm
+- Symptoms don't improve with lifestyle changes
+- You need support developing a comprehensive treatment plan
+
+Remember, you're not alone in this journey. With the right combination of nutrition, lifestyle support, and professional care when needed, it's possible to find relief and reclaim your quality of life.
+
+*Ready to create a cycle-synced meal plan that supports your emotional well-being? Our meal planner can help you optimize nutrition for each phase of your cycle and manage PMDD symptoms naturally.*
     `
   }
 };
