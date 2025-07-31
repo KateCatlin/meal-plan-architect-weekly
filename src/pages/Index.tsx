@@ -235,7 +235,9 @@ const Index = () => {
               <div className="w-16 h-16 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-2xl font-bold mx-auto">
                 1
               </div>
-              <h3 className="text-xl font-semibold text-foreground">Tell Us About You</h3>
+              <h3 className="text-xl font-semibold text-foreground">Tell Us About You
+
+            </h3>
               <p className="text-muted-foreground">Tell us about your allergies, restrictions, and what foods feel safe for your body</p>
             </div>
             
@@ -251,7 +253,9 @@ const Index = () => {
               <div className="w-16 h-16 bg-primary text-primary-foreground rounded-full flex items-center justify-center text-2xl font-bold mx-auto">
                 3
               </div>
-              <h3 className="text-xl font-semibold text-foreground">Eat Without Fear</h3>
+              <h3 className="text-xl font-semibold text-foreground">Eat Without Fear
+
+            </h3>
               <p className="text-muted-foreground">Enjoy meals again - every recipe is chosen to support your body and your journey.</p>
             </div>
           </div>
