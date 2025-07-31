@@ -87,7 +87,7 @@ const Index = () => {
   }
   const features = [{
     icon: <Shield className="h-8 w-8 text-primary" />,
-    title: "Medically-Informed Meal Plans",
+    title: "Health-Informed Meal Plans",
     description: "Created with deep understanding of complex dietary restrictions like low histamine, FODMAP, and autoimmune protocols"
   }, {
     icon: <Heart className="h-8 w-8 text-primary" />,
