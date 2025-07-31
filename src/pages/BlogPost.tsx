@@ -4710,6 +4710,184 @@ const BlogPost = () => {
               </Link>
             </div>
           </div>
+
+          {/* PCOS Blog */}
+          {id === "19" && (
+            <div className="prose prose-lg max-w-none">
+              <h2>Understanding PCOS and Nutrition</h2>
+              <p>Polycystic Ovary Syndrome (PCOS) affects 1 in 10 women of reproductive age, making it one of the most common hormonal disorders. While there's no cure for PCOS, strategic nutrition can significantly help manage symptoms and improve quality of life.</p>
+              
+              <h3>The PCOS-Nutrition Connection</h3>
+              <p>PCOS often involves insulin resistance, which means your body struggles to use insulin effectively. This can lead to:</p>
+              <ul>
+                <li>Weight gain, especially around the midsection</li>
+                <li>Difficulty losing weight</li>
+                <li>Increased cravings for carbohydrates</li>
+                <li>Higher risk of type 2 diabetes</li>
+                <li>Elevated androgen levels causing acne and excess hair growth</li>
+              </ul>
+
+              <h3>Key Nutritional Strategies for PCOS</h3>
+              
+              <h4>1. Focus on Blood Sugar Stability</h4>
+              <p><strong>Choose complex carbohydrates:</strong> Quinoa, brown rice, sweet potatoes, and legumes provide steady energy without blood sugar spikes.</p>
+              <p><strong>Pair carbs with protein and healthy fats:</strong> This combination slows digestion and helps maintain stable blood sugar levels.</p>
+              <p><strong>Eat regular meals:</strong> Don't skip meals, as this can cause blood sugar swings that worsen insulin resistance.</p>
+
+              <h4>2. Embrace Anti-Inflammatory Foods</h4>
+              <p>Chronic inflammation is common in PCOS and can worsen symptoms. Include:</p>
+              <ul>
+                <li><strong>Fatty fish:</strong> Salmon, sardines, and mackerel provide omega-3 fatty acids</li>
+                <li><strong>Berries:</strong> Blueberries, strawberries, and raspberries are rich in antioxidants</li>
+                <li><strong>Leafy greens:</strong> Spinach, kale, and arugula support overall health</li>
+                <li><strong>Nuts and seeds:</strong> Walnuts, flaxseeds, and chia seeds provide healthy fats</li>
+                <li><strong>Turmeric and ginger:</strong> Natural anti-inflammatory spices</li>
+              </ul>
+
+              <h4>3. Support Hormone Balance</h4>
+              <p><strong>Spearmint tea:</strong> Studies suggest it may help reduce elevated androgen levels.</p>
+              <p><strong>Cinnamon:</strong> May help improve insulin sensitivity when used regularly.</p>
+              <p><strong>Inositol-rich foods:</strong> Oranges, cantaloupe, and beans contain this insulin-sensitizing compound.</p>
+
+              <h3>Sample Day of PCOS-Friendly Eating</h3>
+              <p><strong>Breakfast:</strong> Greek yogurt with berries, ground flaxseed, and a sprinkle of cinnamon</p>
+              <p><strong>Lunch:</strong> Quinoa salad with grilled chicken, avocado, leafy greens, and olive oil dressing</p>
+              <p><strong>Snack:</strong> Apple slices with almond butter</p>
+              <p><strong>Dinner:</strong> Baked salmon with roasted sweet potato and steamed broccoli</p>
+              <p><strong>Evening:</strong> Cup of spearmint tea</p>
+
+              <h3>Foods to Limit</h3>
+              <ul>
+                <li><strong>Refined carbohydrates:</strong> White bread, pastries, sugary cereals</li>
+                <li><strong>Processed foods:</strong> Packaged snacks, fast food, processed meats</li>
+                <li><strong>Added sugars:</strong> Sodas, candy, sweetened beverages</li>
+                <li><strong>Trans fats:</strong> Margarine, fried foods, commercial baked goods</li>
+              </ul>
+
+              <h3>Lifestyle Tips Beyond Diet</h3>
+              <p><strong>Stay hydrated:</strong> Aim for 8-10 glasses of water daily to support metabolism.</p>
+              <p><strong>Manage stress:</strong> Chronic stress can worsen insulin resistance and hormone imbalances.</p>
+              <p><strong>Prioritize sleep:</strong> Poor sleep affects hormones that regulate hunger and blood sugar.</p>
+              <p><strong>Consider supplements:</strong> Speak with your healthcare provider about inositol, vitamin D, and omega-3 supplements.</p>
+
+              <h3>Working with Healthcare Providers</h3>
+              <p>While nutrition plays a crucial role in managing PCOS, it's important to work with a healthcare team that may include your gynecologist, endocrinologist, and registered dietitian. They can help you create a comprehensive treatment plan that addresses your individual needs.</p>
+
+              <p>Remember, managing PCOS is a journey, not a destination. Be patient with yourself as you discover what works best for your body, and celebrate small victories along the way.</p>
+            </div>
+          )}
+
+          {/* PMDD Blog */}
+          {id === "20" && (
+            <div className="prose prose-lg max-w-none">
+              <h2>Understanding PMDD and Its Impact</h2>
+              <p>Premenstrual Dysphoric Disorder (PMDD) affects 3-8% of menstruating individuals, causing severe mood changes, anxiety, and physical symptoms in the weeks before menstruation. Unlike typical PMS, PMDD significantly interferes with daily life, work, and relationships.</p>
+              
+              <h3>How Nutrition Can Help</h3>
+              <p>While PMDD is a complex condition that often requires medical treatment, strategic nutrition can help stabilize mood, reduce cravings, and support overall emotional well-being throughout your cycle.</p>
+
+              <h3>Key Nutrients for Mood Stability</h3>
+              
+              <h4>1. Magnesium - The Calming Mineral</h4>
+              <p>Magnesium levels often drop before menstruation, potentially worsening PMDD symptoms. Include:</p>
+              <ul>
+                <li><strong>Dark leafy greens:</strong> Spinach, Swiss chard, kale</li>
+                <li><strong>Nuts and seeds:</strong> Pumpkin seeds, almonds, cashews</li>
+                <li><strong>Dark chocolate:</strong> 70% cacao or higher (in moderation)</li>
+                <li><strong>Legumes:</strong> Black beans, chickpeas, lentils</li>
+                <li><strong>Whole grains:</strong> Quinoa, brown rice, oats</li>
+              </ul>
+
+              <h4>2. Omega-3 Fatty Acids - Natural Mood Stabilizers</h4>
+              <p>These essential fats help reduce inflammation and support brain health:</p>
+              <ul>
+                <li><strong>Fatty fish:</strong> Salmon, sardines, mackerel (2-3 times per week)</li>
+                <li><strong>Plant sources:</strong> Flaxseeds, chia seeds, walnuts</li>
+                <li><strong>Algae oil:</strong> A vegetarian omega-3 supplement option</li>
+              </ul>
+
+              <h4>3. Complex Carbohydrates - Serotonin Support</h4>
+              <p>The right carbs can help boost serotonin, your body's natural "feel-good" chemical:</p>
+              <ul>
+                <li>Oatmeal with berries</li>
+                <li>Sweet potatoes</li>
+                <li>Quinoa and other whole grains</li>
+                <li>Legumes and beans</li>
+              </ul>
+
+              <h3>Cycle-Syncing Your Nutrition</h3>
+              
+              <h4>Follicular Phase (Days 1-14)</h4>
+              <p>Focus on light, energizing foods:</p>
+              <ul>
+                <li>Fresh fruits and vegetables</li>
+                <li>Lean proteins like chicken and fish</li>
+                <li>Green smoothies with spinach and berries</li>
+              </ul>
+
+              <h4>Luteal Phase (Days 15-28) - Critical for PMDD</h4>
+              <p>This is when PMDD symptoms typically appear. Emphasize:</p>
+              <ul>
+                <li><strong>Magnesium-rich foods:</strong> To support calm and reduce irritability</li>
+                <li><strong>Complex carbs:</strong> To stabilize blood sugar and mood</li>
+                <li><strong>Healthy fats:</strong> To support hormone production</li>
+                <li><strong>B-vitamin rich foods:</strong> Nutritional yeast, eggs, leafy greens</li>
+              </ul>
+
+              <h3>Managing PMDD Cravings</h3>
+              <p>Intense cravings are common with PMDD. Instead of fighting them, work with them:</p>
+              
+              <p><strong>Craving chocolate?</strong> Choose dark chocolate (70%+ cacao) with nuts for magnesium and healthy fats.</p>
+              <p><strong>Want carbs?</strong> Opt for complex carbs like sweet potato toast with almond butter.</p>
+              <p><strong>Need comfort food?</strong> Try a warm bowl of oatmeal with cinnamon and berries.</p>
+
+              <h3>Meal Timing for Mood Stability</h3>
+              <p><strong>Eat regular meals:</strong> Skipping meals can cause blood sugar drops that worsen mood swings.</p>
+              <p><strong>Include protein at each meal:</strong> This helps maintain steady energy and neurotransmitter production.</p>
+              <p><strong>Don't go to bed hungry:</strong> A small snack with protein and complex carbs can prevent middle-of-the-night wake-ups.</p>
+
+              <h3>Hydration and PMDD</h3>
+              <p>Dehydration can worsen irritability and fatigue. Aim for:</p>
+              <ul>
+                <li>8-10 glasses of water daily</li>
+                <li>Herbal teas like chamomile or passionflower for calming effects</li>
+                <li>Limit caffeine, especially in the luteal phase, as it can increase anxiety</li>
+              </ul>
+
+              <h3>Foods to Limit During PMDD Weeks</h3>
+              <ul>
+                <li><strong>Refined sugar:</strong> Can cause energy crashes and mood swings</li>
+                <li><strong>Excessive caffeine:</strong> May increase anxiety and disrupt sleep</li>
+                <li><strong>Alcohol:</strong> Can worsen depression and interfere with sleep quality</li>
+                <li><strong>High-sodium processed foods:</strong> Can increase bloating and irritability</li>
+              </ul>
+
+              <h3>Sample PMDD-Supportive Day</h3>
+              <p><strong>Breakfast:</strong> Oatmeal with ground flaxseed, walnuts, and berries</p>
+              <p><strong>Lunch:</strong> Quinoa bowl with roasted vegetables, chickpeas, and tahini dressing</p>
+              <p><strong>Snack:</strong> Apple slices with almond butter and a sprinkle of cinnamon</p>
+              <p><strong>Dinner:</strong> Baked salmon with sweet potato and steamed broccoli</p>
+              <p><strong>Evening:</strong> Chamomile tea with a small piece of dark chocolate</p>
+
+              <h3>Beyond Nutrition: Holistic PMDD Support</h3>
+              <p><strong>Track your symptoms:</strong> Use a mood diary to identify patterns and triggers.</p>
+              <p><strong>Prioritize sleep:</strong> Aim for 7-9 hours of quality sleep, especially in the luteal phase.</p>
+              <p><strong>Gentle movement:</strong> Yoga, walking, or swimming can help regulate mood.</p>
+              <p><strong>Stress management:</strong> Meditation, deep breathing, or journaling can provide relief.</p>
+
+              <h3>When to Seek Professional Help</h3>
+              <p>While nutrition can be incredibly supportive, PMDD is a serious condition that often requires professional treatment. Consider speaking with a healthcare provider if:</p>
+              <ul>
+                <li>Symptoms significantly interfere with work, school, or relationships</li>
+                <li>You experience thoughts of self-harm</li>
+                <li>Symptoms don't improve with lifestyle changes</li>
+                <li>You need support developing a comprehensive treatment plan</li>
+              </ul>
+
+              <p>Remember, you're not alone in this journey. With the right combination of nutrition, lifestyle support, and professional care when needed, it's possible to find relief and reclaim your quality of life.</p>
+            </div>
+          )}
+
         </div>
       </article>
     </div>
